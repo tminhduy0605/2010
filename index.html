@@ -73,7 +73,7 @@ body {
   box-shadow: 0 2px 0 var(--plum);
 }
 
-/* Hộp quà chuẩn vẹn nắp & nơ */
+/* Hộp quà */
 .giftbox-wrapper { position: relative; width: 11rem; height: 12rem; margin: 1rem auto 0.5rem; }
 .giftbox { position: relative; width: 100%; height: 100%; border: 0; background: none; padding: 0; cursor: pointer; }
 .gb-all { position: absolute; inset: 0; transform-origin: 50% 100%; animation: hop 1.7s cubic-bezier(.3,0,.4,1) infinite; }
@@ -142,7 +142,7 @@ body {
 @keyframes reveal { from{opacity:0;transform:perspective(20rem) rotateX(90deg) scale(.6)} to{opacity:1;transform:none} }
 .tag { display: inline-block; margin-top: 0.3rem; padding: 0.2rem 0.8rem; border-radius: 999px; font-size: 0.8rem; font-weight: 800; background: var(--candy); border: 1.8px solid var(--plum); }
 
-/* Suggestion box */
+/* Suggestions box */
 .suggestions-box {
   position: absolute; left: 0; right: 0; top: 100%; margin-top: 0.3rem;
   background: white; border: 2px solid var(--plum); border-radius: 0.8rem;
@@ -203,7 +203,7 @@ body {
     <button class="btn btn-candy mt-1" onclick="openGift()">Bóc tem món quà bí mật 🎁</button>
   </section>
 
-  <!-- Step 3: Xem Video Ngang -->
+  <!-- Step 3: Xem Video Kết Quả -->
   <section id="step-result" class="mt-3 w-full space-y-3" hidden>
     <div class="polaroid">
       <span class="tape l"></span><span class="tape r"></span>
@@ -217,9 +217,9 @@ body {
         </div>
       </div>
       <div class="caption">
-        <p class="text-xs font-bold text-plum-soft">Người gửi lời chúc bí mật 20/10 tới bạn là:</p>
+        <p class="text-xs font-bold text-plum-soft" id="senderLabel">Người gửi lời chúc bí mật 20/10 tới bạn là:</p>
         <p class="mt-0.5"><span id="capName" class="name-reveal font-display text-2xl font-extrabold text-pink-600"></span></p>
-        <span class="tag">🎁 Món quà chính thức từ BTC</span>
+        <span class="tag" id="giftTag">🎁 Món quà chính thức từ BTC</span>
       </div>
     </div>
 
@@ -229,22 +229,28 @@ body {
       <button class="btn btn-candy" onclick="heartEffect()">💖 Thả tim / Cảm ơn</button>
       <p id="heartCount" class="-mt-1 min-h-[1.2rem] text-center text-xs font-extrabold text-candy-deep"></p>
 
+      <div id="fun-actions" class="grid grid-cols-2 gap-2 mt-1">
+        <button class="btn btn-lav !min-h-[2.5rem] !text-xs" onclick="previewOtherMale()">🎲 Xem thử clip bạn nam khác</button>
+        <button class="btn btn-milk !min-h-[2.5rem] !text-xs" onclick="showOfficial()">🎁 Về quà chính của mình</button>
+      </div>
+
       <button class="btn btn-milk !min-h-[2.2rem] !text-xs mt-1" onclick="resetUser()">Đổi tên khác</button>
     </div>
   </section>
 
-  <!-- ==================== TRANG XEM ADMIN ==================== -->
+  <!-- ==================== TRANG QUẢN TRỊ BTC (CÓ THỂ CHỈNH SỬA CƠ CẤU) ==================== -->
   <aside id="step-admin" class="mt-3 w-full rounded-2xl border-2 border-plum bg-white/95 p-4 text-xs space-y-4 max-w-[700px]" hidden>
     <div class="flex items-center justify-between border-b-2 border-plum/20 pb-2">
-      <h2 class="font-display text-base font-extrabold text-red-600">Bảng Quản Lý BTC (Cố Định Cặp Đôi)</h2>
-      <span class="text-[0.65rem] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">Chỉ Xem</span>
+      <h2 class="font-display text-base font-extrabold text-red-600">Bảng Quản Lý BTC (Sắp Xếp Cơ Cấu)</h2>
+      <span class="text-[0.65rem] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">Quyền BTC</span>
     </div>
 
-    <p class="text-xs text-plum-soft font-semibold">Đây là bảng danh sách chính thức đã được gán cứng theo ý BTC. Các bạn nữ khi đăng nhập sẽ nhận đúng bạn nam này:</p>
+    <p class="text-xs text-plum-soft font-semibold">BTC có thể thay đổi trực tiếp bạn nam tặng quà cho từng bạn nữ tại đây. Nhấn <b>"Lưu Thay Đổi"</b> để hệ thống cập nhật lập tức!</p>
     
-    <div id="admin-pair-list" class="max-h-[400px] overflow-y-auto space-y-1.5 text-xs bg-candy-soft p-3 rounded-xl border border-plum/20 font-bold"></div>
+    <div id="admin-pair-list" class="max-h-[380px] overflow-y-auto space-y-2 text-xs bg-candy-soft p-3 rounded-xl border border-plum/20 font-bold"></div>
 
-    <div class="pt-2">
+    <div class="pt-2 flex gap-2">
+      <button onclick="saveAdminPairings()" class="btn btn-candy !min-h-[2.5rem] text-xs">💾 Lưu Thay Đổi Cơ Cấu</button>
       <button onclick="location.reload()" class="btn btn-milk !min-h-[2.5rem] text-xs">Quay Lại Màn Hình Chính</button>
     </div>
   </aside>
@@ -252,7 +258,7 @@ body {
 </main>
 
 <script>
-/* Danh sách Nam Lớp 12A1 (Dùng để mapping tên ra file video nam_XX.mp4) */
+/* Danh sách Nam Lớp 12A1 */
 const males = [
   "Huỳnh Phúc An", "Vũ Hoàng Gia Cát", "Nguyễn Hoàng Đạt", "Ngô Minh Đông",
   "Nguyễn Ngọc Đức", "Tô Thuận Hưng", "Nguyễn Minh Khang", "Nguyễn Tiểu Long",
@@ -270,8 +276,8 @@ const females = [
   "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến"
 ];
 
-/* ===== BẢNG GHÉP ĐÔI CỐ ĐỊNH CỦA BAN TỔ CHỨC (BẠN CÓ THỂ SỬA TRỰC TIẾP TÊN BẠN NAM Ở ĐÂY) ===== */
-const FIXED_PAIRINGS = {
+/* Cơ cấu ghép đôi mặc định (sẽ ưu tiên lấy từ localStorage nếu BTC đã chỉnh sửa) */
+const DEFAULT_PAIRINGS = {
   "Phù Lý Gia An": "Võ Minh Trí",
   "Lê Thanh Quế Anh": "Ngô Minh Đông",
   "Nguyễn Ngọc Trâm Anh": "Vũ Thái Tâm",
@@ -292,12 +298,17 @@ const FIXED_PAIRINGS = {
   "Nguyễn Thị Thảo Yến": "Võ Minh Trí"
 };
 
-function removeVietnameseTones(str) {
-  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+function getPairings() {
+  const saved = localStorage.getItem('12a1_custom_pairings');
+  if (saved) {
+    try { return JSON.parse(saved); } catch(e) {}
+  }
+  return DEFAULT_PAIRINGS;
 }
 
 function getMaleForFemale(femaleName) {
-  return FIXED_PAIRINGS[femaleName] || males[0];
+  const pairings = getPairings();
+  return pairings[femaleName] || males[0];
 }
 
 let currentUser = localStorage.getItem('12a1_current_user') || "";
@@ -308,15 +319,8 @@ function onNameInput() {
   const sugBox = document.getElementById('suggestions');
   sugBox.innerHTML = '';
 
-  if (!input) {
-    sugBox.hidden = true;
-    return;
-  }
-
-  if (input.toLowerCase() === 'admin') {
-    sugBox.hidden = true;
-    return;
-  }
+  if (!input) { sugBox.hidden = true; return; }
+  if (input.toLowerCase() === 'admin') { sugBox.hidden = true; return; }
 
   const cleanInput = removeVietnameseTones(input.toLowerCase());
   const matches = females.filter(f => removeVietnameseTones(f.toLowerCase()).includes(cleanInput));
@@ -343,6 +347,10 @@ document.addEventListener('click', (e) => {
     document.getElementById('suggestions').hidden = true;
   }
 });
+
+function removeVietnameseTones(str) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+}
 
 function showStep(stepId) {
   ['step-select', 'step-gift', 'step-result', 'step-admin'].forEach(id => {
@@ -400,10 +408,24 @@ function openGift() {
 
 function showOfficial() {
   const partner = getMaleForFemale(currentUser);
+  document.getElementById('senderLabel').textContent = "Người gửi lời chúc bí mật 20/10 tới bạn là:";
   document.getElementById('capName').textContent = partner;
+  document.getElementById('giftTag').textContent = "🎁 Món quà chính thức từ BTC";
   document.getElementById('wish-text').textContent = `Chúc ${currentUser} luôn xinh đẹp, học giỏi và tràn ngập niềm vui 20/10 từ bạn ${partner}! 💖`;
   updateHeartUI();
   loadVideo(partner);
+}
+
+function previewOtherMale() {
+  const officialPartner = getMaleForFemale(currentUser);
+  const otherMales = males.filter(m => m !== officialPartner);
+  const randomMale = otherMales[Math.floor(Math.random() * otherMales.length)];
+  
+  document.getElementById('senderLabel').textContent = "Đang xem thử clip vui của:";
+  document.getElementById('capName').textContent = randomMale;
+  document.getElementById('giftTag').textContent = "🎲 Xem giải trí (Quà chính vẫn giữ nguyên)";
+  document.getElementById('wish-text').textContent = `Clip xem ké vui vẻ từ ${randomMale} (Quà chính thức của bạn vẫn là ${officialPartner})! ✨`;
+  loadVideo(randomMale);
 }
 
 function heartEffect() {
@@ -452,20 +474,39 @@ function resetUser() {
   showStep('step-select');
 }
 
+/* Render bảng quản trị cho phép BTC đổi cơ cấu trực tiếp */
 function renderAdminView() {
+  const currentPairings = getPairings();
   const list = document.getElementById('admin-pair-list');
   list.innerHTML = "";
 
   females.forEach((f, idx) => {
-    const male = FIXED_PAIRINGS[f] || males[0];
-    let item = document.createElement('div');
-    item.className = "flex justify-between items-center py-1.5 px-2.5 bg-white rounded-lg border border-plum/10";
-    item.innerHTML = `
-      <span class="font-bold text-gray-700">${idx + 1}. 👧 ${f}</span>
-      <span class="text-pink-600 font-extrabold">💖 ${male}</span>
-    `;
-    list.appendChild(item);
+    const selectedMale = currentPairings[f] || males[0];
+    let row = document.createElement('div');
+    row.className = "flex items-center justify-between py-1.5 px-2 bg-white rounded-lg border border-plum/10 gap-2";
+    
+    let selectHtml = `<select data-female="${f}" class="admin-select p-1 rounded border border-plum text-xs font-bold bg-candy-soft text-purple-900 focus:outline-none">`;
+    males.forEach(m => {
+      selectHtml += `<option value="${m}" ${m === selectedMale ? 'selected' : ''}>${m}</option>`;
+    });
+    selectHtml += `</select>`;
+
+    row.innerHTML = `<span class="font-bold text-gray-700 truncate w-1/2">${idx + 1}. 👧 ${f}</span> <div class="w-1/2 text-right">${selectHtml}</div>`;
+    list.appendChild(row);
   });
+}
+
+function saveAdminPairings() {
+  const selects = document.querySelectorAll('.admin-select');
+  let newPairings = {};
+  selects.forEach(sel => {
+    const female = sel.getAttribute('data-female');
+    const male = sel.value;
+    newPairings[female] = male;
+  });
+
+  localStorage.setItem('12a1_custom_pairings', JSON.stringify(newPairings));
+  alert("🎉 Đã lưu thành công cơ cấu phân công mới! Các bạn nữ khi đăng nhập từ bây giờ sẽ nhận đúng bạn nam vừa được sắp xếp.");
 }
 
 (function ambient() {
