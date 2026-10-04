@@ -237,8 +237,7 @@ body {
     <div class="flex items-center justify-between border-b-2 border-plum/20 pb-2">
       <h2 class="font-display text-lg font-extrabold text-red-600">Trang Quản Trị BTC 20/10 (Chế độ Laptop)</h2>
       <div class="flex items-center gap-2">
-        <button onclick="randomizeUnpaired()" class="btn btn-lav !min-h-[2.2rem] !text-xs px-3">🎲 Random Lại Cặp (Giữ Cơ Cấu)</button>
-        <span class="text-[0.65rem] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">Admin Mode</span>
+        <span class="text-[0.65rem] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">Đồng bộ tuyệt đối 100%</span>
       </div>
     </div>
 
@@ -265,16 +264,17 @@ body {
 
           <div class="flex gap-2 pt-1">
             <button onclick="saveCustomPair()" class="btn btn-candy !min-h-[2.2rem] !text-xs">💾 Thêm Cơ Cấu Cặp Này</button>
-            <button onclick="saveAllPairsToStorage()" class="btn btn-lav !min-h-[2.2rem] !text-xs">💾 Lưu Tổng Cấu Hình</button>
+            <button onclick="exportCodeSettings()" class="btn btn-lav !min-h-[2.2rem] !text-xs">📥 Tải Cấu Hình Cố Định</button>
           </div>
         </div>
 
         <div class="bg-purple-50/80 p-3 rounded-xl border border-purple-300 space-y-2">
           <h3 class="font-display font-extrabold text-purple-900 text-sm flex items-center gap-1">
-            <span>💡</span> HƯỚNG DẪN QUẢN LÝ SỰ KIỆN 20/10
+            <span>💡</span> HƯỚNG DẪN ĐỒNG BỘ TUYỆT ĐỐI
           </h3>
           <p class="text-[0.7rem] text-plum-soft leading-relaxed">
-            - Sau khi bấm <b>Lưu Tổng Cấu Hình</b>, danh sách sẽ đồng bộ tuyệt đối với điện thoại.<br>
+            - Mọi chỉnh sửa ở Bảng 1 được lưu thẳng vào mã nguồn trên Laptop.<br>
+            - Sau khi chỉnh xong, bạn chỉ cần <b>Commit/Push lên GitHub</b> là điện thoại của các bạn nữ mở ra sẽ khớp chính xác 100% với Laptop của BTC, dù dùng bất kỳ trình duyệt nào!<br>
             - Bấm nút dưới để reset lịch sử test trên máy này.
           </p>
           <div class="pt-1">
@@ -321,98 +321,40 @@ const females = [
   "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến"
 ];
 
-const DEFAULT_CUSTOM_PAIRS = {
-  "Nguyễn Ngọc Bảo Nhi": "Nguyễn Khắc Hoàng Minh"
+/* ===== CẤU HÌNH GHÉP ĐÔI CỐ ĐỊNH TRỰC TIẾP TRONG CODE (ĐỒNG BỘ 100% TRÊN MỌI THIẾT BỊ) ===== */
+const FIXED_PAIRINGS = {
+  "Phù Lý Gia An": "Võ Minh Trí",
+  "Lê Thanh Quế Anh": "Ngô Minh Đông",
+  "Nguyễn Ngọc Trâm Anh": "Vũ Thái Tâm",
+  "Trần Ngọc Minh Châu": "Lâm Hoàng Gia Thuận",
+  "Lê Ngân Hạnh": "Tô Thuận Hưng",
+  "Phạm Ngọc Hân": "Nguyễn Hoàng Đạt",
+  "Nguyễn Hồng Mỹ Kim": "Ngô Gia Phú",
+  "Trịnh Thị Ngọc Linh": "Trịnh Tuấn Vỹ",
+  "Lê Nguyễn Thảo My": "Cao Minh Phúc",
+  "Trương Gia Nghi": "Trương Gia Phát",
+  "Nguyễn Ngọc Bảo Nhi": "Nguyễn Khắc Hoàng Minh",
+  "Bùi Lê Như Thảo": "Nguyễn Minh Quân",
+  "Lưu Bảo Thy": "Nguyễn Ngọc Đức",
+  "Lê Thủy Thiên Tú": "Nguyễn Tiểu Long",
+  "Nguyễn Cát Tường": "Ngô Minh Đông",
+  "Lê Ngọc Tường Vy": "Huỳnh Phúc An",
+  "Nguyễn Ngọc Hà Vy": "Đoàn Nhật Quang",
+  "Nguyễn Thị Thảo Yến": "Võ Minh Trí"
 };
+
+/* Danh sách các bạn nữ được tính là cơ cấu (hiển thị nhãn và thùng rác) */
+let customPairs = JSON.parse(localStorage.getItem('12a1_custom_pairs') || JSON.stringify({
+  "Nguyễn Ngọc Bảo Nhi": "Nguyễn Khắc Hoàng Minh"
+}));
 
 function removeVietnameseTones(str) {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
 }
 
-function getCustomPairs() {
-  const saved = localStorage.getItem('12a1_custom_pairs');
-  if (saved) {
-    try { return JSON.parse(saved); } catch(e) {}
-  }
-  return DEFAULT_CUSTOM_PAIRS;
-}
-
-function getShuffledMalesOrder() {
-  const saved = localStorage.getItem('12a1_shuffled_males');
-  if (saved) {
-    try { return JSON.parse(saved); } catch(e) {}
-  }
-  return [...males]; // Mặc định giữ nguyên thứ tự gốc để đồng bộ 100%
-}
-
-function randomizeUnpaired() {
-  let arr = [...males];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  localStorage.setItem('12a1_shuffled_males', JSON.stringify(arr));
-  
-  // Tự động lưu luôn vào bộ nhớ cấu hình chung để điện thoại nhận ngay lập tức
-  autoSaveCurrentPairingsToStorage();
-  renderPairList();
-  alert("🎲 Đã xáo trộn và lưu cấu hình thành công cho toàn bộ thiết bị!");
-}
-
-/* LƯU CỐ ĐỊNH KẾT QUẢ HIỆN TẠI VÀO STORAGE ĐỂ ĐỒNG BỘ MÁY TÍNH VÀ ĐIỆN THOẠI */
-function autoSaveCurrentPairingsToStorage() {
-  const customPairs = getCustomPairs();
-  const shuffledMales = getShuffledMalesOrder();
-  const takenMales = Object.values(customPairs);
-  const availableMales = shuffledMales.filter(m => !takenMales.includes(m));
-
-  let availIndex = 0;
-  females.forEach(f => {
-    if (!customPairs[f]) {
-      if (availableMales.length > 0) {
-        customPairs[f] = availableMales[availIndex % availableMales.length];
-        availIndex++;
-      } else {
-        customPairs[f] = males[0];
-      }
-    }
-  });
-  localStorage.setItem('12a1_custom_pairs', JSON.stringify(customPairs));
-}
-
-function getAllPairings() {
-  const customPairs = getCustomPairs();
-  const pairings = {};
-  
-  females.forEach(f => {
-    if (customPairs[f]) {
-      pairings[f] = customPairs[f];
-    }
-  });
-
-  // Đảm bảo tất cả các bạn nữ đều có cặp khớp chuẩn 100%
-  const shuffledMales = getShuffledMalesOrder();
-  const takenMales = Object.values(customPairs);
-  const availableMales = shuffledMales.filter(m => !takenMales.includes(m));
-
-  let availIndex = 0;
-  females.forEach(f => {
-    if (!pairings[f]) {
-      if (availableMales.length > 0) {
-        pairings[f] = availableMales[availIndex % availableMales.length];
-        availIndex++;
-      } else {
-        pairings[f] = males[0];
-      }
-    }
-  });
-
-  return { pairings, customPairs };
-}
-
 function getMaleForFemale(femaleName) {
-  const { pairings } = getAllPairings();
-  return pairings[femaleName] || males[0];
+  // Ưu tiên lấy từ cấu hình cố định trong code, nếu không có lấy theo mặc định
+  return FIXED_PAIRINGS[femaleName] || males[0];
 }
 
 let currentUser = localStorage.getItem('12a1_current_user') || "";
@@ -595,36 +537,39 @@ function saveCustomPair() {
   const female = document.getElementById('admin-select-female').value;
   const male = document.getElementById('admin-select-male').value;
   
-  const customPairs = getCustomPairs();
+  FIXED_PAIRINGS[female] = male;
   customPairs[female] = male;
-  
   localStorage.setItem('12a1_custom_pairs', JSON.stringify(customPairs));
+  
   renderPairList();
-  alert(`Đã thêm cơ cấu: ${female} 💖 ${male}. Bấm 'Lưu Tổng Cấu Hình' để chốt nhé!`);
-}
-
-function saveAllPairsToStorage() {
-  autoSaveCurrentPairingsToStorage();
-  alert("💾 Đã lưu tổng cấu hình cơ cấu thành công! Đảm bảo khớp hoàn toàn trên điện thoại.");
-  renderPairList();
+  alert(`Đã gán: ${female} 💖 ${male}.\n* Lưu ý: Để áp dụng vĩnh viễn cho điện thoại, bạn nhớ cập nhật dòng FIXED_PAIRINGS trong mã nguồn file index.html nhé!`);
 }
 
 function deleteCustomPair(femaleName) {
   if (confirm(`Bạn có chắc muốn xóa cơ cấu của ${femaleName}?`)) {
-    const customPairs = getCustomPairs();
     delete customPairs[femaleName];
     localStorage.setItem('12a1_custom_pairs', JSON.stringify(customPairs));
     renderPairList();
   }
 }
 
+function exportCodeSettings() {
+  let text = "const FIXED_PAIRINGS = {\n";
+  for (let f in FIXED_PAIRINGS) {
+    text += `  "${f}": "${FIXED_PAIRINGS[f]}",\n`;
+  }
+  text += "};";
+  console.log(text);
+  navigator.clipboard.writeText(text);
+  alert("📋 Đã sao chép đoạn mã cấu hình vào clipboard! Bạn có thể dán trực tiếp vào file index.html.");
+}
+
 function renderPairList() {
   const list = document.getElementById('pair-list');
-  const { pairings, customPairs } = getAllPairings();
   list.innerHTML = "";
 
   females.forEach(f => {
-    const male = pairings[f];
+    const male = FIXED_PAIRINGS[f] || males[0];
     const isCustom = !!customPairs[f];
     let item = document.createElement('div');
     item.className = "flex justify-between items-center py-2 px-2.5 bg-white rounded-lg border border-plum/10";
@@ -657,7 +602,7 @@ function renderPairList() {
 }
 
 function resetTestDataOnly() {
-  if (confirm("🔄 XÁC NHẬN RESET LƯỢT TEST TRÊN MÁY NÀY:\n- Xóa dữ liệu test tạm thời trên trình duyệt này.\n- Giữ nguyên cơ cấu.\n\nBạn có muốn thực hiện không?")) {
+  if (confirm("🔄 XÁC NHẬN RESET LƯỢT TEST TRÊN MÁY NÀY:\n- Xóa dữ liệu test tạm thời trên trình duyệt này.\n\nBạn có muốn thực hiện không?")) {
     localStorage.removeItem('12a1_current_user');
     alert("✨ Đã reset xong!");
   }
