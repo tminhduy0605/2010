@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFE4EE">
+<title>Hộp quà bí mật 12A1 ✨</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: {
+        candy: { DEFAULT: '#FFB9D2', deep: '#F0629C', soft: '#FFE4EE' },
+        lav:   { DEFAULT: '#D9C9FF', deep: '#9B7BE8', soft: '#EFE8FF' },
+        milk:  '#FFF7EA',
+        plum:  { DEFAULT: '#45275C', soft: '#7C6491' }
+      },
+      fontFamily: {
+        display: ['"Baloo 2"', 'Nunito', 'system-ui', 'sans-serif'],
+        body: ['Nunito', 'system-ui', 'sans-serif']
+      }
+    } }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+<style>
+:root{--candy:#FFB9D2;--candy-deep:#F0629C;--lav:#D9C9FF;--lav-deep:#9B7BE8;--milk:#FFF7EA;--plum:#45275C}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{
+  min-height:100dvh;overflow-x:hidden;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  background:
+    radial-gradient(40rem 28rem at 95% -8%,#E9DEFF 0,transparent 60%),
+    radial-gradient(36rem 28rem at -10% 18%,#FFD7E7 0,transparent 60%),
+    linear-gradient(180deg,#FFF1F7 0%,#F3ECFF 58%,#FFF7EA 100%);
+  background-attachment:fixed;
+}
+:focus-visible{outline:.2rem solid var(--plum);outline-offset:.2rem;border-radius:.6rem}
+mark{background:linear-gradient(transparent 58%,#FFF1C9 58% 92%,transparent 92%);color:inherit;padding:0 .12em}
+
+/* Lớp trang trí rơi / bay */
+#ambient{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+#ambient span{position:absolute;opacity:.85;will-change:transform}
+#ambient .fall{top:-12%;animation:fall linear infinite}
+#ambient .rise{bottom:-12%;animation:rise linear infinite}
+@keyframes fall{from{transform:translate3d(0,-10vh,0) rotate(0)}to{transform:translate3d(var(--dx,30px),115vh,0) rotate(360deg)}}
+@keyframes rise{from{transform:translate3d(0,0,0) rotate(-6deg)}50%{transform:translate3d(var(--dx,20px),-60vh,0) rotate(6deg)}to{transform:translate3d(0,-125vh,0) rotate(-6deg)}}
+
+/* Nút */
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;min-height:3.2rem;
+  padding:.7rem 1.2rem;border:.14rem solid var(--plum);border-radius:999px;
+  font-family:"Baloo 2",Nunito,sans-serif;font-weight:700;font-size:1.05rem;color:var(--plum);cursor:pointer;
+  box-shadow:0 .28rem 0 var(--plum);transition:transform .12s,box-shadow .12s;
+}
+.btn:active:not(:disabled){transform:translateY(.22rem);box-shadow:0 .06rem 0 var(--plum)}
+.btn:disabled{opacity:.65;cursor:default}
+.btn-candy{background:var(--candy)} .btn-lav{background:var(--lav)} .btn-milk{background:#fff}
+.pop{animation:pop .6s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes pop{from{opacity:0;transform:translateY(1.4rem) scale(.9)}to{opacity:1;transform:none}}
+.pulse{animation:pulse .35s ease-out}
+@keyframes pulse{0%{transform:scale(1)}40%{transform:scale(1.07)}100%{transform:scale(1)}}
+
+.chip{display:inline-block;background:#fff;border:.12rem solid var(--plum);border-radius:999px;padding:.2rem .9rem;font-weight:700;font-size:.85rem}
+
+/* Hộp quà nhún nhảy */
+.giftbox{position:relative;display:block;width:14rem;height:14rem;margin:1.4rem auto .6rem;border:0;background:none;padding:0;cursor:pointer}
+.gb-all{position:absolute;inset:0;transform-origin:50% 100%;animation:hop 1.7s cubic-bezier(.3,0,.4,1) infinite}
+@keyframes hop{
+  0%,100%{transform:translateY(0) scale(1.05,.93)}
+  28%{transform:translateY(-1.9rem) scale(.96,1.06)}
+  50%{transform:translateY(0) scale(1.06,.92)}
+  64%{transform:translateY(-.55rem) scale(1,1)}
+  78%{transform:translateY(0) scale(1.02,.97)}
+}
+.gb-shadow{position:absolute;left:50%;bottom:-.5rem;width:9rem;height:1rem;transform:translateX(-50%);border-radius:50%;background:rgba(69,39,92,.18);animation:shadow 1.7s cubic-bezier(.3,0,.4,1) infinite}
+@keyframes shadow{0%,50%,100%{transform:translateX(-50%) scaleX(1)}28%{transform:translateX(-50%) scaleX(.7)}}
+.giftbox.shake .gb-all{animation:shake .45s linear infinite}
+@keyframes shake{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}45%{transform:rotate(7deg)}70%{transform:rotate(-5deg)}}
+.giftbox.open .gb-all,.giftbox.open .gb-shadow{animation:none}
+.gb-glow{position:absolute;left:50%;top:38%;width:22rem;height:22rem;transform:translate(-50%,-50%) scale(.3);border-radius:50%;
+  background:radial-gradient(circle,rgba(255,241,201,.95) 0,rgba(255,241,201,0) 65%);opacity:0;transition:opacity .6s,transform .8s}
+.giftbox.open .gb-glow{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.gb-body{position:absolute;left:1.2rem;right:1.2rem;bottom:0;height:8.6rem;background:var(--candy);border:.15rem solid var(--plum);border-radius:0 0 1.2rem 1.2rem;overflow:hidden}
+.gb-body::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2.3rem;transform:translateX(-50%);background:var(--lav);border-inline:.15rem solid var(--plum)}
+.gb-body::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1.1rem;background:rgba(240,98,156,.3)}
+.gb-lid{position:absolute;left:0;right:0;bottom:8.1rem;height:3.3rem;background:#FF93BA;border:.15rem solid var(--plum);border-radius:.9rem;transform-origin:20% 100%;transition:transform .7s cubic-bezier(.3,1.5,.5,1),opacity .5s .3s}
+.gb-lid::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2.3rem;transform:translateX(-50%);background:var(--lav);border-inline:.15rem solid var(--plum)}
+.gb-bow{position:absolute;left:50%;top:-2.2rem;width:4.8rem;height:2.5rem;transform:translateX(-50%)}
+.gb-bow::before,.gb-bow::after{content:"";position:absolute;top:0;width:2.3rem;height:2.3rem;background:var(--lav);border:.15rem solid var(--plum);border-radius:60% 60% 60% 10%}
+.gb-bow::before{left:0;transform:rotate(-12deg)}
+.gb-bow::after{right:0;transform:scaleX(-1) rotate(-12deg)}
+.giftbox.open .gb-lid{transform:translate(-2rem,-5.5rem) rotate(-22deg);opacity:0}
+.gb-letter{position:absolute;left:50%;bottom:4.6rem;font-size:3.4rem;transform:translate(-50%,0) scale(.5);opacity:0;transition:transform .9s cubic-bezier(.3,1.4,.5,1) .25s,opacity .3s .25s}
+.giftbox.open .gb-letter{transform:translate(-50%,-6.2rem) scale(1.2) rotate(-6deg);opacity:1}
+.leaving{opacity:0;transform:translateY(-1rem) scale(.96);transition:opacity .45s,transform .45s}
+
+/* Khung ảnh polaroid chứa video */
+.polaroid{position:relative;background:#fff;border:.16rem solid var(--plum);border-radius:1rem;padding:.8rem .8rem 1.1rem;box-shadow:0 .4rem 0 var(--plum);transform:rotate(-1deg)}
+.tape{position:absolute;top:-.85rem;width:5rem;height:1.5rem;background:repeating-linear-gradient(45deg,#FFD0E0 0 .5rem,#F3ECFF .5rem 1rem);border:.1rem solid rgba(69,39,92,.25);opacity:.95}
+.tape.l{left:1rem;transform:rotate(-5deg)} .tape.r{right:1rem;transform:rotate(4deg)}
+.frame{position:relative;border:.14rem solid var(--plum);border-radius:.6rem;overflow:hidden;background:#2A1D38}
+.frame video{display:block;width:100%;max-height:58vh;min-height:12rem;background:#2A1D38}
+.bigplay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:4.6rem;height:4.6rem;border-radius:50%;border:.15rem solid var(--plum);background:var(--candy);font-size:1.7rem;box-shadow:0 .25rem 0 var(--plum);cursor:pointer}
+.vid-err{position:absolute;inset:0;display:grid;place-content:center;gap:.4rem;text-align:center;padding:1rem;background:#2A1D38;color:#fff}
+.vid-err code{font-size:.8rem;color:#FFF1C9;word-break:break-all}
+.caption{text-align:center;padding-top:1rem}
+.name-reveal{display:inline-block;animation:reveal .9s cubic-bezier(.3,1.5,.5,1) both .5s}
+@keyframes reveal{from{opacity:0;transform:perspective(20rem) rotateX(90deg) scale(.6)}to{opacity:1;transform:none}}
+.tag{display:inline-block;margin-top:.5rem;padding:.2rem .8rem;border-radius:999px;font-size:.85rem;font-weight:700;background:var(--candy);border:.12rem solid var(--plum)}
+.tag.extra{background:var(--lav)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+
+<body class="font-body text-plum antialiased">
+<div id="ambient" aria-hidden="true"></div>
+
+<main class="relative z-10 mx-auto flex min-h-dvh w-full max-w-md flex-col items-center px-5 pb-12 pt-6">
+
+  <span class="chip" id="eventChip">Món Quà Bí Mật 12A1 ✨</span>
+
+  <!-- Bước 1: Chọn tên & Mã Admin -->
+  <section id="step-select" class="mt-6 w-full text-center space-y-4">
+    <h1 class="font-display text-[2rem] font-extrabold leading-tight">Gửi các cô gái 12A1 💐</h1>
+    <p class="mx-auto max-w-xs text-plum-soft">Chọn tên của bạn để mở món quà bí mật từ các bạn nam nhé!</p>
+
+    <div class="text-left bg-white/80 backdrop-blur p-4 rounded-2xl border-2 border-plum shadow-md space-y-3">
+      <div>
+        <label class="block text-sm font-bold mb-1">Chọn tên của bạn:</label>
+        <select id="female-select" class="w-full p-3 rounded-xl border-2 border-plum bg-candy-soft font-semibold focus:outline-none">
+          <option value="">-- Chọn tên bạn nữ --</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-plum-soft mb-1">Mã Ban Tổ Chức (nếu có):</label>
+        <input type="password" id="admin-pass" placeholder="Nhập mã admin..." class="w-full p-2.5 rounded-xl border-2 border-plum/30 text-sm focus:outline-none">
+      </div>
+    </div>
+
+    <button onclick="handleLogin()" class="btn btn-candy text-lg">Vào Mở Quà Ngay 💖</button>
+  </section>
+
+  <!-- Bước 2: Hộp quà nhún nhảy -->
+  <section id="step-gift" class="mt-6 w-full text-center" hidden>
+    <h2 id="welcome-msg" class="font-display text-2xl font-extrabold text-purple-800"></h2>
+    <p class="mx-auto mt-1 max-w-xs text-plum-soft">Có một bạn nam đã chuẩn bị lời chúc đặc biệt cho bạn. Chạm vào hộp quà để bóc tem!</p>
+
+    <button class="giftbox" id="gift" aria-label="Hộp quà bí mật" onclick="openGift()">
+      <span class="gb-glow"></span>
+      <span class="gb-shadow"></span>
+      <span class="gb-all">
+        <span class="gb-letter">💌</span>
+        <span class="gb-body"></span>
+        <span class="gb-lid"><span class="gb-bow"></span></span>
+      </span>
+    </button>
+
+    <button class="btn btn-candy text-lg" onclick="openGift()">Bóc tem món quà bí mật 🎁</button>
+  </section>
+
+  <!-- Bước 3: Video Lời chúc & Polaroid -->
+  <section id="step-result" class="mt-6 w-full" hidden>
+    <div class="polaroid">
+      <span class="tape l"></span><span class="tape r"></span>
+      <div class="frame">
+        <video id="vid" playsinline controls preload="auto"></video>
+        <button class="bigplay" id="bigPlay" aria-label="Phát video" hidden>▶</button>
+        <div class="vid-err" id="vidErr" hidden>
+          <b class="font-display text-lg">Video chưa tải được</b>
+          <span class="text-sm">Vui lòng kiểm tra file video này:</span>
+          <code id="vidErrPath"></code>
+        </div>
+      </div>
+      <div class="caption">
+        <p id="capLead" class="text-sm font-semibold text-plum-soft"></p>
+        <p class="mt-1"><span id="capName" class="name-reveal font-display text-3xl font-extrabold text-pink-600"></span></p>
+        <span id="capTag" class="tag">🎁 Món quà chính thức của bạn</span>
+      </div>
+    </div>
+
+    <div class="mt-6 grid gap-3">
+      <p id="wish-text" class="text-center text-sm font-bold text-purple-900 bg-white/90 p-3.5 rounded-2xl border-2 border-plum italic shadow-sm"></p>
+      
+      <button class="btn btn-candy" id="heartBtn" onclick="heartEffect()">💖 Thả tim / Cảm ơn</button>
+      <p id="heartCount" class="-mt-1 min-h-[1.25rem] text-center text-sm font-bold text-candy-deep"></p>
+
+      <button class="btn btn-lav" onclick="randomViewOther()">🎲 Xem clip của bạn nam khác</button>
+      <button class="btn btn-milk" id="backBtn" onclick="showOfficial()" hidden>🎁 Về món quà chính thức của mình</button>
+      <button class="btn btn-milk !text-xs !min-h-[2.4rem] mt-2" onclick="resetUser()">Đổi bạn nữ khác</button>
+    </div>
+  </section>
+
+  <!-- Bảng Admin -->
+  <aside id="step-admin" class="mt-6 w-full rounded-3xl border-2 border-plum bg-white/90 p-5 text-sm space-y-3" hidden>
+    <h2 class="font-display text-xl font-extrabold text-red-600 border-b-2 border-plum/20 pb-2">Trang Quản Trị BTC 12A1</h2>
+    <p class="text-xs text-plum-soft">Danh sách ghép cặp cố định (Mỗi bạn nữ đúng 1 bạn nam):</p>
+    <div id="pair-list" class="max-h-64 overflow-y-auto space-y-1.5 text-xs bg-candy-soft p-3 rounded-2xl border border-plum/20 font-medium"></div>
+    <div class="grid gap-2 pt-2">
+      <button onclick="clearData()" class="btn btn-candy !bg-red-400 !text-white !border-plum">RESET TOÀN BỘ GHÉP CẶP</button>
+      <button onclick="location.reload()" class="btn btn-milk">Quay Lại Màn Hình Chính</button>
+    </div>
+  </aside>
+
+</main>
+
+<script>
+/* Danh sách 18 nữ & 18 nam lớp 12A1 */
+const females = [
+  "Phù Lý Gia An", "Lê Thanh Quế Anh", "Nguyễn Ngọc Trâm Anh", "Trần Ngọc Minh Châu",
+  "Lê Ngân Hạnh", "Phạm Ngọc Hân", "Nguyễn Hồng Mỹ Kim", "Trịnh Thị Ngọc Linh",
+  "Lê Nguyễn Thảo My", "Trương Gia Nghi", "Nguyễn Ngọc Bảo Nhi", "Bùi Lê Như Thảo",
+  "Lưu Bảo Thy", "Lê Thủy Thiên Tú", "Nguyễn Cát Tường", "Lê Ngọc Tường Vy",
+  "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến"
+];
+
+const males = [
+  "Huỳnh Phúc An", "Vũ Hoàng Gia Cát", "Nguyễn Hoàng Đạt", "Ngô Minh Đông",
+  "Nguyễn Ngọc Đức", "Tô Thuận Hưng", "Nguyễn Minh Khang", "Nguyễn Tiểu Long",
+  "Nguyễn Khắc Hoàng Minh", "Trương Gia Phát", "Ngô Gia Phú", "Cao Minh Phúc",
+  "Đoàn Nhật Quang", "Nguyễn Minh Quân", "Vũ Thái Tâm", "Lâm Hoàng Gia Thuận",
+  "Võ Minh Trí", "Trịnh Tuấn Vỹ"
+];
+
+/* Khởi tạo ghép cặp 1-1 cố định lưu vào localStorage */
+let pairs = JSON.parse(localStorage.getItem('12a1_pairs')) || {};
+function initPairs() {
+  if (Object.keys(pairs).length === 0) {
+    let shuffledMales = [...males].sort(() => Math.random() - 0.5);
+    females.forEach((female, index) => {
+      pairs[female] = shuffledMales[index];
+    });
+    localStorage.setItem('12a1_pairs', JSON.stringify(pairs));
+  }
+}
+initPairs();
+
+/* Điền danh sách bạn nữ vào Select */
+const selectEl = document.getElementById('female-select');
+females.forEach(f => {
+  let opt = document.createElement('option');
+  opt.value = f;
+  opt.textContent = f;
+  selectEl.appendChild(opt);
+});
+
+let currentUser = localStorage.getItem('12a1_current_user') || "";
+let heartCount = parseInt(localStorage.getItem('12a1_hearts_' + currentUser) || '0');
+
+function showStep(stepId) {
+  ['step-select', 'step-gift', 'step-result', 'step-admin'].forEach(id => {
+    document.getElementById(id).hidden = true;
+  });
+  document.getElementById(stepId).hidden = false;
+}
+
+/* Xử lý Đăng nhập / Chọn tên */
+function handleLogin() {
+  const pass = document.getElementById('admin-pass').value.trim();
+  if (pass === 'admin') {
+    renderAdmin();
+    showStep('step-admin');
+    return;
+  }
+
+  const val = selectEl.value;
+  if (!val) {
+    alert("Vui lòng chọn tên của bạn!");
+    return;
+  }
+  currentUser = val;
+  localStorage.setItem('12a1_current_user', currentUser);
+  document.getElementById('welcome-msg').textContent = `Xin chào ${currentUser}! ✨`;
+  showStep('step-gift');
+}
+
+/* Tự động vào thẳng nếu đã đăng nhập */
+if (currentUser && pairs[currentUser]) {
+  document.getElementById('welcome-msg').textContent = `Xin chào ${currentUser}! ✨`;
+  showStep('step-gift');
+}
+
+/* Pháo hoa Confetti */
+const COLORS = ['#FFB9D2', '#F0629C', '#D9C9FF', '#9B7BE8', '#FFF1C9', '#FFFFFF'];
+function fireworks() {
+  if (!window.confetti) return;
+  confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: COLORS });
+}
+
+/* Bốc quà */
+function openGift() {
+  const giftEl = document.getElementById('gift');
+  giftEl.classList.add('shake');
+  setTimeout(() => {
+    giftEl.classList.remove('shake');
+    giftEl.classList.add('open');
+    fireworks();
+    setTimeout(() => {
+      showOfficial();
+      showStep('step-result');
+    }, 800);
+  }, 600);
+}
+
+/* Hiển thị món quà chính thức */
+function showOfficial() {
+  const partner = pairs[currentUser];
+  document.getElementById('capLead').textContent = "Người gửi lời chúc bí mật tới bạn là:";
+  document.getElementById('capName').textContent = partner;
+  document.getElementById('capTag').textContent = "🎁 Món quà chính thức của bạn";
+  document.getElementById('capTag').className = "tag";
+  document.getElementById('wish-text').textContent = `Chúc ${currentUser} luôn xinh đẹp, học giỏi và tràn ngập niềm vui từ bạn ${partner}! 💖`;
+  document.getElementById('backBtn').hidden = true;
+  updateHeartUI();
+  loadVideo(partner);
+}
+
+/* Nút thả tim */
+function heartEffect() {
+  heartCount++;
+  localStorage.setItem('12a1_hearts_' + currentUser, heartCount);
+  updateHeartUI();
+  if (window.confetti) {
+    confetti({ particleCount: 30, spread: 60, origin: { y: 0.7 }, colors: COLORS });
+  }
+}
+
+function updateHeartUI() {
+  document.getElementById('heartCount').textContent = heartCount ? `Bạn đã thả ${heartCount} tim 💗` : '';
+}
+
+/* Xem clip bạn nam khác */
+function randomViewOther() {
+  const partner = pairs[currentUser];
+  const otherMales = males.filter(m => m !== partner);
+  const randomMale = otherMales[Math.floor(Math.random() * otherMales.length)];
+
+  document.getElementById('capLead').textContent = "Clip xem cho vui của:";
+  document.getElementById('capName').textContent = randomMale;
+  document.getElementById('capTag').textContent = "🎲 Xem cho vui. Quà chính thức vẫn giữ nguyên!";
+  document.getElementById('capTag').className = "tag extra";
+  document.getElementById('wish-text').textContent = `Xem thử lời chúc xem trước từ bạn ${randomMale} ✨`;
+  document.getElementById('backBtn').hidden = false;
+  loadVideo(randomMale);
+}
+
+/* Tải Video */
+function loadVideo(maleName) {
+  const vid = document.getElementById('vid');
+  const index = males.indexOf(maleName) + 1;
+  const vidId = index < 10 ? 'nam_0' + index : 'nam_' + index;
+  const videoPath = `assets/videos/${vidId}.mp4`;
+
+  document.getElementById('vidErr').hidden = true;
+  document.getElementById('bigPlay').hidden = true;
+  document.getElementById('vidErrPath').textContent = videoPath;
+
+  vid.src = videoPath;
+  vid.load();
+  const p = vid.play();
+  if (p && p.catch) p.catch(() => { document.getElementById('bigPlay').hidden = false; });
+}
+
+document.getElementById('bigPlay').onclick = () => {
+  document.getElementById('bigPlay').hidden = true;
+  document.getElementById('vid').play();
+};
+
+document.getElementById('vid').onerror = () => {
+  document.getElementById('bigPlay').hidden = true;
+  document.getElementById('vidErr').hidden = false;
+};
+
+/* Đổi bạn nữ */
+function resetUser() {
+  localStorage.removeItem('12a1_current_user');
+  currentUser = "";
+  document.getElementById('female-select').value = "";
+  showStep('step-select');
+}
+
+/* Admin render */
+function renderAdmin() {
+  const list = document.getElementById('pair-list');
+  list.innerHTML = "";
+  females.forEach(f => {
+    let item = document.createElement('div');
+    item.className = "flex justify-between py-1.5 border-b border-plum/10";
+    item.innerHTML = `<span><strong>${f}</strong></span> <span class="text-pink-600 font-bold">💖 ${pairs[f]}</span>`;
+    list.appendChild(item);
+  });
+}
+
+function clearData() {
+  if (confirm("Xóa toàn bộ dữ liệu xáo trộn để bốc lại từ đầu?")) {
+    localStorage.removeItem('12a1_pairs');
+    localStorage.removeItem('12a1_current_user');
+    location.reload();
+  }
+}
+
+/* Hiệu ứng bóng bay & hoa rơi nền */
+(function ambient() {
+  const layer = document.getElementById('ambient'), items = ['🌸', '💜', '🎈', '✨', '🌷', '🩷', '🎈'];
+  for (let i = 0; i < 12; i++) {
+    const ch = items[i % items.length], up = ch === '🎈';
+    const s = document.createElement('span');
+    s.textContent = ch; s.className = up ? 'rise' : 'fall';
+    s.style.cssText = `left:${(Math.random() * 96).toFixed(0)}%;font-size:${(1.1 + Math.random() * 1.1).toFixed(2)}rem;` +
+      `animation-duration:${((up ? 14 : 9) + Math.random() * (up ? 10 : 9)).toFixed(1)}s;` +
+      `animation-delay:-${(Math.random() * 18).toFixed(1)}s;--dx:${(Math.random() * 120 - 60).toFixed(0)}px`;
+    layer.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
