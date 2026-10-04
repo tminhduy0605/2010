@@ -73,8 +73,8 @@ body {
   box-shadow: 0 2px 0 var(--plum);
 }
 
-/* Hộp quà */
-.giftbox-wrapper { position: relative; width: 11rem; height: 11rem; margin: 1.2rem auto 0.8rem; }
+/* Hộp quà chuẩn vẹn nắp & nơ */
+.giftbox-wrapper { position: relative; width: 11rem; height: 12rem; margin: 1rem auto 0.5rem; }
 .giftbox { position: relative; width: 100%; height: 100%; border: 0; background: none; padding: 0; cursor: pointer; }
 .gb-all { position: absolute; inset: 0; transform-origin: 50% 100%; animation: hop 1.7s cubic-bezier(.3,0,.4,1) infinite; }
 @keyframes hop {
@@ -92,19 +92,20 @@ body {
 .gb-glow { position: absolute; left: 50%; top: 40%; width: 15rem; height: 15rem; transform: translate(-50%,-50%) scale(.3); border-radius: 50%; background: radial-gradient(circle,rgba(255,241,201,.95) 0,rgba(255,241,201,0) 65%); opacity: 0; transition: opacity .6s, transform .8s; }
 .giftbox.open .gb-glow { opacity: 1; transform: translate(-50%,-50%) scale(1); }
 
-.gb-body { position: absolute; left: 1rem; right: 1rem; bottom: 0; height: 6.5rem; background: var(--candy); border: 2.5px solid var(--plum); border-radius: 0 0 1rem 1rem; overflow: hidden; }
+.gb-body { position: absolute; left: 1rem; right: 1rem; bottom: 0; height: 6.5rem; background: var(--candy); border: 2.5px solid var(--plum); border-radius: 0 0 1rem 1rem; overflow: hidden; z-index: 1; }
 .gb-body::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1.8rem; transform: translateX(-50%); background: var(--lav); border-inline: 2.5px solid var(--plum); }
 
-.gb-lid { position: absolute; left: 0.6rem; right: 0.6rem; top: 2.1rem; height: 2.6rem; background: #FF93BA; border: 2.5px solid var(--plum); border-radius: 0.7rem; z-index: 2; transform-origin: 10% 100%; transition: transform .7s cubic-bezier(.3,1.5,.5,1), opacity .5s .3s; }
+/* Đã khôi phục đầy đủ chiều cao nắp hộp */
+.gb-lid { position: absolute; left: 0.6rem; right: 0.6rem; bottom: 6.2rem; height: 2.2rem; background: #FF93BA; border: 2.5px solid var(--plum); border-radius: 0.7rem; z-index: 3; transform-origin: 10% 100%; transition: transform .7s cubic-bezier(.3,1.5,.5,1), opacity .5s .3s; }
 .gb-lid::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1.8rem; transform: translateX(-50%); background: var(--lav); border-inline: 2.5px solid var(--plum); }
 
-.gb-bow { position: absolute; left: 50%; top: -1.5rem; width: 3.6rem; height: 1.8rem; transform: translateX(-50%); }
-.gb-bow::before, .gb-bow::after { content: ""; position: absolute; top: 0; width: 1.6rem; height: 1.6rem; background: var(--lav); border: 2.5px solid var(--plum); border-radius: 60% 60% 60% 10%; }
+.gb-bow { position: absolute; left: 50%; top: -1.3rem; width: 3.6rem; height: 1.5rem; transform: translateX(-50%); z-index: 4; }
+.gb-bow::before, .gb-bow::after { content: ""; position: absolute; top: 0; width: 1.6rem; height: 1.4rem; background: var(--lav); border: 2.5px solid var(--plum); border-radius: 60% 60% 60% 10%; }
 .gb-bow::before { left: 0; transform: rotate(-12deg); }
 .gb-bow::after { right: 0; transform: scaleX(-1) rotate(-12deg); }
 
 .giftbox.open .gb-lid { transform: translate(-2.5rem,-4.5rem) rotate(-30deg); opacity: 0; }
-.gb-letter { position: absolute; left: 50%; top: 2.8rem; font-size: 2.5rem; transform: translate(-50%,0) scale(.5); opacity: 0; transition: transform .9s cubic-bezier(.3,1.4,.5,1) .25s, opacity .3s .25s; z-index: 1; }
+.gb-letter { position: absolute; left: 50%; bottom: 4rem; font-size: 2.5rem; transform: translate(-50%,0) scale(.5); opacity: 0; transition: transform .9s cubic-bezier(.3,1.4,.5,1) .25s, opacity .3s .25s; z-index: 2; }
 .giftbox.open .gb-letter { transform: translate(-50%,-4.8rem) scale(1.2) rotate(-6deg); opacity: 1; }
 
 /* Khung Video Ngang 16:9 */
@@ -183,7 +184,11 @@ body {
   <!-- Step 2: Hộp Quà 20/10 -->
   <section id="step-gift" class="mt-4 w-full text-center space-y-2 max-w-[420px]" hidden>
     <h2 id="welcome-msg" class="font-display text-xl font-extrabold text-purple-900"></h2>
-    <p class="text-xs text-plum-soft px-4 font-semibold">Một bạn nam đã chuẩn bị clip chúc mừng 20/10 đặc biệt cho bạn. Chạm vào hộp quà để bóc tem!</p>
+    <div class="bg-white/80 border border-plum/15 rounded-2xl p-2.5 shadow-sm mx-2">
+      <p class="text-xs text-plum font-bold leading-relaxed">
+        🎁 Một bạn nam đã chuẩn bị clip chúc mừng 20/10 đặc biệt dành riêng cho bạn. Chạm vào hộp quà bên dưới để bóc tem nhé!
+      </p>
+    </div>
 
     <div class="giftbox-wrapper">
       <button class="giftbox" id="gift" aria-label="Hộp quà bí mật 20/10" onclick="openGift()">
@@ -197,7 +202,7 @@ body {
       </button>
     </div>
 
-    <button class="btn btn-candy mt-2" onclick="openGift()">Bóc tem món quà bí mật 🎁</button>
+    <button class="btn btn-candy mt-1" onclick="openGift()">Bóc tem món quà bí mật 🎁</button>
   </section>
 
   <!-- Step 3: Xem Video Ngang -->
@@ -232,7 +237,7 @@ body {
     </div>
   </section>
 
-  <!-- ==================== TRANG XEM ADMIN (CHỈ ĐỂ XEM AI DÍNH AI) ==================== -->
+  <!-- ==================== TRANG XEM ADMIN ==================== -->
   <aside id="step-admin" class="mt-3 w-full rounded-2xl border-2 border-plum bg-white/95 p-4 text-xs space-y-4 max-w-[700px]" hidden>
     <div class="flex items-center justify-between border-b-2 border-plum/20 pb-2">
       <h2 class="font-display text-base font-extrabold text-red-600">Bảng Theo Dõi BTC (Xem Ai Dính Ai)</h2>
@@ -312,7 +317,6 @@ function onNameInput() {
     return;
   }
 
-  // Nếu gõ admin thì mở bảng admin xem
   if (input.toLowerCase() === 'admin') {
     sugBox.hidden = true;
     return;
@@ -470,7 +474,6 @@ function resetUser() {
   showStep('step-select');
 }
 
-/* HIỂN THỊ DANH SÁCH BẢNG ADMIN XEM */
 function renderAdminView() {
   const list = document.getElementById('admin-pair-list');
   list.innerHTML = "";
