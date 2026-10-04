@@ -42,7 +42,6 @@ body{
     linear-gradient(180deg,#FFF1F7 0%,#F3ECFF 58%,#FFF7EA 100%);
   background-attachment:fixed;
 }
-:focus-visible{outline:.2rem solid var(--plum);outline-offset:.2rem;border-radius:.6rem}
 
 #ambient{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}
 #ambient span{position:absolute;opacity:.85;will-change:transform}
@@ -58,41 +57,44 @@ body{
   box-shadow:0 .28rem 0 var(--plum);transition:transform .12s,box-shadow .12s;
 }
 .btn:active:not(:disabled){transform:translateY(.22rem);box-shadow:0 .06rem 0 var(--plum)}
-.btn:disabled{opacity:.65;cursor:default}
 .btn-candy{background:var(--candy)} .btn-lav{background:var(--lav)} .btn-milk{background:#fff}
 
 .chip{display:inline-block;background:#fff;border:.12rem solid var(--plum);border-radius:999px;padding:.2rem .9rem;font-weight:700;font-size:.85rem}
 
-/* Hộp quà */
-.giftbox{position:relative;display:block;width:14rem;height:14rem;margin:1.4rem auto .6rem;border:0;background:none;padding:0;cursor:pointer}
+/* HỘP QUÀ chuẩn */
+.giftbox-wrapper{position:relative;width:14rem;height:14rem;margin:1.5rem auto 1rem}
+.giftbox{position:relative;width:100%;height:100%;border:0;background:none;padding:0;cursor:pointer}
 .gb-all{position:absolute;inset:0;transform-origin:50% 100%;animation:hop 1.7s cubic-bezier(.3,0,.4,1) infinite}
 @keyframes hop{
   0%,100%{transform:translateY(0) scale(1.05,.93)}
-  28%{transform:translateY(-1.9rem) scale(.96,1.06)}
+  28%{transform:translateY(-1.5rem) scale(.96,1.06)}
   50%{transform:translateY(0) scale(1.06,.92)}
-  64%{transform:translateY(-.55rem) scale(1,1)}
+  64%{transform:translateY(-.4rem) scale(1,1)}
   78%{transform:translateY(0) scale(1.02,.97)}
 }
-.gb-shadow{position:absolute;left:50%;bottom:-.5rem;width:9rem;height:1rem;transform:translateX(-50%);border-radius:50%;background:rgba(69,39,92,.18);animation:shadow 1.7s cubic-bezier(.3,0,.4,1) infinite}
+.gb-shadow{position:absolute;left:50%;bottom:-.2rem;width:8.5rem;height:.8rem;transform:translateX(-50%);border-radius:50%;background:rgba(69,39,92,.18);animation:shadow 1.7s cubic-bezier(.3,0,.4,1) infinite}
 @keyframes shadow{0%,50%,100%{transform:translateX(-50%) scaleX(1)}28%{transform:translateX(-50%) scaleX(.7)}}
 .giftbox.shake .gb-all{animation:shake .45s linear infinite}
 @keyframes shake{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}45%{transform:rotate(7deg)}70%{transform:rotate(-5deg)}}
-.giftbox.open .gb-all,.giftbox.open .gb-shadow{animation:none}
-.gb-glow{position:absolute;left:50%;top:38%;width:22rem;height:22rem;transform:translate(-50%,-50%) scale(.3);border-radius:50%;
+
+.gb-glow{position:absolute;left:50%;top:40%;width:20rem;height:20rem;transform:translate(-50%,-50%) scale(.3);border-radius:50%;
   background:radial-gradient(circle,rgba(255,241,201,.95) 0,rgba(255,241,201,0) 65%);opacity:0;transition:opacity .6s,transform .8s}
 .giftbox.open .gb-glow{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.gb-body{position:absolute;left:1.2rem;right:1.2rem;bottom:0;height:8.6rem;background:var(--candy);border:.15rem solid var(--plum);border-radius:0 0 1.2rem 1.2rem;overflow:hidden}
-.gb-body::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2.3rem;transform:translateX(-50%);background:var(--lav);border-inline:.15rem solid var(--plum)}
-.gb-body::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1.1rem;background:rgba(240,98,156,.3)}
-.gb-lid{position:absolute;left:0;right:0;bottom:8.1rem;height:3.3rem;background:#FF93BA;border:.15rem solid var(--plum);border-radius:.9rem;transform-origin:20% 100%;transition:transform .7s cubic-bezier(.3,1.5,.5,1),opacity .5s .3s}
-.gb-lid::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2.3rem;transform:translateX(-50%);background:var(--lav);border-inline:.15rem solid var(--plum)}
-.gb-bow{position:absolute;left:50%;top:-2.2rem;width:4.8rem;height:2.5rem;transform:translateX(-50%)}
-.gb-bow::before,.gb-bow::after{content:"";position:absolute;top:0;width:2.3rem;height:2.3rem;background:var(--lav);border:.15rem solid var(--plum);border-radius:60% 60% 60% 10%}
+
+.gb-body{position:absolute;left:1.5rem;right:1.5rem;bottom:0;height:8rem;background:var(--candy);border:.15rem solid var(--plum);border-radius:0 0 1.2rem 1.2rem;overflow:hidden}
+.gb-body::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2.2rem;transform:translateX(-50%);background:var(--lav);border-inline:.15rem solid var(--plum)}
+
+.gb-lid{position:absolute;left:1rem;right:1rem;top:2.8rem;height:3.2rem;background:#FF93BA;border:.15rem solid var(--plum);border-radius:.8rem;z-index:2;transform-origin:10% 100%;transition:transform .7s cubic-bezier(.3,1.5,.5,1),opacity .5s .3s}
+.gb-lid::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2.2rem;transform:translateX(-50%);background:var(--lav);border-inline:.15rem solid var(--plum)}
+
+.gb-bow{position:absolute;left:50%;top:-1.8rem;width:4.5rem;height:2.2rem;transform:translateX(-50%)}
+.gb-bow::before,.gb-bow::after{content:"";position:absolute;top:0;width:2.1rem;height:2.1rem;background:var(--lav);border:.15rem solid var(--plum);border-radius:60% 60% 60% 10%}
 .gb-bow::before{left:0;transform:rotate(-12deg)}
 .gb-bow::after{right:0;transform:scaleX(-1) rotate(-12deg)}
-.giftbox.open .gb-lid{transform:translate(-2rem,-5.5rem) rotate(-22deg);opacity:0}
-.gb-letter{position:absolute;left:50%;bottom:4.6rem;font-size:3.4rem;transform:translate(-50%,0) scale(.5);opacity:0;transition:transform .9s cubic-bezier(.3,1.4,.5,1) .25s,opacity .3s .25s}
-.giftbox.open .gb-letter{transform:translate(-50%,-6.2rem) scale(1.2) rotate(-6deg);opacity:1}
+
+.giftbox.open .gb-lid{transform:translate(-3rem,-5rem) rotate(-30deg);opacity:0}
+.gb-letter{position:absolute;left:50%;top:3.5rem;font-size:3.2rem;transform:translate(-50%,0) scale(.5);opacity:0;transition:transform .9s cubic-bezier(.3,1.4,.5,1) .25s,opacity .3s .25s;z-index:1}
+.giftbox.open .gb-letter{transform:translate(-50%,-5.5rem) scale(1.2) rotate(-6deg);opacity:1}
 
 /* Khung Polaroid Video */
 .polaroid{position:relative;background:#fff;border:.16rem solid var(--plum);border-radius:1rem;padding:.8rem .8rem 1.1rem;box-shadow:0 .4rem 0 var(--plum);transform:rotate(-1deg)}
@@ -108,6 +110,17 @@ body{
 @keyframes reveal{from{opacity:0;transform:perspective(20rem) rotateX(90deg) scale(.6)}to{opacity:1;transform:none}}
 .tag{display:inline-block;margin-top:.5rem;padding:.2rem .8rem;border-radius:999px;font-size:.85rem;font-weight:700;background:var(--candy);border:.12rem solid var(--plum)}
 .tag.extra{background:var(--lav)}
+
+/* Style Ô tìm kiếm gợi ý tên */
+.suggestions-box {
+  position: absolute; left: 0; right: 0; top: 100%; margin-top: 0.25rem;
+  background: white; border: 2px solid var(--plum); border-radius: 0.8rem;
+  max-height: 12rem; overflow-y: auto; z-index: 50; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.suggestion-item {
+  padding: 0.6rem 1rem; cursor: pointer; font-weight: 600; border-bottom: 1px solid #FFE4EE;
+}
+.suggestion-item:hover { background: #FFE4EE; color: #F0629C; }
 </style>
 </head>
 
@@ -118,16 +131,20 @@ body{
 
   <span class="chip">Món Quà Bí Mật 12A1 ✨</span>
 
-  <!-- Bước 1: Tự nhập tên -->
+  <!-- Bước 1: Nhập & Gợi ý tên -->
   <section id="step-select" class="mt-6 w-full text-center space-y-4">
     <h1 class="font-display text-[2rem] font-extrabold leading-tight">Gửi các cô gái 12A1 💐</h1>
     <p class="mx-auto max-w-xs text-plum-soft">Nhập tên của bạn để mở món quà bí mật từ các bạn nam nhé!</p>
 
-    <div class="text-left bg-white/80 backdrop-blur p-4 rounded-2xl border-2 border-plum shadow-md space-y-3">
-      <div>
-        <label class="block text-sm font-bold mb-1">Tên của bạn là:</label>
-        <input type="text" id="user-name-input" placeholder="Nhập tên của bạn..." class="w-full p-3 rounded-xl border-2 border-plum bg-candy-soft font-semibold focus:outline-none focus:border-pink-500">
+    <div class="text-left bg-white/80 backdrop-blur p-4 rounded-2xl border-2 border-plum shadow-md space-y-2 relative">
+      <label class="block text-sm font-bold">Tên của bạn là:</label>
+      <div class="relative">
+        <input type="text" id="user-name-input" autocomplete="off" placeholder="Gõ tên của bạn (vd: Nhi, Anh, Linh...)" 
+               class="w-full p-3 rounded-xl border-2 border-plum bg-candy-soft font-semibold focus:outline-none focus:border-pink-500"
+               oninput="onNameInput()">
+        <div id="suggestions" class="suggestions-box" hidden></div>
       </div>
+      <p class="text-[0.75rem] text-plum-soft italic">* Gõ vài ký tự tên bạn để chọn nhanh từ danh sách nhé!</p>
     </div>
 
     <button onclick="handleLogin()" class="btn btn-candy text-lg">Vào Mở Quà Ngay 💖</button>
@@ -138,15 +155,17 @@ body{
     <h2 id="welcome-msg" class="font-display text-2xl font-extrabold text-purple-800"></h2>
     <p class="mx-auto mt-1 max-w-xs text-plum-soft">Có một bạn nam đã chuẩn bị lời chúc đặc biệt cho bạn. Chạm vào hộp quà để bóc tem!</p>
 
-    <button class="giftbox" id="gift" aria-label="Hộp quà bí mật" onclick="openGift()">
-      <span class="gb-glow"></span>
-      <span class="gb-shadow"></span>
-      <span class="gb-all">
-        <span class="gb-letter">💌</span>
-        <span class="gb-body"></span>
-        <span class="gb-lid"><span class="gb-bow"></span></span>
-      </span>
-    </button>
+    <div class="giftbox-wrapper">
+      <button class="giftbox" id="gift" aria-label="Hộp quà bí mật" onclick="openGift()">
+        <span class="gb-glow"></span>
+        <span class="gb-shadow"></span>
+        <span class="gb-all">
+          <span class="gb-letter">💌</span>
+          <span class="gb-lid"><span class="gb-bow"></span></span>
+          <span class="gb-body"></span>
+        </span>
+      </button>
+    </div>
 
     <button class="btn btn-candy text-lg" onclick="openGift()">Bóc tem món quà bí mật 🎁</button>
   </section>
@@ -186,10 +205,9 @@ body{
   <!-- Bảng Admin BTC -->
   <aside id="step-admin" class="mt-6 w-full rounded-3xl border-2 border-plum bg-white/90 p-5 text-sm space-y-3" hidden>
     <h2 class="font-display text-xl font-extrabold text-red-600 border-b-2 border-plum/20 pb-2">Trang Quản Trị BTC 12A1</h2>
-    <p class="text-xs text-plum-soft">Danh sách bạn nam được phân công theo lượt mở:</p>
+    <p class="text-xs text-plum-soft">Danh sách phân công cố định (Nam - Nữ):</p>
     <div id="pair-list" class="max-h-64 overflow-y-auto space-y-1.5 text-xs bg-candy-soft p-3 rounded-2xl border border-plum/20 font-medium"></div>
     <div class="grid gap-2 pt-2">
-      <button onclick="clearData()" class="btn btn-candy !bg-red-400 !text-white !border-plum">RESET DỮ LIỆU</button>
       <button onclick="location.reload()" class="btn btn-milk">Quay Lại Màn Hình Chính</button>
     </div>
   </aside>
@@ -197,6 +215,7 @@ body{
 </main>
 
 <script>
+/* Danh sách Nam */
 const males = [
   "Huỳnh Phúc An", "Vũ Hoàng Gia Cát", "Nguyễn Hoàng Đạt", "Ngô Minh Đông",
   "Nguyễn Ngọc Đức", "Tô Thuận Hưng", "Nguyễn Minh Khang", "Nguyễn Tiểu Long",
@@ -205,9 +224,69 @@ const males = [
   "Võ Minh Trí", "Trịnh Tuấn Vỹ"
 ];
 
-let userMap = JSON.parse(localStorage.getItem('12a1_custom_map')) || {};
+/* Danh sách Nữ (Có thể chỉnh sửa danh sách tên cho đúng chuẩn 12A1) */
+const females = [
+  "Bùi Thị Ngọc Anh", "Nguyễn Lê Phương Anh", "Trần Thị Vân Anh",
+  "Nguyễn Ngọc Bảo Châu", "Đỗ Lê Hoàng Dung", "Lê Thị Mỹ Duyên",
+  "Trần Thị Thanh Hà", "Nguyễn Lê Thu Hằng", "Phạm Thị Ngọc Huyền",
+  "Lê Thị Khánh Linh", "Nguyễn Ngọc Trúc Linh", "Trần Thị Mỹ Linh",
+  "Phạm Thị Thanh Ngân", "Nguyễn Thị Bảo Yến", "Trần Thị Cẩm Tú",
+  "Nguyễn Lê Yến Nhi", "Lê Thị Phương Thảo", "Trần Thị Như Quỳnh"
+];
+
+/* Hàm bỏ dấu tiếng Việt để tìm kiếm dễ hơn */
+function removeVietnameseTones(str) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+}
+
+/* Tìm bạn nam tương ứng cho bạn nữ theo chỉ số cố định */
+function getMaleForFemale(femaleName) {
+  const index = females.indexOf(femaleName);
+  if (index !== -1) {
+    return males[index % males.length];
+  }
+  return males[0];
+}
+
 let currentUser = localStorage.getItem('12a1_current_user') || "";
 let heartCount = parseInt(localStorage.getItem('12a1_hearts_' + currentUser) || '0');
+
+/* Xử lý Ô Gợi ý Tên */
+function onNameInput() {
+  const input = document.getElementById('user-name-input').value.trim();
+  const sugBox = document.getElementById('suggestions');
+  sugBox.innerHTML = '';
+
+  if (!input || input.toLowerCase() === 'admin') {
+    sugBox.hidden = true;
+    return;
+  }
+
+  const cleanInput = removeVietnameseTones(input.toLowerCase());
+  const matches = females.filter(f => removeVietnameseTones(f.toLowerCase()).includes(cleanInput));
+
+  if (matches.length > 0) {
+    matches.forEach(name => {
+      const item = document.createElement('div');
+      item.className = 'suggestion-item';
+      item.textContent = name;
+      item.onclick = () => {
+        document.getElementById('user-name-input').value = name;
+        sugBox.hidden = true;
+      };
+      sugBox.appendChild(item);
+    });
+    sugBox.hidden = false;
+  } else {
+    sugBox.hidden = true;
+  }
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#user-name-input')) {
+    document.getElementById('suggestions').hidden = true;
+  }
+});
 
 function showStep(stepId) {
   ['step-select', 'step-gift', 'step-result', 'step-admin'].forEach(id => {
@@ -216,7 +295,6 @@ function showStep(stepId) {
   document.getElementById(stepId).hidden = false;
 }
 
-/* Xử lý Nhập Tên */
 function handleLogin() {
   const val = document.getElementById('user-name-input').value.trim();
   if (!val) {
@@ -224,29 +302,26 @@ function handleLogin() {
     return;
   }
 
-  /* Nếu gõ "admin" -> chuyển vào bảng BTC */
   if (val.toLowerCase() === 'admin') {
     renderAdmin();
     showStep('step-admin');
     return;
   }
 
+  /* Kiểm tra xem tên có trong danh sách nữ không */
+  if (!females.includes(val)) {
+    alert("Vui lòng chọn chính xác tên của bạn từ danh sách gợi ý bên dưới ô nhập nhé!");
+    return;
+  }
+
   currentUser = val;
   localStorage.setItem('12a1_current_user', currentUser);
-
-  /* Phân công ngẫu nhiên 1 bạn nam cho tên này nếu chưa từng ghép */
-  if (!userMap[currentUser]) {
-    const assignedCount = Object.keys(userMap).length;
-    const maleIndex = assignedCount % males.length;
-    userMap[currentUser] = males[maleIndex];
-    localStorage.setItem('12a1_custom_map', JSON.stringify(userMap));
-  }
 
   document.getElementById('welcome-msg').textContent = `Xin chào ${currentUser}! ✨`;
   showStep('step-gift');
 }
 
-if (currentUser) {
+if (currentUser && females.includes(currentUser)) {
   document.getElementById('welcome-msg').textContent = `Xin chào ${currentUser}! ✨`;
   showStep('step-gift');
 }
@@ -273,7 +348,7 @@ function openGift() {
 }
 
 function showOfficial() {
-  const partner = userMap[currentUser] || males[0];
+  const partner = getMaleForFemale(currentUser);
   document.getElementById('capLead').textContent = "Người gửi lời chúc bí mật tới bạn là:";
   document.getElementById('capName').textContent = partner;
   document.getElementById('capTag').textContent = "🎁 Món quà chính thức của bạn";
@@ -298,7 +373,7 @@ function updateHeartUI() {
 }
 
 function randomViewOther() {
-  const partner = userMap[currentUser];
+  const partner = getMaleForFemale(currentUser);
   const otherMales = males.filter(m => m !== partner);
   const randomMale = otherMales[Math.floor(Math.random() * otherMales.length)];
 
@@ -347,25 +422,13 @@ function resetUser() {
 function renderAdmin() {
   const list = document.getElementById('pair-list');
   list.innerHTML = "";
-  const entries = Object.entries(userMap);
-  if (entries.length === 0) {
-    list.innerHTML = "<div class='text-center py-2'>Chưa có lượt mở quà nào.</div>";
-    return;
-  }
-  entries.forEach(([name, male]) => {
+  females.forEach(f => {
+    const male = getMaleForFemale(f);
     let item = document.createElement('div');
     item.className = "flex justify-between py-1.5 border-b border-plum/10";
-    item.innerHTML = `<span>Tên điền: <strong>${name}</strong></span> <span class="text-pink-600 font-bold">💖 ${male}</span>`;
+    item.innerHTML = `<span>👧 ${f}</span> <span class="text-pink-600 font-bold">💖 ${male}</span>`;
     list.appendChild(item);
   });
-}
-
-function clearData() {
-  if (confirm("Xóa toàn bộ dữ liệu điền tên?")) {
-    localStorage.removeItem('12a1_custom_map');
-    localStorage.removeItem('12a1_current_user');
-    location.reload();
-  }
 }
 
 (function ambient() {
