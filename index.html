@@ -61,7 +61,6 @@ body{
 
 .chip{display:inline-block;background:#fff;border:.12rem solid var(--plum);border-radius:999px;padding:.2rem .9rem;font-weight:700;font-size:.85rem}
 
-/* HỘP QUÀ chuẩn */
 .giftbox-wrapper{position:relative;width:14rem;height:14rem;margin:1.5rem auto 1rem}
 .giftbox{position:relative;width:100%;height:100%;border:0;background:none;padding:0;cursor:pointer}
 .gb-all{position:absolute;inset:0;transform-origin:50% 100%;animation:hop 1.7s cubic-bezier(.3,0,.4,1) infinite}
@@ -96,7 +95,6 @@ body{
 .gb-letter{position:absolute;left:50%;top:3.5rem;font-size:3.2rem;transform:translate(-50%,0) scale(.5);opacity:0;transition:transform .9s cubic-bezier(.3,1.4,.5,1) .25s,opacity .3s .25s;z-index:1}
 .giftbox.open .gb-letter{transform:translate(-50%,-5.5rem) scale(1.2) rotate(-6deg);opacity:1}
 
-/* Khung Polaroid Video */
 .polaroid{position:relative;background:#fff;border:.16rem solid var(--plum);border-radius:1rem;padding:.8rem .8rem 1.1rem;box-shadow:0 .4rem 0 var(--plum);transform:rotate(-1deg)}
 .tape{position:absolute;top:-.85rem;width:5rem;height:1.5rem;background:repeating-linear-gradient(45deg,#FFD0E0 0 .5rem,#F3ECFF .5rem 1rem);border:.1rem solid rgba(69,39,92,.25);opacity:.95}
 .tape.l{left:1rem;transform:rotate(-5deg)} .tape.r{right:1rem;transform:rotate(4deg)}
@@ -111,7 +109,6 @@ body{
 .tag{display:inline-block;margin-top:.5rem;padding:.2rem .8rem;border-radius:999px;font-size:.85rem;font-weight:700;background:var(--candy);border:.12rem solid var(--plum)}
 .tag.extra{background:var(--lav)}
 
-/* Style Ô tìm kiếm gợi ý tên */
 .suggestions-box {
   position: absolute; left: 0; right: 0; top: 100%; margin-top: 0.25rem;
   background: white; border: 2px solid var(--plum); border-radius: 0.8rem;
@@ -119,6 +116,7 @@ body{
 }
 .suggestion-item {
   padding: 0.6rem 1rem; cursor: pointer; font-weight: 600; border-bottom: 1px solid #FFE4EE;
+  text-align: left;
 }
 .suggestion-item:hover { background: #FFE4EE; color: #F0629C; }
 </style>
@@ -139,7 +137,7 @@ body{
     <div class="text-left bg-white/80 backdrop-blur p-4 rounded-2xl border-2 border-plum shadow-md space-y-2 relative">
       <label class="block text-sm font-bold">Tên của bạn là:</label>
       <div class="relative">
-        <input type="text" id="user-name-input" autocomplete="off" placeholder="Gõ tên của bạn (vd: Nhi, Anh, Linh...)" 
+        <input type="text" id="user-name-input" autocomplete="off" placeholder="Gõ tên của bạn (vd: An, Vy, Thảo...)" 
                class="w-full p-3 rounded-xl border-2 border-plum bg-candy-soft font-semibold focus:outline-none focus:border-pink-500"
                oninput="onNameInput()">
         <div id="suggestions" class="suggestions-box" hidden></div>
@@ -224,22 +222,34 @@ const males = [
   "Võ Minh Trí", "Trịnh Tuấn Vỹ"
 ];
 
-/* Danh sách Nữ (Có thể chỉnh sửa danh sách tên cho đúng chuẩn 12A1) */
+/* Danh sách 18 bạn nữ Lớp 12A1 chuẩn từ bảng LMS Nguyễn Khuyến */
 const females = [
-  "Bùi Thị Ngọc Anh", "Nguyễn Lê Phương Anh", "Trần Thị Vân Anh",
-  "Nguyễn Ngọc Bảo Châu", "Đỗ Lê Hoàng Dung", "Lê Thị Mỹ Duyên",
-  "Trần Thị Thanh Hà", "Nguyễn Lê Thu Hằng", "Phạm Thị Ngọc Huyền",
-  "Lê Thị Khánh Linh", "Nguyễn Ngọc Trúc Linh", "Trần Thị Mỹ Linh",
-  "Phạm Thị Thanh Ngân", "Nguyễn Thị Bảo Yến", "Trần Thị Cẩm Tú",
-  "Nguyễn Lê Yến Nhi", "Lê Thị Phương Thảo", "Trần Thị Như Quỳnh"
+  "Phù Lý Gia An",
+  "Lê Thanh Quế Anh",
+  "Nguyễn Ngọc Trâm Anh",
+  "Trần Ngọc Minh Châu",
+  "Lê Ngân Hạnh",
+  "Phạm Ngọc Hân",
+  "Nguyễn Hồng Mỹ Kim",
+  "Trịnh Thị Ngọc Linh",
+  "Lê Nguyễn Thảo My",
+  "Trương Gia Nghi",
+  "Nguyễn Ngọc Bảo Nhi",
+  "Bùi Lê Như Thảo",
+  "Lưu Bảo Thy",
+  "Lê Thủy Thiên Tú",
+  "Nguyễn Cát Tường",
+  "Lê Ngọc Tường Vy",
+  "Nguyễn Ngọc Hà Vy",
+  "Nguyễn Thị Thảo Yến"
 ];
 
-/* Hàm bỏ dấu tiếng Việt để tìm kiếm dễ hơn */
+/* Bỏ dấu tiếng Việt để gõ tìm kiếm tiện hơn */
 function removeVietnameseTones(str) {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
 }
 
-/* Tìm bạn nam tương ứng cho bạn nữ theo chỉ số cố định */
+/* Ghép đôi 1-1 cố định theo vị trí trong danh sách */
 function getMaleForFemale(femaleName) {
   const index = females.indexOf(femaleName);
   if (index !== -1) {
@@ -308,9 +318,8 @@ function handleLogin() {
     return;
   }
 
-  /* Kiểm tra xem tên có trong danh sách nữ không */
   if (!females.includes(val)) {
-    alert("Vui lòng chọn chính xác tên của bạn từ danh sách gợi ý bên dưới ô nhập nhé!");
+    alert("Vui lòng chọn chính xác tên của bạn từ danh sách gợi ý hiện ra bên dưới nhé!");
     return;
   }
 
