@@ -217,7 +217,7 @@ body {
       <div class="caption">
         <p class="text-xs font-bold text-plum-soft" id="senderLabel">Người gửi lời chúc bí mật 20/10 tới bạn là:</p>
         <p class="mt-0.5"><span id="capName" class="name-reveal font-display text-2xl font-extrabold text-pink-600"></span></p>
-        <span class="tag" id="giftTag">🎁 Món quà chính thức từ BTC</span>
+        <span class="tag" id="giftTag">💌 Món quà đặc biệt dành riêng cho bạn</span>
       </div>
     </div>
 
@@ -229,29 +229,12 @@ body {
 
       <div id="fun-actions" class="grid grid-cols-2 gap-2 mt-1">
         <button class="btn btn-lav !min-h-[2.5rem] !text-xs" onclick="previewOtherMale()">🎲 Xem thử clip bạn nam khác</button>
-        <button class="btn btn-milk !min-h-[2.5rem] !text-xs" onclick="showOfficial()">🎁 Về quà chính của mình</button>
+        <button class="btn btn-milk !min-h-[2.5rem] !text-xs" onclick="showOfficial()">🎁 Về món quà của mình</button>
       </div>
 
       <button class="btn btn-milk !min-h-[2.2rem] !text-xs mt-1" onclick="resetUser()">Đổi tên khác</button>
     </div>
   </section>
-
-  <!-- ==================== TRANG QUẢN TRỊ BTC ==================== -->
-  <aside id="step-admin" class="mt-3 w-full rounded-2xl border-2 border-plum bg-white/95 p-4 text-xs space-y-4 max-w-[700px]" hidden>
-    <div class="flex items-center justify-between border-b-2 border-plum/20 pb-2">
-      <h2 class="font-display text-base font-extrabold text-red-600">Bảng Quản Lý BTC (Sắp Xếp Cơ Cấu)</h2>
-      <span class="text-[0.65rem] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">Quyền BTC</span>
-    </div>
-
-    <p class="text-xs text-plum-soft font-semibold">Thay đổi bạn nam tặng quà cho từng bạn nữ trực tiếp tại đây rồi bấm <b>"Lưu Thay Đổi"</b>!</p>
-    
-    <div id="admin-pair-list" class="max-h-[380px] overflow-y-auto space-y-2 text-xs bg-candy-soft p-3 rounded-xl border border-plum/20 font-bold"></div>
-
-    <div class="pt-2 flex gap-2">
-      <button onclick="saveAdminPairings()" class="btn btn-candy !min-h-[2.5rem] text-xs">💾 Lưu Thay Đổi Cơ Cấu</button>
-      <button onclick="location.reload()" class="btn btn-milk !min-h-[2.5rem] text-xs">Quay Lại Màn Hình Chính</button>
-    </div>
-  </aside>
 
 </main>
 
@@ -274,7 +257,7 @@ const females = [
   "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến"
 ];
 
-/* Ghép đôi mặc định đúng theo danh sách bạn vừa xếp */
+/* Ghép đôi chính xác theo danh sách chuẩn */
 const DEFAULT_PAIRINGS = {
   "Phù Lý Gia An": "Trương Gia Phát",
   "Lê Thanh Quế Anh": "Vũ Hoàng Gia Cát",
@@ -316,7 +299,6 @@ function onNameInput() {
   sugBox.innerHTML = '';
 
   if (!input) { sugBox.hidden = true; return; }
-  if (input.toLowerCase() === 'admin') { sugBox.hidden = true; return; }
 
   const cleanInput = removeVietnameseTones(input.toLowerCase());
   const matches = females.filter(f => removeVietnameseTones(f.toLowerCase()).includes(cleanInput));
@@ -349,7 +331,7 @@ function removeVietnameseTones(str) {
 }
 
 function showStep(stepId) {
-  ['step-select', 'step-gift', 'step-result', 'step-admin'].forEach(id => {
+  ['step-select', 'step-gift', 'step-result'].forEach(id => {
     document.getElementById(id).hidden = true;
   });
   document.getElementById(stepId).hidden = false;
@@ -358,12 +340,6 @@ function showStep(stepId) {
 function handleLogin() {
   const val = document.getElementById('user-name-input').value.trim();
   if (!val) { alert("Vui lòng nhập tên của bạn!"); return; }
-
-  if (val.toLowerCase() === 'admin') {
-    renderAdminView();
-    showStep('step-admin');
-    return;
-  }
 
   if (!females.includes(val)) {
     alert("Vui lòng chọn chính xác tên của bạn từ danh sách gợi ý hiện ra bên dưới nhé!");
@@ -406,7 +382,7 @@ function showOfficial() {
   const partner = getMaleForFemale(currentUser);
   document.getElementById('senderLabel').textContent = "Người gửi lời chúc bí mật 20/10 tới bạn là:";
   document.getElementById('capName').textContent = partner;
-  document.getElementById('giftTag').textContent = "🎁 Món quà chính thức từ BTC";
+  document.getElementById('giftTag').textContent = "💌 Món quà đặc biệt dành riêng cho bạn";
   
   loadMedia(partner, currentUser);
   updateHeartUI();
@@ -488,38 +464,6 @@ function resetUser() {
   currentUser = "";
   document.getElementById('user-name-input').value = "";
   showStep('step-select');
-}
-
-function renderAdminView() {
-  const currentPairings = getPairings();
-  const list = document.getElementById('admin-pair-list');
-  list.innerHTML = "";
-
-  females.forEach((f, idx) => {
-    const selectedMale = currentPairings[f] || males[0];
-    let row = document.createElement('div');
-    row.className = "flex items-center justify-between py-1.5 px-2 bg-white rounded-lg border border-plum/10 gap-2";
-    
-    let selectHtml = `<select data-female="${f}" class="admin-select p-1 rounded border border-plum text-xs font-bold bg-candy-soft text-purple-900 focus:outline-none">`;
-    males.forEach(m => {
-      selectHtml += `<option value="${m}" ${m === selectedMale ? 'selected' : ''}>${m}</option>`;
-    });
-    selectHtml += `</select>`;
-
-    row.innerHTML = `<span class="font-bold text-gray-700 truncate w-1/2">${idx + 1}. 👧 ${f}</span> <div class="w-1/2 text-right">${selectHtml}</div>`;
-    list.appendChild(row);
-  });
-}
-
-function saveAdminPairings() {
-  const selects = document.querySelectorAll('.admin-select');
-  let newPairings = {};
-  selects.forEach(sel => {
-    newPairings[sel.getAttribute('data-female')] = sel.value;
-  });
-
-  localStorage.setItem('12a1_custom_pairings', JSON.stringify(newPairings));
-  alert("🎉 Đã lưu thành công cơ cấu phân công mới!");
 }
 
 (function ambient() {
