@@ -232,7 +232,7 @@ body {
     </div>
   </section>
 
-  <!-- ==================== BẢNG QUẢN TRỊ BTC (GIAO DIỆN CHUẨN MỚI CHO LAPTOP) ==================== -->
+  <!-- ==================== BẢNG QUẢN TRỊ BTC ==================== -->
   <aside id="step-admin" class="mt-3 w-full rounded-2xl border-2 border-plum bg-white/95 p-4 text-xs space-y-4 max-w-[1150px]" hidden>
     <div class="flex items-center justify-between border-b-2 border-plum/20 pb-2">
       <h2 class="font-display text-lg font-extrabold text-red-600">Trang Quản Trị BTC 20/10 (Chế độ Laptop)</h2>
@@ -242,12 +242,10 @@ body {
       </div>
     </div>
 
-    <!-- BỐ CỤC 2 CỘT: BÊN TRÁI (BẢNG 1 + HƯỚNG DẪN) | BÊN PHẢI (BẢNG 2 TOÀN BỘ DỌC XUỐNG) -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
       
-      <!-- CỘT TRÁI (L-COL 5): BẢNG 1 + HƯỚNG DẪN -->
+      <!-- CỘT TRÁI: BẢNG 1 + HƯỚNG DẪN -->
       <div class="lg:col-span-5 space-y-3">
-        <!-- BẢNG 1: TÙY CHỈNH CƠ CẤU -->
         <div class="bg-pink-50/80 p-3 rounded-xl border border-pink-300 space-y-2">
           <h3 class="font-display font-extrabold text-pink-800 text-sm flex items-center gap-1">
             <span>⚙️</span> BẢNG 1: CƠ CẤU GHÉP ĐÔI ("AI XEM AI")
@@ -271,15 +269,12 @@ body {
           </div>
         </div>
 
-        <!-- HƯỚNG DẪN DƯỚI BẢNG 1 -->
         <div class="bg-purple-50/80 p-3 rounded-xl border border-purple-300 space-y-2">
           <h3 class="font-display font-extrabold text-purple-900 text-sm flex items-center gap-1">
             <span>💡</span> HƯỚNG DẪN QUẢN LÝ SỰ KIỆN 20/10
           </h3>
           <p class="text-[0.7rem] text-plum-soft leading-relaxed">
-            - BTC sử dụng trang này trên Laptop.<br>
-            - Các bạn nữ truy cập bằng điện thoại.<br>
-            - Nút <b>Random Lại Cặp</b> sẽ xáo trộn các bạn chưa cơ cấu.<br>
+            - Sau khi bấm <b>Lưu Tổng Cấu Hình</b>, danh sách sẽ đồng bộ tuyệt đối với điện thoại.<br>
             - Bấm nút dưới để reset lịch sử test trên máy này.
           </p>
           <div class="pt-1">
@@ -290,7 +285,7 @@ body {
         </div>
       </div>
 
-      <!-- CỘT PHẢI (L-COL 7): BẢNG 2 TOÀN BỘ DỌC XUỐNG -->
+      <!-- CỘT PHẢI: BẢNG 2 -->
       <div class="lg:col-span-7 space-y-1.5">
         <h3 class="font-display font-extrabold text-purple-900 text-sm flex items-center gap-1">
           <span>📋</span> BẢNG 2: DANH SÁCH GHÉP ĐÔI HIỆN TẠI (18/18 CẶP)
@@ -342,18 +337,12 @@ function getCustomPairs() {
   return DEFAULT_CUSTOM_PAIRS;
 }
 
-function getRandomShuffledMales() {
+function getShuffledMalesOrder() {
   const saved = localStorage.getItem('12a1_shuffled_males');
   if (saved) {
     try { return JSON.parse(saved); } catch(e) {}
   }
-  let arr = [...males];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  localStorage.setItem('12a1_shuffled_males', JSON.stringify(arr));
-  return arr;
+  return [...males]; // Mặc định giữ nguyên thứ tự gốc để đồng bộ 100%
 }
 
 function randomizeUnpaired() {
@@ -363,13 +352,36 @@ function randomizeUnpaired() {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   localStorage.setItem('12a1_shuffled_males', JSON.stringify(arr));
+  
+  // Tự động lưu luôn vào bộ nhớ cấu hình chung để điện thoại nhận ngay lập tức
+  autoSaveCurrentPairingsToStorage();
   renderPairList();
-  alert("🎲 Đã xáo trộn ngẫu nhiên thành công các cặp đôi chưa cơ cấu!");
+  alert("🎲 Đã xáo trộn và lưu cấu hình thành công cho toàn bộ thiết bị!");
+}
+
+/* LƯU CỐ ĐỊNH KẾT QUẢ HIỆN TẠI VÀO STORAGE ĐỂ ĐỒNG BỘ MÁY TÍNH VÀ ĐIỆN THOẠI */
+function autoSaveCurrentPairingsToStorage() {
+  const customPairs = getCustomPairs();
+  const shuffledMales = getShuffledMalesOrder();
+  const takenMales = Object.values(customPairs);
+  const availableMales = shuffledMales.filter(m => !takenMales.includes(m));
+
+  let availIndex = 0;
+  females.forEach(f => {
+    if (!customPairs[f]) {
+      if (availableMales.length > 0) {
+        customPairs[f] = availableMales[availIndex % availableMales.length];
+        availIndex++;
+      } else {
+        customPairs[f] = males[0];
+      }
+    }
+  });
+  localStorage.setItem('12a1_custom_pairs', JSON.stringify(customPairs));
 }
 
 function getAllPairings() {
   const customPairs = getCustomPairs();
-  const shuffledMales = getRandomShuffledMales();
   const pairings = {};
   
   females.forEach(f => {
@@ -378,6 +390,8 @@ function getAllPairings() {
     }
   });
 
+  // Đảm bảo tất cả các bạn nữ đều có cặp khớp chuẩn 100%
+  const shuffledMales = getShuffledMalesOrder();
   const takenMales = Object.values(customPairs);
   const availableMales = shuffledMales.filter(m => !takenMales.includes(m));
 
@@ -590,9 +604,8 @@ function saveCustomPair() {
 }
 
 function saveAllPairsToStorage() {
-  const customPairs = getCustomPairs();
-  localStorage.setItem('12a1_custom_pairs', JSON.stringify(customPairs));
-  alert("💾 Đã lưu tổng cấu hình cơ cấu thành công!");
+  autoSaveCurrentPairingsToStorage();
+  alert("💾 Đã lưu tổng cấu hình cơ cấu thành công! Đảm bảo khớp hoàn toàn trên điện thoại.");
   renderPairList();
 }
 
@@ -616,7 +629,6 @@ function renderPairList() {
     let item = document.createElement('div');
     item.className = "flex justify-between items-center py-2 px-2.5 bg-white rounded-lg border border-plum/10";
     
-    // Tách phần hiển thị trạng thái và nút thùng rác thành cột riêng ở bên phải
     let rightColumnHTML = "";
     if (isCustom) {
       rightColumnHTML = `
