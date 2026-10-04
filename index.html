@@ -1,363 +1,611 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Lý Test & Cơ Cấu</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#FFE4EE">
+<title>Hộp Quà Bí Mật 12A1 - 20/10 ✨</title>
 
-        body {
-            background-color: #f4f6f9;
-            color: #333;
-            padding: 20px;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: {
+        candy: { DEFAULT: '#FFB9D2', deep: '#F0629C', soft: '#FFE4EE' },
+        lav:   { DEFAULT: '#D9C9FF', deep: '#9B7BE8', soft: '#EFE8FF' },
+        milk:  '#FFF7EA',
+        plum:  { DEFAULT: '#45275C', soft: '#7C6491' }
+      },
+      fontFamily: {
+        display: ['"Baloo 2"', 'Nunito', 'sans-serif'],
+        body: ['Nunito', 'sans-serif']
+      }
+    } }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #2c3e50;
-        }
+<style>
+:root{--candy:#FFB9D2;--candy-deep:#F0629C;--lav:#D9C9FF;--lav-deep:#9B7BE8;--milk:#FFF7EA;--plum:#45275C}
+[hidden]{display:none!important}
+*{-webkit-tap-highlight-color:transparent}
 
-        .system-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #eef2f7;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
+body {
+  min-height: 100dvh;
+  padding: calc(env(safe-area-inset-top) + 0.8rem) 0.8rem calc(env(safe-area-inset-bottom) + 1.2rem) 0.8rem;
+  background:
+    radial-gradient(30rem 20rem at 90% -5%, #E9DEFF 0, transparent 60%),
+    radial-gradient(25rem 20rem at -5% 20%, #FFD7E7 0, transparent 60%),
+    linear-gradient(180deg, #FFF1F7 0%, #F3ECFF 50%, #FFF7EA 100%);
+  background-attachment: fixed;
+  font-family: 'Nunito', sans-serif;
+  color: var(--plum);
+}
 
-        .btn {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+#ambient{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+#ambient span{position:absolute;opacity:.8;will-change:transform}
+#ambient .fall{top:-10%;animation:fall linear infinite}
+#ambient .rise{bottom:-10%;animation:rise linear infinite}
+@keyframes fall{from{transform:translate3d(0,-10vh,0) rotate(0)}to{transform:translate3d(var(--dx,20px),110vh,0) rotate(360deg)}}
+@keyframes rise{from{transform:translate3d(0,0,0) rotate(-6deg)}50%{transform:translate3d(var(--dx,15px),-50vh,0) rotate(6deg)}to{transform:translate3d(0,-115vh,0) rotate(-6deg)}}
 
-        .btn-reset {
-            background-color: #e74c3c;
-            color: white;
-            font-size: 15px;
-        }
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  width: 100%; min-height: 3.2rem; padding: 0.6rem 1rem;
+  border: 2.5px solid var(--plum); border-radius: 999px;
+  font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: 1rem;
+  color: var(--plum); cursor: pointer;
+  box-shadow: 0 4px 0 var(--plum);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--plum); }
+.btn-candy { background: var(--candy); }
+.btn-lav { background: var(--lav); }
+.btn-milk { background: #fff; }
 
-        .btn-reset:hover {
-            background-color: #c0392b;
-        }
+.chip {
+  display: inline-block; background: #fff; border: 2px solid var(--plum);
+  border-radius: 999px; padding: 0.25rem 1rem; font-weight: 800; font-size: 0.85rem;
+  box-shadow: 0 2px 0 var(--plum);
+}
 
-        .btn-test {
-            background-color: #3498db;
-            color: white;
-        }
+/* Hộp quà */
+.giftbox-wrapper { position: relative; width: 11rem; height: 11rem; margin: 1.2rem auto 0.8rem; }
+.giftbox { position: relative; width: 100%; height: 100%; border: 0; background: none; padding: 0; cursor: pointer; }
+.gb-all { position: absolute; inset: 0; transform-origin: 50% 100%; animation: hop 1.7s cubic-bezier(.3,0,.4,1) infinite; }
+@keyframes hop {
+  0%,100%{transform:translateY(0) scale(1.05,.93)}
+  28%{transform:translateY(-1.2rem) scale(.96,1.06)}
+  50%{transform:translateY(0) scale(1.06,.92)}
+  64%{transform:translateY(-.3rem) scale(1,1)}
+  78%{transform:translateY(0) scale(1.02,.97)}
+}
+.gb-shadow { position: absolute; left: 50%; bottom: -0.2rem; width: 7rem; height: 0.6rem; transform: translateX(-50%); border-radius: 50%; background: rgba(69,39,92,.18); animation: shadow 1.7s cubic-bezier(.3,0,.4,1) infinite; }
+@keyframes shadow { 0%,50%,100%{transform:translateX(-50%) scaleX(1)} 28%{transform:translateX(-50%) scaleX(.7)} }
+.giftbox.shake .gb-all { animation: shake .45s linear infinite; }
+@keyframes shake { 0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}45%{transform:rotate(7deg)}70%{transform:rotate(-5deg)} }
 
-        .btn-test:hover {
-            background-color: #2980b9;
-        }
+.gb-glow { position: absolute; left: 50%; top: 40%; width: 15rem; height: 15rem; transform: translate(-50%,-50%) scale(.3); border-radius: 50%; background: radial-gradient(circle,rgba(255,241,201,.95) 0,rgba(255,241,201,0) 65%); opacity: 0; transition: opacity .6s, transform .8s; }
+.giftbox.open .gb-glow { opacity: 1; transform: translate(-50%,-50%) scale(1); }
 
-        .btn-add {
-            background-color: #2ecc71;
-            color: white;
-        }
+.gb-body { position: absolute; left: 1rem; right: 1rem; bottom: 0; height: 6.5rem; background: var(--candy); border: 2.5px solid var(--plum); border-radius: 0 0 1rem 1rem; overflow: hidden; }
+.gb-body::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1.8rem; transform: translateX(-50%); background: var(--lav); border-inline: 2.5px solid var(--plum); }
 
-        .btn-add:hover {
-            background-color: #27ae60;
-        }
+.gb-lid { position: absolute; left: 0.6rem; right: 0.6rem; top: 2.1rem; height: 2.6rem; background: #FF93BA; border: 2.5px solid var(--plum); border-radius: 0.7rem; z-index: 2; transform-origin: 10% 100%; transition: transform .7s cubic-bezier(.3,1.5,.5,1), opacity .5s .3s; }
+.gb-lid::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1.8rem; transform: translateX(-50%); background: var(--lav); border-inline: 2.5px solid var(--plum); }
 
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+.gb-bow { position: absolute; left: 50%; top: -1.5rem; width: 3.6rem; height: 1.8rem; transform: translateX(-50%); }
+.gb-bow::before, .gb-bow::after { content: ""; position: absolute; top: 0; width: 1.6rem; height: 1.6rem; background: var(--lav); border: 2.5px solid var(--plum); border-radius: 60% 60% 60% 10%; }
+.gb-bow::before { left: 0; transform: rotate(-12deg); }
+.gb-bow::after { right: 0; transform: scaleX(-1) rotate(-12deg); }
 
-        .card {
-            border: 1fr solid #e1e8ed;
-            border-radius: 8px;
-            padding: 15px;
-            background: #fafbfc;
-            border: 1px solid #e2e8f0;
-        }
+.giftbox.open .gb-lid { transform: translate(-2.5rem,-4.5rem) rotate(-30deg); opacity: 0; }
+.gb-letter { position: absolute; left: 50%; top: 2.8rem; font-size: 2.5rem; transform: translate(-50%,0) scale(.5); opacity: 0; transition: transform .9s cubic-bezier(.3,1.4,.5,1) .25s, opacity .3s .25s; z-index: 1; }
+.giftbox.open .gb-letter { transform: translate(-50%,-4.8rem) scale(1.2) rotate(-6deg); opacity: 1; }
 
-        .card h2 {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #34495e;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 5px;
-        }
+/* Khung Video Ngang 16:9 */
+.polaroid {
+  position: relative; background: #fff; border: 2.5px solid var(--plum);
+  border-radius: 1.2rem; padding: 0.6rem 0.6rem 0.8rem;
+  box-shadow: 0 6px 0 var(--plum);
+}
+.tape {
+  position: absolute; top: -0.75rem; width: 4.5rem; height: 1.3rem;
+  background: repeating-linear-gradient(45deg,#FFD0E0 0 .4rem,#F3ECFF .4rem .8rem);
+  border: 1.5px solid rgba(69,39,92,.3); opacity: 0.95; z-index: 10;
+}
+.tape.l { left: 1rem; transform: rotate(-6deg); }
+.tape.r { right: 1rem; transform: rotate(5deg); }
 
-        /* Form cấu hình cơ cấu */
-        .form-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
+.frame {
+  position: relative; width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 2px solid var(--plum); border-radius: 0.8rem;
+  overflow: hidden; background: #000;
+  margin: 0 auto;
+}
+.frame video { width: 100%; height: 100%; object-fit: contain; display: block; }
+.bigplay {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: 4rem; height: 4rem; border-radius: 50%; border: 2.5px solid var(--plum);
+  background: var(--candy); font-size: 1.6rem; box-shadow: 0 4px 0 var(--plum); cursor: pointer;
+}
+.vid-err { position: absolute; inset: 0; display: grid; place-content: center; gap: 0.3rem; text-align: center; padding: 1rem; background: #2A1D38; color: #fff; }
+.vid-err code { font-size: 0.75rem; color: #FFF1C9; word-break: break-all; }
 
-        input[type="text"] {
-            flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
+.caption { text-align: center; padding-top: 0.5rem; }
+.name-reveal { display: inline-block; animation: reveal .9s cubic-bezier(.3,1.5,.5,1) both .4s; }
+@keyframes reveal { from{opacity:0;transform:perspective(20rem) rotateX(90deg) scale(.6)} to{opacity:1;transform:none} }
+.tag { display: inline-block; margin-top: 0.3rem; padding: 0.2rem 0.8rem; border-radius: 999px; font-size: 0.8rem; font-weight: 800; background: var(--candy); border: 1.8px solid var(--plum); }
+.tag.extra { background: var(--lav); }
 
-        /* Danh sách cơ cấu */
-        .structure-list {
-            list-style: none;
-        }
-
-        .structure-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #fff;
-            padding: 10px 12px;
-            border: 1px solid #e1e8ed;
-            border-radius: 6px;
-            margin-bottom: 8px;
-        }
-
-        .btn-delete {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 18px;
-            color: #e74c3c;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        .btn-delete:hover {
-            background-color: #fadbd8;
-        }
-
-        /* Log test */
-        .test-log {
-            background: #1e293b;
-            color: #38bdf8;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 12px;
-            border-radius: 6px;
-            height: 180px;
-            overflow-y: auto;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-
-        .badge-status {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            background: #f1c40f;
-            color: #000;
-        }
-
-        .badge-status.live {
-            background: #2ecc71;
-            color: #fff;
-        }
-    </style>
+/* Suggestion box */
+.suggestions-box {
+  position: absolute; left: 0; right: 0; top: 100%; margin-top: 0.3rem;
+  background: white; border: 2px solid var(--plum); border-radius: 0.8rem;
+  max-height: 10rem; overflow-y: auto; z-index: 50; box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+.suggestion-item { padding: 0.6rem 1rem; cursor: pointer; font-weight: 700; border-bottom: 1px solid #FFE4EE; text-align: left; }
+.suggestion-item:active { background: #FFE4EE; color: #F0629C; }
+</style>
 </head>
-<body>
 
-<div class="container">
-    <h1>Hệ Thống Quản Lý Test & Chạy Thực Tế</h1>
+<body class="antialiased">
+<div id="ambient" aria-hidden="true"></div>
 
-    <!-- Thanh công cụ hệ thống -->
-    <div class="system-actions">
+<main class="relative z-10 mx-auto flex w-full max-w-[680px] flex-col items-center">
+
+  <span class="chip">Chào Mừng 20/10 Lớp 12A1 ✨</span>
+
+  <!-- Step 1: Nhập Tên -->
+  <section id="step-select" class="mt-4 w-full text-center space-y-4 max-w-[420px]">
+    <h1 class="font-display text-2xl font-extrabold leading-snug">Gửi các cô gái 12A1 💐</h1>
+    <p class="text-xs text-plum-soft font-semibold px-2">Nhập tên của bạn để mở món quà bí mật 20/10 từ các bạn nam nhé!</p>
+
+    <div class="text-left bg-white/90 backdrop-blur p-4 rounded-2xl border-2 border-plum shadow-sm space-y-2 relative">
+      <label class="block text-xs font-extrabold uppercase tracking-wide">Tên của bạn là:</label>
+      <div class="relative">
+        <input type="text" id="user-name-input" autocomplete="off" placeholder="Gõ tên bạn (vd: An, Vy, Thảo...)" 
+               class="w-full p-3 rounded-xl border-2 border-plum bg-candy-soft font-bold text-base focus:outline-none focus:border-pink-500"
+               oninput="onNameInput()">
+        <div id="suggestions" class="suggestions-box" hidden></div>
+      </div>
+      <p class="text-[0.7rem] text-plum-soft italic">* Chọn đúng tên từ danh sách gợi ý hiện ra bên dưới.</p>
+    </div>
+
+    <button onclick="handleLogin()" class="btn btn-candy">Vào Mở Quà 20/10 Ngay 💖</button>
+  </section>
+
+  <!-- Step 2: Hộp Quà 20/10 -->
+  <section id="step-gift" class="mt-4 w-full text-center space-y-2 max-w-[420px]" hidden>
+    <h2 id="welcome-msg" class="font-display text-xl font-extrabold text-purple-900"></h2>
+    <p class="text-xs text-plum-soft px-4 font-semibold">Một bạn nam đã chuẩn bị clip chúc mừng 20/10 đặc biệt cho bạn. Chạm vào hộp quà để bóc tem!</p>
+
+    <div class="giftbox-wrapper">
+      <button class="giftbox" id="gift" aria-label="Hộp quà bí mật 20/10" onclick="openGift()">
+        <span class="gb-glow"></span>
+        <span class="gb-shadow"></span>
+        <span class="gb-all">
+          <span class="gb-letter">💌</span>
+          <span class="gb-lid"><span class="gb-bow"></span></span>
+          <span class="gb-body"></span>
+        </span>
+      </button>
+    </div>
+
+    <button class="btn btn-candy mt-2" onclick="openGift()">Bóc tem món quà bí mật 🎁</button>
+  </section>
+
+  <!-- Step 3: Xem Video Ngang -->
+  <section id="step-result" class="mt-3 w-full space-y-3" hidden>
+    <div class="polaroid">
+      <span class="tape l"></span><span class="tape r"></span>
+      <div class="frame">
+        <video id="vid" playsinline controls preload="auto"></video>
+        <button class="bigplay" id="bigPlay" aria-label="Phát video" hidden>▶</button>
+        <div class="vid-err" id="vidErr" hidden>
+          <b class="font-display text-base">Video chưa tải được</b>
+          <span class="text-xs">Kiểm tra đường dẫn file:</span>
+          <code id="vidErrPath"></code>
+        </div>
+      </div>
+      <div class="caption">
+        <p id="capLead" class="text-xs font-bold text-plum-soft"></p>
+        <p class="mt-0.5"><span id="capName" class="name-reveal font-display text-2xl font-extrabold text-pink-600"></span></p>
+        <span id="capTag" class="tag">🎁 Món quà chính thức của bạn</span>
+      </div>
+    </div>
+
+    <div class="grid gap-2 max-w-[500px] mx-auto w-full">
+      <p id="wish-text" class="text-center text-xs font-bold text-purple-900 bg-white/95 p-3 rounded-2xl border-2 border-plum italic shadow-sm leading-relaxed"></p>
+      
+      <button class="btn btn-candy" onclick="heartEffect()">💖 Thả tim / Cảm ơn</button>
+      <p id="heartCount" class="-mt-1 min-h-[1.2rem] text-center text-xs font-extrabold text-candy-deep"></p>
+
+      <button class="btn btn-lav text-sm" onclick="randomViewOther()">🎲 Xem clip bạn nam khác</button>
+      <button class="btn btn-milk text-sm" id="backBtn" onclick="showOfficial()" hidden>🎁 Về quà chính thức của mình</button>
+      <button class="btn btn-milk !min-h-[2.2rem] !text-xs mt-1" onclick="resetUser()">Đổi tên khác</button>
+    </div>
+  </section>
+
+  <!-- ==================== BẢNG QUẢN TRỊ BTC ==================== -->
+  <aside id="step-admin" class="mt-3 w-full rounded-2xl border-2 border-plum bg-white/95 p-4 text-xs space-y-4 max-w-[580px]" hidden>
+    <div class="flex items-center justify-between border-b-2 border-plum/20 pb-2">
+      <h2 class="font-display text-lg font-extrabold text-red-600">Trang Quản Trị BTC 20/10</h2>
+      <span class="text-[0.65rem] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">Admin Mode</span>
+    </div>
+
+    <!-- BẢNG 1: TÙY CHỈNH CƠ CẤU GHÉP ĐÔI -->
+    <div class="bg-pink-50/80 p-3 rounded-xl border border-pink-300 space-y-2">
+      <h3 class="font-display font-extrabold text-pink-800 text-sm flex items-center gap-1">
+        <span>⚙️</span> BẢNG 1: CƠ CẤU GHÉP ĐÔI ("AI XEM AI")
+      </h3>
+      <p class="text-[0.7rem] text-plum-soft">Chọn Bạn Nữ và Bạn Nam tương ứng để ép buộc cặp đôi hiển thị:</p>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <div>
-            Trạng thái hiện tại: <span id="statusBadge" class="badge-status">Đang Test</span>
+          <label class="block text-[0.7rem] font-bold mb-1">1. Chọn Bạn Nữ:</label>
+          <select id="admin-select-female" class="w-full p-2 rounded-lg border border-plum bg-white font-bold text-xs"></select>
         </div>
-        <button class="btn btn-reset" onclick="handleSystemReset()">
-            🔄 BẤM RESET (Bắt đầu chạy thực tế)
+        <div>
+          <label class="block text-[0.7rem] font-bold mb-1">2. Chọn Bạn Nam Cơ Cấu:</label>
+          <select id="admin-select-male" class="w-full p-2 rounded-lg border border-plum bg-white font-bold text-xs"></select>
+        </div>
+      </div>
+
+      <div class="flex gap-2 pt-1">
+        <button onclick="saveCustomPair()" class="btn btn-candy !min-h-[2.2rem] !text-xs">💾 Lưu Cơ Cấu Cặp Này</button>
+      </div>
+    </div>
+
+    <!-- BẢNG 2: DANH SÁCH GHÉP ĐÔI HIỆN TẠI -->
+    <div class="space-y-1.5">
+      <h3 class="font-display font-extrabold text-purple-900 text-sm flex items-center gap-1">
+        <span>📋</span> BẢNG 2: DANH SÁCH GHÉP ĐÔI HIỆN TẠI
+      </h3>
+      <div id="pair-list" class="max-h-52 overflow-y-auto space-y-1.5 text-xs bg-candy-soft p-2.5 rounded-xl border border-plum/20 font-bold"></div>
+    </div>
+
+    <!-- BẢNG 3: THỐNG KÊ LƯỢT THẢ TIM & RESET DỮ LIỆU TEST -->
+    <div class="space-y-1.5">
+      <div class="flex justify-between items-center">
+        <h3 class="font-display font-extrabold text-pink-700 text-sm flex items-center gap-1">
+          <span>💖</span> BẢNG 3: THỐNG KÊ THẢ TIM & LƯỢT CHẠY
+        </h3>
+        <button onclick="resetTestDataOnly()" class="text-[0.65rem] bg-red-500 hover:bg-red-600 text-white font-extrabold px-2.5 py-1 rounded-full shadow-sm transition">
+          🔄 RESET DỮ LIỆU TEST (GIỮ CƠ CẤU)
         </button>
+      </div>
+      <p class="text-[0.68rem] text-gray-500 italic">* Bấm Reset để xóa lượt thả tim test trước buổi lễ. Danh sách cơ cấu "Ai xem ai" vẫn giữ nguyên 100%.</p>
+      <div id="heart-stats-list" class="max-h-48 overflow-y-auto space-y-1.5 text-xs bg-purple-50 p-2.5 rounded-xl border border-plum/20 font-semibold"></div>
     </div>
 
-    <div class="grid-layout">
-        <!-- Khối 1: Cấu hình Cơ Cấu (KHÔNG BỊ RESET, CHỈ XÓA BẰNG THÙNG RÁC) -->
-        <div class="card">
-            <h2>1. Cơ Cấu Sơ Đồ ("Ai Xem Ai")</h2>
-            
-            <div class="form-group">
-                <input type="text" id="viewerInput" placeholder="Người xem...">
-                <input type="text" id="targetInput" placeholder="Được xem...">
-                <button class="btn btn-add" onclick="addStructure()">Thêm</button>
-            </div>
+    <button onclick="location.reload()" class="btn btn-milk !min-h-[2.5rem] text-xs">Quay Lại Màn Hình Chính</button>
+  </aside>
 
-            <ul class="structure-list" id="structureList">
-                <!-- Danh sách cơ cấu sẽ hiện ở đây -->
-            </ul>
-        </div>
-
-        <!-- Khối 2: Dữ liệu Test & Lượt chạy (SẼ BỊ RESET KHI BẤM RESET) -->
-        <div class="card">
-            <h2>2. Dữ Liệu Test / Lượt Tạm Thời</h2>
-            <p style="margin-bottom: 10px; font-size: 14px; color: #666;">
-                Bấm nút dưới để giả lập phát sinh dữ liệu test:
-            </p>
-            
-            <button class="btn btn-test" onclick="generateTestData()" style="margin-bottom: 15px; width: 100%;">
-                ⚡ Giả Lập Tạo Dữ Liệu Test / Lượt Mới
-            </button>
-
-            <div class="test-log" id="testLog">
-                <!-- Log test hiện ở đây -->
-            </div>
-        </div>
-    </div>
-</div>
+</main>
 
 <script>
-    // ==========================================
-    // 1. DỮ LIỆU BÂN ĐẦU (STATE)
-    // ==========================================
-    
-    // Dữ liệu cơ cấu: ĐƯỢC GIỮ NGUYÊN khi Reset
-    let structureData = [
-        { id: 1, viewer: "Sếp A", target: "Nhân viên B" },
-        { id: 2, viewer: "Trưởng phòng C", target: "Nhóm 1" }
-    ];
+/* Danh sách Nam Lớp 12A1 */
+const males = [
+  "Huỳnh Phúc An", "Vũ Hoàng Gia Cát", "Nguyễn Hoàng Đạt", "Ngô Minh Đông",
+  "Nguyễn Ngọc Đức", "Tô Thuận Hưng", "Nguyễn Minh Khang", "Nguyễn Tiểu Long",
+  "Nguyễn Khắc Hoàng Minh", "Trương Gia Phát", "Ngô Gia Phú", "Cao Minh Phúc",
+  "Đoàn Nhật Quang", "Nguyễn Minh Quân", "Vũ Thái Tâm", "Lâm Hoàng Gia Thuận",
+  "Võ Minh Trí", "Trịnh Tuấn Vỹ"
+];
 
-    // Dữ liệu Test: SẼ BỊ XÓA HOÀN TOÀN khi Reset
-    let testLogs = [];
-    let isLiveMode = false;
+/* Danh sách 18 Bạn Nữ Lớp 12A1 chuẩn LMS Nguyễn Khuyến */
+const females = [
+  "Phù Lý Gia An", "Lê Thanh Quế Anh", "Nguyễn Ngọc Trâm Anh", "Trần Ngọc Minh Châu",
+  "Lê Ngân Hạnh", "Phạm Ngọc Hân", "Nguyễn Hồng Mỹ Kim", "Trịnh Thị Ngọc Linh",
+  "Lê Nguyễn Thảo My", "Trương Gia Nghi", "Nguyễn Ngọc Bảo Nhi", "Bùi Lê Như Thảo",
+  "Lưu Bảo Thy", "Lê Thủy Thiên Tú", "Nguyễn Cát Tường", "Lê Ngọc Tường Vy",
+  "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến"
+];
 
-    // ==========================================
-    // 2. HIỂN THỊ DỮ LIỆU LÊN GIAO DIỆN (RENDER)
-    // ==========================================
+function removeVietnameseTones(str) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+}
 
-    function renderStructureList() {
-        const listEl = document.getElementById('structureList');
-        listEl.innerHTML = '';
+/* Tải Cơ cấu từ LocalStorage */
+function getCustomPairs() {
+  const saved = localStorage.getItem('12a1_custom_pairs');
+  return saved ? JSON.parse(saved) : {};
+}
 
-        if (structureData.length === 0) {
-            listEl.innerHTML = '<li style="color: #888; font-style: italic; text-align: center; padding: 10px;">Chưa có cơ cấu nào được thiết lập.</li>';
-            return;
-        }
+function getMaleForFemale(femaleName) {
+  const customPairs = getCustomPairs();
+  if (customPairs[femaleName]) {
+    return customPairs[femaleName];
+  }
+  const index = females.indexOf(femaleName);
+  return index !== -1 ? males[index % males.length] : males[0];
+}
 
-        structureData.forEach(item => {
-            const li = document.createElement('li');
-            li.className = 'structure-item';
-            li.innerHTML = `
-                <span><strong>${item.viewer}</strong> ➔ xem <strong>${item.target}</strong></span>
-                <button class="btn-delete" onclick="deleteStructureItem(${item.id})" title="Xóa cơ cấu này">
-                    🗑️
-                </button>
-            `;
-            listEl.appendChild(li);
-        });
+let currentUser = localStorage.getItem('12a1_current_user') || "";
+let heartCount = parseInt(localStorage.getItem('12a1_hearts_' + currentUser) || '0');
+let heartInterval = null;
+
+function onNameInput() {
+  const input = document.getElementById('user-name-input').value.trim();
+  const sugBox = document.getElementById('suggestions');
+  sugBox.innerHTML = '';
+
+  if (!input || input.toLowerCase() === 'admin') {
+    sugBox.hidden = true;
+    return;
+  }
+
+  const cleanInput = removeVietnameseTones(input.toLowerCase());
+  const matches = females.filter(f => removeVietnameseTones(f.toLowerCase()).includes(cleanInput));
+
+  if (matches.length > 0) {
+    matches.forEach(name => {
+      const item = document.createElement('div');
+      item.className = 'suggestion-item';
+      item.textContent = name;
+      item.onclick = () => {
+        document.getElementById('user-name-input').value = name;
+        sugBox.hidden = true;
+      };
+      sugBox.appendChild(item);
+    });
+    sugBox.hidden = false;
+  } else {
+    sugBox.hidden = true;
+  }
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#user-name-input')) {
+    document.getElementById('suggestions').hidden = true;
+  }
+});
+
+function showStep(stepId) {
+  ['step-select', 'step-gift', 'step-result', 'step-admin'].forEach(id => {
+    document.getElementById(id).hidden = true;
+  });
+  document.getElementById(stepId).hidden = false;
+}
+
+function handleLogin() {
+  const val = document.getElementById('user-name-input').value.trim();
+  if (!val) { alert("Vui lòng nhập tên của bạn!"); return; }
+
+  if (val.toLowerCase() === 'admin') {
+    renderAdmin(); 
+    showStep('step-admin'); 
+    startHeartRealtimeUpdate();
+    return;
+  }
+
+  if (!females.includes(val)) {
+    alert("Vui lòng chọn chính xác tên của bạn từ danh sách gợi ý hiện ra bên dưới nhé!");
+    return;
+  }
+
+  currentUser = val;
+  localStorage.setItem('12a1_current_user', currentUser);
+  document.getElementById('welcome-msg').textContent = `Xin chào ${currentUser}! ✨`;
+  showStep('step-gift');
+}
+
+if (currentUser && females.includes(currentUser)) {
+  document.getElementById('welcome-msg').textContent = `Xin chào ${currentUser}! ✨`;
+  showStep('step-gift');
+}
+
+const COLORS = ['#FFB9D2', '#F0629C', '#D9C9FF', '#9B7BE8', '#FFF1C9', '#FFFFFF'];
+function fireworks() {
+  if (window.confetti) {
+    confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 }, colors: COLORS });
+  }
+}
+
+function openGift() {
+  const giftEl = document.getElementById('gift');
+  giftEl.classList.add('shake');
+  setTimeout(() => {
+    giftEl.classList.remove('shake');
+    giftEl.classList.add('open');
+    fireworks();
+    setTimeout(() => {
+      showOfficial();
+      showStep('step-result');
+    }, 800);
+  }, 600);
+}
+
+function showOfficial() {
+  const partner = getMaleForFemale(currentUser);
+  document.getElementById('capLead').textContent = "Người gửi lời chúc bí mật 20/10 tới bạn là:";
+  document.getElementById('capName').textContent = partner;
+  document.getElementById('capTag').textContent = "🎁 Món quà chính thức của bạn";
+  document.getElementById('capTag').className = "tag";
+  document.getElementById('wish-text').textContent = `Chúc ${currentUser} luôn xinh đẹp, học giỏi và tràn ngập niềm vui 20/10 từ bạn ${partner}! 💖`;
+  document.getElementById('backBtn').hidden = true;
+  updateHeartUI();
+  loadVideo(partner);
+}
+
+function heartEffect() {
+  heartCount = parseInt(localStorage.getItem('12a1_hearts_' + currentUser) || '0') + 1;
+  localStorage.setItem('12a1_hearts_' + currentUser, heartCount);
+  updateHeartUI();
+  if (window.confetti) {
+    confetti({ particleCount: 25, spread: 50, origin: { y: 0.7 }, colors: COLORS });
+  }
+}
+
+function updateHeartUI() {
+  document.getElementById('heartCount').textContent = heartCount ? `Bạn đã thả ${heartCount} tim 💗` : '';
+}
+
+function randomViewOther() {
+  const partner = getMaleForFemale(currentUser);
+  const otherMales = males.filter(m => m !== partner);
+  const randomMale = otherMales[Math.floor(Math.random() * otherMales.length)];
+
+  document.getElementById('capLead').textContent = "Clip xem cho vui của:";
+  document.getElementById('capName').textContent = randomMale;
+  document.getElementById('capTag').textContent = "🎲 Xem cho vui. Quà chính thức vẫn giữ nguyên!";
+  document.getElementById('capTag').className = "tag extra";
+  document.getElementById('wish-text').textContent = `Xem thử lời chúc xem trước từ bạn ${randomMale} ✨`;
+  document.getElementById('backBtn').hidden = false;
+  loadVideo(randomMale);
+}
+
+function loadVideo(maleName) {
+  const vid = document.getElementById('vid');
+  const index = males.indexOf(maleName) + 1;
+  const vidId = index < 10 ? 'nam_0' + index : 'nam_' + index;
+  const videoPath = `assets/videos/${vidId}.mp4`;
+
+  document.getElementById('vidErr').hidden = true;
+  document.getElementById('bigPlay').hidden = true;
+  document.getElementById('vidErrPath').textContent = videoPath;
+
+  vid.src = videoPath;
+  vid.load();
+  const p = vid.play();
+  if (p && p.catch) p.catch(() => { document.getElementById('bigPlay').hidden = false; });
+}
+
+document.getElementById('bigPlay').onclick = () => {
+  document.getElementById('bigPlay').hidden = true;
+  document.getElementById('vid').play();
+};
+
+document.getElementById('vid').onerror = () => {
+  document.getElementById('bigPlay').hidden = true;
+  document.getElementById('vidErr').hidden = false;
+};
+
+function resetUser() {
+  localStorage.removeItem('12a1_current_user');
+  currentUser = "";
+  document.getElementById('user-name-input').value = "";
+  showStep('step-select');
+}
+
+/* ================= LOGIC QUẢN TRỊ BTC ================= */
+function renderAdmin() {
+  const selFemale = document.getElementById('admin-select-female');
+  const selMale = document.getElementById('admin-select-male');
+  
+  selFemale.innerHTML = females.map(f => `<option value="${f}">${f}</option>`).join('');
+  selMale.innerHTML = males.map(m => `<option value="${m}">${m}</option>`).join('');
+
+  renderPairList();
+  renderHeartStats();
+}
+
+function saveCustomPair() {
+  const female = document.getElementById('admin-select-female').value;
+  const male = document.getElementById('admin-select-male').value;
+  
+  const customPairs = getCustomPairs();
+  customPairs[female] = male;
+  
+  localStorage.setItem('12a1_custom_pairs', JSON.stringify(customPairs));
+  alert(`Đã cơ cấu thành công: ${female} 💖 ${male}`);
+  renderPairList();
+}
+
+/* Xóa 1 cặp cơ cấu bằng thùng rác */
+function deleteCustomPair(femaleName) {
+  if (confirm(`Bạn có chắc muốn xóa cơ cấu của ${femaleName}?`)) {
+    const customPairs = getCustomPairs();
+    delete customPairs[femaleName];
+    localStorage.setItem('12a1_custom_pairs', JSON.stringify(customPairs));
+    renderPairList();
+  }
+}
+
+function renderPairList() {
+  const list = document.getElementById('pair-list');
+  const customPairs = getCustomPairs();
+  list.innerHTML = "";
+
+  females.forEach(f => {
+    const male = getMaleForFemale(f);
+    const isCustom = !!customPairs[f];
+    let item = document.createElement('div');
+    item.className = "flex justify-between items-center py-1.5 px-2 bg-white rounded-lg border border-plum/10";
+    item.innerHTML = `
+      <span>👧 ${f}</span> 
+      <div class="flex items-center gap-1.5">
+        ${isCustom ? '<span class="text-[0.6rem] bg-pink-100 text-pink-700 px-1.5 py-0.5 rounded font-bold">Cơ cấu</span>' : ''}
+        <span class="text-pink-600 font-bold">💖 ${male}</span>
+        ${isCustom ? `<button onclick="deleteCustomPair('${f}')" class="text-red-500 hover:text-red-700 ml-1 font-bold text-xs" title="Xóa cơ cấu cặp này">🗑️</button>` : ''}
+      </div>`;
+    list.appendChild(item);
+  });
+}
+
+function renderHeartStats() {
+  const list = document.getElementById('heart-stats-list');
+  list.innerHTML = "";
+
+  let totalHearts = 0;
+  females.forEach(f => {
+    const h = parseInt(localStorage.getItem('12a1_hearts_' + f) || '0');
+    totalHearts += h;
+    let item = document.createElement('div');
+    item.className = "flex justify-between items-center py-1 px-2 bg-white rounded border border-plum/10";
+    item.innerHTML = `
+      <span>👧 ${f}</span> 
+      <div class="flex items-center gap-2">
+        <span class="font-extrabold ${h > 0 ? 'text-pink-600' : 'text-gray-400'}">${h} 💗</span>
+      </div>`;
+    list.appendChild(item);
+  });
+
+  const summary = document.createElement('div');
+  summary.className = "pt-2 text-center font-extrabold text-pink-700 text-xs border-t border-plum/20";
+  summary.innerHTML = `👉 TỔNG LƯỢT THẢ TIM TEST CỦA LỚP: <span class="text-sm text-pink-600">${totalHearts}</span> TIM`;
+  list.prepend(summary);
+}
+
+/* DÙNG ĐỂ BẤM RESET CHẠY CHÍNH THỨC SỰ KIỆN 20/10 */
+function resetTestDataOnly() {
+  if (confirm("🔄 XÁC NHẬN RESET LƯỢT CHẠY 20/10:\n- Xóa sạch tất cả lượt thả tim & lượt đăng nhập test cũ.\n- ĐẢM BẢO GIỮ NGUYÊN danh sách cơ cấu ghép cặp 'Ai xem Ai'.\n\nBạn có muốn thực hiện không?")) {
+    females.forEach(f => {
+      localStorage.removeItem('12a1_hearts_' + f);
+    });
+    localStorage.removeItem('12a1_current_user');
+    renderHeartStats();
+    alert("✨ Đã reset xong dữ liệu test! Sẵn sàng cho chương trình 20/10 chính thức!");
+  }
+}
+
+function startHeartRealtimeUpdate() {
+  if (heartInterval) clearInterval(heartInterval);
+  heartInterval = setInterval(() => {
+    if (!document.getElementById('step-admin').hidden) {
+      renderHeartStats();
     }
+  }, 2000);
+}
 
-    function renderTestLogs() {
-        const logEl = document.getElementById('testLog');
-        if (testLogs.length === 0) {
-            logEl.innerHTML = '> Chưa có dữ liệu test nào...';
-            return;
-        }
-        logEl.innerHTML = testLogs.map(log => `> ${log}`).join('<br>');
-        logEl.scrollTop = logEl.scrollHeight; // Tự cuộn xuống dưới
-    }
-
-    // ==========================================
-    // 3. LOGIC XỬ LÝ (ACTIONS)
-    // ==========================================
-
-    // Thêm Cơ Cấu mới
-    function addStructure() {
-        const viewer = document.getElementById('viewerInput').value.trim();
-        const target = document.getElementById('targetInput').value.trim();
-
-        if (!viewer || !target) {
-            alert('Vui lòng nhập đầy đủ Người xem và Người được xem!');
-            return;
-        }
-
-        const newItem = {
-            id: Date.now(),
-            viewer: viewer,
-            target: target
-        };
-
-        structureData.push(newItem);
-        
-        // Reset form
-        document.getElementById('viewerInput').value = '';
-        document.getElementById('targetInput').value = '';
-
-        renderStructureList();
-    }
-
-    // XÓA TAY CƠ CẤU (Bằng Thùng Rác)
-    function deleteStructureItem(id) {
-        if (confirm('Bạn có chắc muốn xóa cơ cấu này không?')) {
-            structureData = structureData.filter(item => item.id !== id);
-            renderStructureList();
-        }
-    }
-
-    // Tạo dữ liệu test ngẫu nhiên
-    function generateTestData() {
-        const randomScore = Math.floor(Math.random() * 100) + 1;
-        const randomID = Math.floor(Math.random() * 8999) + 1000;
-        const time = new Date().toLocaleTimeString();
-        
-        const logMessage = `[${time}] User_${randomID} | Kết quả test: ${randomScore} điểm | Random Token: #${Math.random().toString(36).substring(7)}`;
-        testLogs.push(logMessage);
-
-        renderTestLogs();
-    }
-
-    // ==========================================
-    // 4. NÚT RESET CHÍNH (ĐÚNG YÊU CẦU CỦA BẠN)
-    // ==========================================
-    function handleSystemReset() {
-        const confirmReset = confirm("Bạn có chắc chắn muốn RESET không?\n- Tất cả dữ liệu TEST sẽ bị xóa sạch và random lại từ đầu.\n- CƠ CẤU XEM SẼ ĐƯỢC GIỮ NGUYÊN.");
-        
-        if (!confirmReset) return;
-
-        // 1. Xóa sạch dữ liệu test
-        testLogs = [];
-
-        // 2. Chuyển trạng thái sang Thực tế
-        isLiveMode = true;
-        document.getElementById('statusBadge').innerText = "Đang Chạy Thực Tế";
-        document.getElementById('statusBadge').className = "badge-status live";
-
-        // 3. Thêm log thông báo vừa Reset thành công
-        const time = new Date().toLocaleTimeString();
-        testLogs.push(`[${time}] === ĐÃ RESET TỔNG QUAN ===`);
-        testLogs.push(`[${time}] Đã xóa toàn bộ dữ liệu test cũ.`);
-        testLogs.push(`[${time}] Khởi tạo lại session ngẫu nhiên từ đầu cho Chạy Thực Tế.`);
-        testLogs.push(`[${time}] GIỮ NGUYÊN ${structureData.length} cơ cấu "Ai xem ai".`);
-
-        // Update lại giao diện
-        renderTestLogs();
-
-        // LƯU Ý: Không đụng tới structureData nên Cơ cấu vẫn được giữ nguyên!
-        alert("Đã Reset thành công! Toàn bộ cơ cấu vẫn được bảo lưu.");
-    }
-
-    // Khoi tao ban dau
-    renderStructureList();
-    renderTestLogs();
+(function ambient() {
+  const layer = document.getElementById('ambient'), items = ['🌸', '💜', '🎈', '✨', '🌷', '🩷'];
+  for (let i = 0; i < 10; i++) {
+    const ch = items[i % items.length], up = ch === '🎈';
+    const s = document.createElement('span');
+    s.textContent = ch; s.className = up ? 'rise' : 'fall';
+    s.style.cssText = `left:${(Math.random() * 92).toFixed(0)}%;font-size:${(1 + Math.random() * 0.8).toFixed(2)}rem;` +
+      `animation-duration:${((up ? 12 : 8) + Math.random() * 6).toFixed(1)}s;` +
+      `animation-delay:-${(Math.random() * 15).toFixed(1)}s;--dx:${(Math.random() * 80 - 40).toFixed(0)}px`;
+    layer.appendChild(s);
+  }
+})();
 </script>
-
 </body>
 </html>
