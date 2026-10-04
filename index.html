@@ -258,7 +258,8 @@ body {
       </div>
 
       <div class="flex gap-2 pt-1">
-        <button onclick="saveCustomPair()" class="btn btn-candy !min-h-[2.2rem] !text-xs">💾 Lưu Cơ Cấu Cặp Này</button>
+        <button onclick="saveCustomPair()" class="btn btn-candy !min-h-[2.2rem] !text-xs">💾 Thêm Cơ Cấu Cặp Này</button>
+        <button onclick="saveAllPairsToStorage()" class="btn btn-lav !min-h-[2.2rem] !text-xs">💾 Lưu Tổng Cấu Hình</button>
       </div>
     </div>
 
@@ -277,7 +278,7 @@ body {
           <span>💖</span> BẢNG 3: THỐNG KÊ THẢ TIM & LƯỢT CHẠY
         </h3>
         <button onclick="resetTestDataOnly()" class="text-[0.65rem] bg-red-500 hover:bg-red-600 text-white font-extrabold px-2.5 py-1 rounded-full shadow-sm transition">
-          🔄 RESET DỮ LIỆU TEST (GIỮ CƠ CẤU)
+          🔄 RESET LƯỢT TEST TIM (GIỮ CƠ CẤU)
         </button>
       </div>
       <p class="text-[0.68rem] text-gray-500 italic">* Bấm Reset để xóa lượt thả tim test trước buổi lễ. Danh sách cơ cấu "Ai xem ai" vẫn giữ nguyên 100%.</p>
@@ -308,23 +309,58 @@ const females = [
   "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến"
 ];
 
+/* CƠ CẤU MẶC ĐỊNH CODE (Đảm bảo máy nào cũng nhận đúng) */
+const DEFAULT_CUSTOM_PAIRS = {
+  "Nguyễn Ngọc Bảo Nhi": "Nguyễn Khắc Hoàng Minh"
+};
+
 function removeVietnameseTones(str) {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
 }
 
-/* Tải Cơ cấu từ LocalStorage */
 function getCustomPairs() {
   const saved = localStorage.getItem('12a1_custom_pairs');
-  return saved ? JSON.parse(saved) : {};
+  if (saved) {
+    try { return JSON.parse(saved); } catch(e) {}
+  }
+  return DEFAULT_CUSTOM_PAIRS;
+}
+
+/* LOGIC GHÉP CẶP & LOẠI TRỪ BẠN NAM ĐÃ BỊ CƠ CẤU */
+function getAllPairings() {
+  const customPairs = getCustomPairs();
+  const pairings = {};
+  
+  // 1. Gán cơ cấu cố định trước
+  females.forEach(f => {
+    if (customPairs[f]) {
+      pairings[f] = customPairs[f];
+    }
+  });
+
+  // 2. Lấy danh sách các bạn nam CHƯA bị cơ cấu
+  const takenMales = Object.values(customPairs);
+  const availableMales = males.filter(m => !takenMales.includes(m));
+
+  // 3. Phân bổ phần còn lại cho các bạn nữ chưa cơ cấu
+  let availIndex = 0;
+  females.forEach(f => {
+    if (!pairings[f]) {
+      if (availableMales.length > 0) {
+        pairings[f] = availableMales[availIndex % availableMales.length];
+        availIndex++;
+      } else {
+        pairings[f] = males[0];
+      }
+    }
+  });
+
+  return { pairings, customPairs, takenMales };
 }
 
 function getMaleForFemale(femaleName) {
-  const customPairs = getCustomPairs();
-  if (customPairs[femaleName]) {
-    return customPairs[femaleName];
-  }
-  const index = females.indexOf(femaleName);
-  return index !== -1 ? males[index % males.length] : males[0];
+  const { pairings } = getAllPairings();
+  return pairings[femaleName] || males[0];
 }
 
 let currentUser = localStorage.getItem('12a1_current_user') || "";
@@ -514,11 +550,17 @@ function saveCustomPair() {
   customPairs[female] = male;
   
   localStorage.setItem('12a1_custom_pairs', JSON.stringify(customPairs));
-  alert(`Đã cơ cấu thành công: ${female} 💖 ${male}`);
+  renderPairList();
+  alert(`Đã thêm cơ cấu tạm thời: ${female} 💖 ${male}. Hãy bấm nút 'Lưu Tổng Cấu Hình' để lưu cố định nhé!`);
+}
+
+function saveAllPairsToStorage() {
+  const customPairs = getCustomPairs();
+  localStorage.setItem('12a1_custom_pairs', JSON.stringify(customPairs));
+  alert("💾 Đã lưu tổng cấu hình cơ cấu thành công!");
   renderPairList();
 }
 
-/* Xóa 1 cặp cơ cấu bằng thùng rác */
 function deleteCustomPair(femaleName) {
   if (confirm(`Bạn có chắc muốn xóa cơ cấu của ${femaleName}?`)) {
     const customPairs = getCustomPairs();
@@ -530,20 +572,21 @@ function deleteCustomPair(femaleName) {
 
 function renderPairList() {
   const list = document.getElementById('pair-list');
-  const customPairs = getCustomPairs();
+  const { pairings, customPairs, takenMales } = getAllPairings();
   list.innerHTML = "";
 
   females.forEach(f => {
-    const male = getMaleForFemale(f);
+    const male = pairings[f];
     const isCustom = !!customPairs[f];
     let item = document.createElement('div');
     item.className = "flex justify-between items-center py-1.5 px-2 bg-white rounded-lg border border-plum/10";
     item.innerHTML = `
       <span>👧 ${f}</span> 
       <div class="flex items-center gap-1.5">
-        ${isCustom ? '<span class="text-[0.6rem] bg-pink-100 text-pink-700 px-1.5 py-0.5 rounded font-bold">Cơ cấu</span>' : ''}
+        ${isCustom ? '<span class="text-[0.6rem] bg-pink-100 text-pink-700 px-1.5 py-0.5 rounded font-bold">Nữ Cơ Cấu</span>' : ''}
         <span class="text-pink-600 font-bold">💖 ${male}</span>
-        ${isCustom ? `<button onclick="deleteCustomPair('${f}')" class="text-red-500 hover:text-red-700 ml-1 font-bold text-xs" title="Xóa cơ cấu cặp này">🗑️</button>` : ''}
+        ${isCustom ? '<span class="text-[0.6rem] bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded font-bold">Nam Đã Bị Cơ Cấu</span>' : ''}
+        ${isCustom ? `<button onclick="deleteCustomPair('${f}')" class="text-red-500 hover:text-red-700 ml-1 font-bold text-xs" title="Xóa cơ cấu cặp này">🗑</button>` : ''}
       </div>`;
     list.appendChild(item);
   });
@@ -573,15 +616,14 @@ function renderHeartStats() {
   list.prepend(summary);
 }
 
-/* DÙNG ĐỂ BẤM RESET CHẠY CHÍNH THỨC SỰ KIỆN 20/10 */
 function resetTestDataOnly() {
-  if (confirm("🔄 XÁC NHẬN RESET LƯỢT CHẠY 20/10:\n- Xóa sạch tất cả lượt thả tim & lượt đăng nhập test cũ.\n- ĐẢM BẢO GIỮ NGUYÊN danh sách cơ cấu ghép cặp 'Ai xem Ai'.\n\nBạn có muốn thực hiện không?")) {
+  if (confirm("🔄 XÁC NHẬN RESET LƯỢT TEST TIM:\n- Xóa sạch tất cả lượt thả tim test cũ về 0.\n- ĐẢM BẢO GIỮ NGUYÊN 100% danh sách cơ cấu 'Ai xem Ai' (Không làm mất cơ cấu).\n\nBạn có muốn thực hiện không?")) {
     females.forEach(f => {
       localStorage.removeItem('12a1_hearts_' + f);
     });
     localStorage.removeItem('12a1_current_user');
     renderHeartStats();
-    alert("✨ Đã reset xong dữ liệu test! Sẵn sàng cho chương trình 20/10 chính thức!");
+    alert("✨ Đã reset xong số lượt tim test! Danh sách cơ cấu vẫn giữ nguyên vẹn!");
   }
 }
 
