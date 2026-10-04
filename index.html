@@ -256,7 +256,7 @@ body {
 </main>
 
 <script>
-/* Danh sách Nam Lớp 12A1 (Khớp chính xác tên file trên GitHub) */
+/* Danh sách Nam Lớp 12A1 */
 const males = [
   "Huỳnh Phúc An", "Vũ Hoàng Gia Cát", "Nguyễn Hoàng Đạt", "Ngô Minh Đông",
   "Nguyễn Ngọc Đức", "Tô Thuận Hưng", "Nguyễn Minh Khang", "Nguyễn Tiểu Long",
@@ -274,26 +274,26 @@ const females = [
   "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến"
 ];
 
-/* Ghép đôi mặc định */
+/* Ghép đôi mặc định đúng theo danh sách bạn vừa xếp */
 const DEFAULT_PAIRINGS = {
-  "Phù Lý Gia An": "Võ Minh Trí",
-  "Lê Thanh Quế Anh": "Ngô Minh Đông",
-  "Nguyễn Ngọc Trâm Anh": "Vũ Thái Tâm",
-  "Trần Ngọc Minh Châu": "Lâm Hoàng Gia Thuận",
-  "Lê Ngân Hạnh": "Tô Thuận Hưng",
+  "Phù Lý Gia An": "Trương Gia Phát",
+  "Lê Thanh Quế Anh": "Vũ Hoàng Gia Cát",
+  "Nguyễn Ngọc Trâm Anh": "Ngô Gia Phú",
+  "Trần Ngọc Minh Châu": "Trịnh Tuấn Vỹ",
+  "Lê Ngân Hạnh": "Nguyễn Tiểu Long",
   "Phạm Ngọc Hân": "Nguyễn Hoàng Đạt",
-  "Nguyễn Hồng Mỹ Kim": "Ngô Gia Phú",
-  "Trịnh Thị Ngọc Linh": "Trịnh Tuấn Vỹ",
-  "Lê Nguyễn Thảo My": "Cao Minh Phúc",
-  "Trương Gia Nghi": "Trương Gia Phát",
+  "Nguyễn Hồng Mỹ Kim": "Tô Thuận Hưng",
+  "Trịnh Thị Ngọc Linh": "Huỳnh Phúc An",
+  "Lê Nguyễn Thảo My": "Vũ Thái Tâm",
+  "Trương Gia Nghi": "Nguyễn Minh Khang",
   "Nguyễn Ngọc Bảo Nhi": "Nguyễn Khắc Hoàng Minh",
-  "Bùi Lê Như Thảo": "Nguyễn Minh Quân",
-  "Lưu Bảo Thy": "Nguyễn Ngọc Đức",
-  "Lê Thủy Thiên Tú": "Nguyễn Tiểu Long",
+  "Bùi Lê Như Thảo": "Lâm Hoàng Gia Thuận",
+  "Lưu Bảo Thy": "Đoàn Nhật Quang",
+  "Lê Thủy Thiên Tú": "Võ Minh Trí",
   "Nguyễn Cát Tường": "Ngô Minh Đông",
-  "Lê Ngọc Tường Vy": "Huỳnh Phúc An",
-  "Nguyễn Ngọc Hà Vy": "Đoàn Nhật Quang",
-  "Nguyễn Thị Thảo Yến": "Võ Minh Trí"
+  "Lê Ngọc Tường Vy": "Nguyễn Minh Quân",
+  "Nguyễn Ngọc Hà Vy": "Cao Minh Phúc",
+  "Nguyễn Thị Thảo Yến": "Nguyễn Ngọc Đức"
 };
 
 function getPairings() {
@@ -437,18 +437,15 @@ function updateHeartUI() {
   document.getElementById('heartCount').textContent = heartCount ? `Bạn đã thả ${heartCount} tim 💗` : '';
 }
 
-/* Hàm chuyển tên tiếng Việt thành tên file không dấu gạch dưới (Ví dụ: "Huỳnh Phúc An" -> "Huynh_Phuc_An") */
 function formatFileName(name) {
   return removeVietnameseTones(name).replace(/\s+/g, '_');
 }
 
-/* Load Video và Lời chúc trực tiếp từ file trên GitHub */
 async function loadMedia(maleName, femaleName) {
   const fileName = formatFileName(maleName);
   const videoPath = `assets/videos/${fileName}.mp4`;
   const wishPath = `assets/wishes/${fileName}.txt`;
 
-  // 1. Xử lý Video
   const vid = document.getElementById('vid');
   document.getElementById('vidErr').hidden = true;
   document.getElementById('bigPlay').hidden = true;
@@ -459,7 +456,6 @@ async function loadMedia(maleName, femaleName) {
   const p = vid.play();
   if (p && p.catch) p.catch(() => { document.getElementById('bigPlay').hidden = false; });
 
-  // 2. Xử lý Lời chúc từ file text
   const wishEl = document.getElementById('wish-text');
   wishEl.textContent = "Đang tải lời chúc từ bạn nam...";
   
@@ -467,7 +463,6 @@ async function loadMedia(maleName, femaleName) {
     const response = await fetch(wishPath);
     if (response.ok) {
       let text = await response.text();
-      // Tự động thay thế dấu ... hoặc từ khóa thành tên bạn nữ đang xem
       text = text.replace('...', femaleName).replace('{name}', femaleName);
       wishEl.textContent = text;
     } else {
@@ -495,7 +490,6 @@ function resetUser() {
   showStep('step-select');
 }
 
-/* Giao diện Admin */
 function renderAdminView() {
   const currentPairings = getPairings();
   const list = document.getElementById('admin-pair-list');
