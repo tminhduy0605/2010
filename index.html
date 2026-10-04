@@ -232,68 +232,16 @@ body {
     </div>
   </section>
 
-  <!-- ==================== BẢNG QUẢN TRỊ BTC ==================== -->
-  <aside id="step-admin" class="mt-3 w-full rounded-2xl border-2 border-plum bg-white/95 p-4 text-xs space-y-4 max-w-[1150px]" hidden>
+  <!-- ==================== TRANG XEM ADMIN (CHỈ ĐỂ XEM AI DÍNH AI) ==================== -->
+  <aside id="step-admin" class="mt-3 w-full rounded-2xl border-2 border-plum bg-white/95 p-4 text-xs space-y-4 max-w-[700px]" hidden>
     <div class="flex items-center justify-between border-b-2 border-plum/20 pb-2">
-      <h2 class="font-display text-lg font-extrabold text-red-600">Trang Quản Trị BTC 20/10 (Chế độ Laptop)</h2>
-      <div class="flex items-center gap-2">
-        <span class="text-[0.65rem] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold">Đồng bộ tuyệt đối 100%</span>
-      </div>
+      <h2 class="font-display text-base font-extrabold text-red-600">Bảng Theo Dõi BTC (Xem Ai Dính Ai)</h2>
+      <span class="text-[0.65rem] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">Chỉ Xem</span>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-      
-      <!-- CỘT TRÁI: BẢNG 1 + HƯỚNG DẪN -->
-      <div class="lg:col-span-5 space-y-3">
-        <div class="bg-pink-50/80 p-3 rounded-xl border border-pink-300 space-y-2">
-          <h3 class="font-display font-extrabold text-pink-800 text-sm flex items-center gap-1">
-            <span>⚙️</span> BẢNG 1: CƠ CẤU GHÉP ĐÔI ("AI XEM AI")
-          </h3>
-          <p class="text-[0.7rem] text-plum-soft">Chọn Bạn Nữ và Bạn Nam tương ứng để ép buộc cặp đôi:</p>
-          
-          <div class="grid grid-cols-1 gap-2">
-            <div>
-              <label class="block text-[0.7rem] font-bold mb-1">1. Chọn Bạn Nữ:</label>
-              <select id="admin-select-female" class="w-full p-2 rounded-lg border border-plum bg-white font-bold text-xs"></select>
-            </div>
-            <div>
-              <label class="block text-[0.7rem] font-bold mb-1">2. Chọn Bạn Nam Cơ Cấu:</label>
-              <select id="admin-select-male" class="w-full p-2 rounded-lg border border-plum bg-white font-bold text-xs"></select>
-            </div>
-          </div>
-
-          <div class="flex gap-2 pt-1">
-            <button onclick="saveCustomPair()" class="btn btn-candy !min-h-[2.2rem] !text-xs">💾 Thêm Cơ Cấu Cặp Này</button>
-            <button onclick="exportCodeSettings()" class="btn btn-lav !min-h-[2.2rem] !text-xs">📥 Tải Cấu Hình Cố Định</button>
-          </div>
-        </div>
-
-        <div class="bg-purple-50/80 p-3 rounded-xl border border-purple-300 space-y-2">
-          <h3 class="font-display font-extrabold text-purple-900 text-sm flex items-center gap-1">
-            <span>💡</span> HƯỚNG DẪN ĐỒNG BỘ TUYỆT ĐỐI
-          </h3>
-          <p class="text-[0.7rem] text-plum-soft leading-relaxed">
-            - Mọi chỉnh sửa ở Bảng 1 được lưu thẳng vào mã nguồn trên Laptop.<br>
-            - Sau khi chỉnh xong, bạn chỉ cần <b>Commit/Push lên GitHub</b> là điện thoại của các bạn nữ mở ra sẽ khớp chính xác 100% với Laptop của BTC, dù dùng bất kỳ trình duyệt nào!<br>
-            - Bấm nút dưới để reset lịch sử test trên máy này.
-          </p>
-          <div class="pt-1">
-            <button onclick="resetTestDataOnly()" class="btn btn-candy !min-h-[2.2rem] !text-xs !bg-red-500 !text-white">
-              🔄 RESET DỮ LIỆU TEST TRÊN MÁY NÀY
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- CỘT PHẢI: BẢNG 2 -->
-      <div class="lg:col-span-7 space-y-1.5">
-        <h3 class="font-display font-extrabold text-purple-900 text-sm flex items-center gap-1">
-          <span>📋</span> BẢNG 2: DANH SÁCH GHÉP ĐÔI HIỆN TẠI (18/18 CẶP)
-        </h3>
-        <div id="pair-list" class="max-h-[500px] overflow-y-auto space-y-1.5 text-xs bg-candy-soft p-3 rounded-xl border border-plum/20 font-bold"></div>
-      </div>
-
-    </div>
+    <p class="text-xs text-plum-soft font-semibold">Dưới đây là danh sách toàn bộ 18 cặp đôi cố định sẵn để BTC theo dõi:</p>
+    
+    <div id="admin-pair-list" class="max-h-[400px] overflow-y-auto space-y-1.5 text-xs bg-candy-soft p-3 rounded-xl border border-plum/20 font-bold"></div>
 
     <div class="pt-2">
       <button onclick="location.reload()" class="btn btn-milk !min-h-[2.5rem] text-xs">Quay Lại Màn Hình Chính</button>
@@ -321,7 +269,7 @@ const females = [
   "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến"
 ];
 
-/* ===== CẤU HÌNH GHÉP ĐÔI CỐ ĐỊNH TRỰC TIẾP TRONG CODE (ĐỒNG BỘ 100% TRÊN MỌI THIẾT BỊ) ===== */
+/* ===== BẢNG GHÉP ĐÔI CỐ ĐỊNH (CHUẨN XÁC 100% TRÊN MỌI THIẾT BỊ) ===== */
 const FIXED_PAIRINGS = {
   "Phù Lý Gia An": "Võ Minh Trí",
   "Lê Thanh Quế Anh": "Ngô Minh Đông",
@@ -343,17 +291,11 @@ const FIXED_PAIRINGS = {
   "Nguyễn Thị Thảo Yến": "Võ Minh Trí"
 };
 
-/* Danh sách các bạn nữ được tính là cơ cấu (hiển thị nhãn và thùng rác) */
-let customPairs = JSON.parse(localStorage.getItem('12a1_custom_pairs') || JSON.stringify({
-  "Nguyễn Ngọc Bảo Nhi": "Nguyễn Khắc Hoàng Minh"
-}));
-
 function removeVietnameseTones(str) {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
 }
 
 function getMaleForFemale(femaleName) {
-  // Ưu tiên lấy từ cấu hình cố định trong code, nếu không có lấy theo mặc định
   return FIXED_PAIRINGS[femaleName] || males[0];
 }
 
@@ -365,7 +307,13 @@ function onNameInput() {
   const sugBox = document.getElementById('suggestions');
   sugBox.innerHTML = '';
 
-  if (!input || input.toLowerCase() === 'admin') {
+  if (!input) {
+    sugBox.hidden = true;
+    return;
+  }
+
+  // Nếu gõ admin thì mở bảng admin xem
+  if (input.toLowerCase() === 'admin') {
     sugBox.hidden = true;
     return;
   }
@@ -408,8 +356,8 @@ function handleLogin() {
   if (!val) { alert("Vui lòng nhập tên của bạn!"); return; }
 
   if (val.toLowerCase() === 'admin') {
-    renderAdmin(); 
-    showStep('step-admin'); 
+    renderAdminView();
+    showStep('step-admin');
     return;
   }
 
@@ -522,90 +470,21 @@ function resetUser() {
   showStep('step-select');
 }
 
-/* ================= ADMIN ================= */
-function renderAdmin() {
-  const selFemale = document.getElementById('admin-select-female');
-  const selMale = document.getElementById('admin-select-male');
-  
-  selFemale.innerHTML = females.map(f => `<option value="${f}">${f}</option>`).join('');
-  selMale.innerHTML = males.map(m => `<option value="${m}">${m}</option>`).join('');
-
-  renderPairList();
-}
-
-function saveCustomPair() {
-  const female = document.getElementById('admin-select-female').value;
-  const male = document.getElementById('admin-select-male').value;
-  
-  FIXED_PAIRINGS[female] = male;
-  customPairs[female] = male;
-  localStorage.setItem('12a1_custom_pairs', JSON.stringify(customPairs));
-  
-  renderPairList();
-  alert(`Đã gán: ${female} 💖 ${male}.\n* Lưu ý: Để áp dụng vĩnh viễn cho điện thoại, bạn nhớ cập nhật dòng FIXED_PAIRINGS trong mã nguồn file index.html nhé!`);
-}
-
-function deleteCustomPair(femaleName) {
-  if (confirm(`Bạn có chắc muốn xóa cơ cấu của ${femaleName}?`)) {
-    delete customPairs[femaleName];
-    localStorage.setItem('12a1_custom_pairs', JSON.stringify(customPairs));
-    renderPairList();
-  }
-}
-
-function exportCodeSettings() {
-  let text = "const FIXED_PAIRINGS = {\n";
-  for (let f in FIXED_PAIRINGS) {
-    text += `  "${f}": "${FIXED_PAIRINGS[f]}",\n`;
-  }
-  text += "};";
-  console.log(text);
-  navigator.clipboard.writeText(text);
-  alert("📋 Đã sao chép đoạn mã cấu hình vào clipboard! Bạn có thể dán trực tiếp vào file index.html.");
-}
-
-function renderPairList() {
-  const list = document.getElementById('pair-list');
+/* HIỂN THỊ DANH SÁCH BẢNG ADMIN XEM */
+function renderAdminView() {
+  const list = document.getElementById('admin-pair-list');
   list.innerHTML = "";
 
-  females.forEach(f => {
+  females.forEach((f, idx) => {
     const male = FIXED_PAIRINGS[f] || males[0];
-    const isCustom = !!customPairs[f];
     let item = document.createElement('div');
-    item.className = "flex justify-between items-center py-2 px-2.5 bg-white rounded-lg border border-plum/10";
-    
-    let rightColumnHTML = "";
-    if (isCustom) {
-      rightColumnHTML = `
-        <div class="flex items-center gap-2">
-          <span class="text-[0.68rem] bg-pink-100 text-pink-700 px-2 py-0.5 rounded font-bold">đã bị sắp xếp</span>
-          <button onclick="deleteCustomPair('${f}')" class="text-red-500 hover:text-red-700 font-bold text-sm p-1" title="Xóa cơ cấu">🗑</button>
-        </div>
-      `;
-    } else {
-      rightColumnHTML = `
-        <div class="flex items-center gap-2">
-          <span class="text-[0.68rem] text-gray-300 px-2 py-0.5 font-bold">-</span>
-        </div>
-      `;
-    }
-
+    item.className = "flex justify-between items-center py-1.5 px-2.5 bg-white rounded-lg border border-plum/10";
     item.innerHTML = `
-      <div class="flex items-center gap-2 font-bold">
-        <span>👧 ${f}</span> 
-        <span class="text-pink-600">💖 ${male}</span>
-      </div>
-      ${rightColumnHTML}
+      <span class="font-bold text-gray-700">${idx + 1}. 👧 ${f}</span>
+      <span class="text-pink-600 font-extrabold">💖 ${male}</span>
     `;
     list.appendChild(item);
   });
-}
-
-function resetTestDataOnly() {
-  if (confirm("🔄 XÁC NHẬN RESET LƯỢT TEST TRÊN MÁY NÀY:\n- Xóa dữ liệu test tạm thời trên trình duyệt này.\n\nBạn có muốn thực hiện không?")) {
-    localStorage.removeItem('12a1_current_user');
-    alert("✨ Đã reset xong!");
-  }
 }
 
 (function ambient() {
