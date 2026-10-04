@@ -271,10 +271,12 @@ body{
       <button id="btn-heart" class="btn btn-candy" type="button">💖 Thả tim / Cảm ơn</button>
       <p id="heartCount" class="-mt-1 min-h-[1.2rem] text-center text-sm font-extrabold text-candy-deep" aria-live="polite"></p>
 
-      <div class="mt-1 flex gap-2">
-        <button id="btn-preview" class="btn btn-lav btn-sm min-w-0 flex-1" type="button">🎲 Xem thử clip bạn nam khác</button>
-        <button id="btn-mine" class="btn btn-milk btn-sm min-w-0 flex-1" type="button" hidden>🎁 Về món quà của mình</button>
+      <!-- Các nút điều hướng xem bạn nam -->
+      <div class="mt-1 grid grid-cols-2 gap-2">
+        <button id="btn-prev-male" class="btn btn-milk btn-sm min-w-0" type="button" hidden>⬅ Bạn nam trước</button>
+        <button id="btn-preview" class="btn btn-lav btn-sm min-w-0 col-span-2" type="button">🎲 Xem thử clip bạn nam khác</button>
       </div>
+      <button id="btn-mine" class="btn btn-milk btn-sm min-w-0 w-full" type="button" hidden>🎁 Về món quà của mình</button>
 
       <button id="btn-reset" class="btn btn-milk btn-sm mt-1" type="button">Đổi tên khác</button>
     </div>
@@ -290,7 +292,6 @@ body{
    DỮ LIỆU LỚP 12A1
    ===================================================================== */
 
-/* 18 bạn nam */
 const MALES = [
   "Huỳnh Phúc An", "Vũ Hoàng Gia Cát", "Nguyễn Hoàng Đạt", "Ngô Minh Đông",
   "Nguyễn Ngọc Đức", "Tô Thuận Hưng", "Nguyễn Minh Khang", "Nguyễn Tiểu Long",
@@ -299,7 +300,6 @@ const MALES = [
   "Võ Minh Trí", "Trịnh Tuấn Vỹ"
 ];
 
-/* 18 bạn nữ */
 const FEMALES = [
   "Phù Lý Gia An", "Lê Thanh Quế Anh", "Nguyễn Ngọc Trâm Anh", "Trần Ngọc Minh Châu",
   "Lê Ngân Hạnh", "Phạm Ngọc Hân", "Nguyễn Hồng Mỹ Kim", "Trịnh Thị Ngọc Linh",
@@ -308,7 +308,6 @@ const FEMALES = [
   "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến"
 ];
 
-/* Bảng ghép đôi: bạn nữ -> bạn nam gửi quà */
 const PAIRINGS = {
   "Phù Lý Gia An":        "Trương Gia Phát",
   "Lê Thanh Quế Anh":     "Vũ Hoàng Gia Cát",
@@ -333,29 +332,21 @@ const PAIRINGS = {
 const COLORS = ['#FFB9D2', '#F0629C', '#D9C9FF', '#9B7BE8', '#FFF1C9', '#FFFFFF'];
 const KEY_LAST_NAME = '12a1_last_name';
 const KEY_HEARTS = '12a1_hearts_';
-const OPEN_DELAY = 600;      // thời gian hộp lắc trước khi mở
-const REVEAL_DELAY = 1200;   // thời gian xem hộp mở trước khi sang bước 3
+const OPEN_DELAY = 600;
+const REVEAL_DELAY = 1200;
 
-/* =====================================================================
-   TIỆN ÍCH
-   ===================================================================== */
 const $ = (id) => document.getElementById(id);
 const rand = (a, b) => a + Math.random() * (b - a);
 
-/* localStorage có thể bị chặn (chế độ riêng tư) nên luôn bọc try/catch */
 const store = {
   get(k)    { try { return localStorage.getItem(k); } catch (e) { return null; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
   del(k)    { try { localStorage.removeItem(k); } catch (e) {} }
 };
 
-/* Bỏ dấu tiếng Việt, giữ nguyên hoa/thường */
 const stripTones = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
-/* Chuẩn hoá để so khớp: bỏ dấu, chữ thường, gộp khoảng trắng */
 const norm = (s) => stripTones(s).toLowerCase().replace(/\s+/g, ' ').trim();
 
-/* Tên file của bạn nam. Thứ tự thử:
-   Truong_Gia_Phat -> truong_gia_phat -> phat -> Phat  (tên được bỏ dấu) */
 function fileCandidates(fullName) {
   const plain = stripTones(fullName).trim();
   const words = plain.split(/\s+/);
@@ -369,16 +360,16 @@ function fileCandidates(fullName) {
   return [...new Set(list)];
 }
 
-/* =====================================================================
-   TRẠNG THÁI & DOM
-   ===================================================================== */
 let currentUser = '';
 let opening = false;
 let loadToken = 0;
-let lastPreview = '';
 let videoTries = [];
 let videoIdx = 0;
 let activeIdx = -1;
+
+/* Quản lý lịch sử các bạn nam đã xem để không bị trùng và hỗ trợ lùi về */
+let maleHistory = [];
+let historyIndex = 0;
 
 const input = $('user-name-input');
 const sugBox = $('suggestions');
@@ -390,31 +381,25 @@ const vidErr = $('vidErr');
 const wishEl = $('wish-text');
 const capName = $('capName');
 
-/* =====================================================================
-   ĐIỀU HƯỚNG CÁC BƯỚC
-   ===================================================================== */
 function showStep(id) {
   ['step-select', 'step-gift', 'step-result'].forEach((s) => { $(s).hidden = true; });
   const el = $(id);
   el.hidden = false;
   el.classList.remove('step-in');
-  void el.offsetWidth;            // khởi động lại animation
+  void el.offsetWidth;
   el.classList.add('step-in');
   window.scrollTo(0, 0);
 }
 
-/* =====================================================================
-   BƯỚC 1 – NHẬP TÊN + GỢI Ý
-   ===================================================================== */
 function rankMatches(query) {
   const q = norm(query);
   if (!q) return [];
   return FEMALES
     .map((name) => {
       const n = norm(name);
-      if (!(' ' + n).includes(' ' + q)) return null;   // khớp từ đầu của một từ trong tên
+      if (!(' ' + n).includes(' ' + q)) return null;
       const words = n.split(' ');
-      const score = words[words.length - 1].startsWith(q) ? 0 : 1;   // ưu tiên tên gọi (từ cuối)
+      const score = words[words.length - 1].startsWith(q) ? 0 : 1;
       return { name, score };
     })
     .filter(Boolean)
@@ -437,7 +422,7 @@ function pickName(name) {
   input.value = name;
   showError('');
   setSuggestionsOpen(false);
-  input.blur();                   // thu bàn phím để thấy nút bên dưới
+  input.blur();
 }
 
 function renderSuggestions() {
@@ -495,7 +480,7 @@ function handleLogin() {
   if (!match) {
     const found = rankMatches(raw);
     if (found.length === 1) {
-      match = found[0];                      // chỉ có đúng một bạn khớp
+      match = found[0];
     } else if (found.length > 1) {
       showError(`Có ${found.length} bạn khớp với "${raw}". Chọn đúng tên của bạn trong danh sách nhé.`);
       renderSuggestions();
@@ -508,9 +493,6 @@ function handleLogin() {
   startGiftStep(match);
 }
 
-/* =====================================================================
-   BƯỚC 2 – HỘP QUÀ
-   ===================================================================== */
 function resetGift() {
   opening = false;
   gift.classList.remove('shake', 'open');
@@ -529,8 +511,6 @@ function startGiftStep(name) {
 function fireworks() {
   if (!window.confetti) return;
   const base = { colors: COLORS, disableForReducedMotion: true };
-
-  // Hai vòi hoa giấy hai bên trong ~1,4 giây
   const end = Date.now() + 1400;
   (function side() {
     confetti({ ...base, particleCount: 5, angle: 60,  spread: 60, origin: { x: 0, y: 0.8 } });
@@ -538,7 +518,6 @@ function fireworks() {
     if (Date.now() < end) requestAnimationFrame(side);
   })();
 
-  // Ba quả pháo hoa nổ tròn
   [0, 300, 650].forEach((delay) => {
     setTimeout(() => {
       confetti({
@@ -561,15 +540,12 @@ function openGift() {
     gift.classList.add('open');
     fireworks();
     setTimeout(() => {
-      showOfficial();
+      initSession();
       showStep('step-result');
     }, REVEAL_DELAY);
   }, OPEN_DELAY);
 }
 
-/* =====================================================================
-   BƯỚC 3 – VIDEO & LỜI CHÚC
-   ===================================================================== */
 function setCaption(label, name, tag) {
   $('senderLabel').textContent = label;
   $('giftTag').textContent = tag;
@@ -579,35 +555,82 @@ function setCaption(label, name, tag) {
   capName.classList.add('play');
 }
 
-function showOfficial() {
-  const partner = PAIRINGS[currentUser];
-  setCaption('Người gửi lời chúc bí mật 20/10 tới bạn là:', partner, '💌 Món quà đặc biệt dành riêng cho bạn');
-  $('btn-mine').hidden = true;
-  loadMedia(partner, currentUser);
+/* Khởi tạo lại lịch sử xem khi bóc quà hoặc bấm về quà của mình */
+function initSession() {
+  const official = PAIRINGS[currentUser];
+  maleHistory = [official];
+  historyIndex = 0;
+  renderCurrentSession();
+}
+
+function renderCurrentSession() {
+  const currentMale = maleHistory[historyIndex];
+  const official = PAIRINGS[currentUser];
+  const isOfficial = (historyIndex === 0);
+
+  if (isOfficial) {
+    setCaption('Người gửi lời chúc bí mật 20/10 tới bạn là:', currentMale, '💌 Món quà đặc biệt dành riêng cho bạn');
+    $('btn-mine').hidden = true;
+  } else {
+    setCaption('Đang xem thử clip vui của:', currentMale, `🎲 Xem giải trí (Bạn thứ ${historyIndex + 1}/18)`);
+    $('btn-mine').hidden = false;
+  }
+
+  // Ẩn/hiện nút "Bạn nam trước"
+  $('btn-prev-male').hidden = (historyIndex === 0);
+  // Điều chỉnh chiều rộng nút xem thử nếu có nút quay lại
+  if (historyIndex > 0) {
+    $('btn-preview').classList.remove('col-span-2');   } else {$('btn-preview').classList.add('col-span-2');
+  }
+
+  loadMedia(currentMale, currentUser);
   updateHeartUI();
 }
 
+/* Bấm xem ngẫu nhiên bạn nam khác, đảm bảo không trùng lặp cho đến khi hết 18 bạn */
 function previewOtherMale() {
-  const official = PAIRINGS[currentUser];
-  let pool = MALES.filter((m) => m !== official && m !== lastPreview);
-  if (!pool.length) pool = MALES.filter((m) => m !== official);
-  const pick = pool[Math.floor(Math.random() * pool.length)];
-  lastPreview = pick;
+  // Lọc ra danh sách các bạn chưa từng xuất hiện trong lịch sử duyệt hiện tại
+  let available = MALES.filter((m) => !maleHistory.includes(m));
+  
+  // Nếu đã xem hết cả 18 bạn, reset lại danh sách trừ bạn hiện tại để tiếp tục xoay vòng không trùng
+  if (!available.length) {
+    const current = maleHistory[historyIndex];
+    maleHistory = [current];
+    historyIndex = 0;
+    available = MALES.filter((m) => m !== current);
+  }
 
-  setCaption('Đang xem thử clip vui của:', pick, '🎲 Xem giải trí – quà chính vẫn giữ nguyên');
-  $('btn-mine').hidden = false;
-  loadMedia(pick, currentUser);
+  const pick = available[Math.floor(Math.random() * available.length)];
+  
+  // Cắt bỏ phần lịch sử phía trước nếu đang đứng ở giữa (nếu có) rồi thêm bạn mới vào
+  maleHistory = maleHistory.slice(0, historyIndex + 1);
+  maleHistory.push(pick);
+  historyIndex = maleHistory.length - 1;
+
+  renderCurrentSession();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* ----- Video: thử lần lượt các tên file cho tới khi tìm thấy ----- */
+/* Nút quay về bạn nam trước đó (lùi lại 1 bước trong lịch sử) */
+function prevMale() {
+  if (historyIndex > 0) {
+    historyIndex--;
+    renderCurrentSession();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function showOfficial() {
+  historyIndex = 0;
+  renderCurrentSession();
+}
+
 function playCurrentVideo() {
   vid.src = videoTries[videoIdx];
   vid.load();
   const p = vid.play();
   if (p && p.catch) {
     p.catch((err) => {
-      // Trình duyệt chặn tự phát -> hiện nút ▶ để bấm. Các lỗi khác (đang đổi nguồn...) bỏ qua.
       if (err && err.name === 'NotAllowedError') bigPlay.hidden = false;
     });
   }
@@ -635,7 +658,6 @@ $('vidRetry').addEventListener('click', () => {
   playCurrentVideo();
 });
 
-/* ----- Lời chúc: đọc assets/wishes/[tên].txt, không có thì dùng lời mặc định ----- */
 async function fetchWish(names) {
   for (const n of names) {
     try {
@@ -643,10 +665,9 @@ async function fetchWish(names) {
       if (!res.ok) continue;
       const type = res.headers.get('content-type') || '';
       const text = (await res.text()).trim();
-      // Một số hosting trả về trang HTML thay vì lỗi 404 -> coi như không có file
       if (!text || type.includes('text/html') || /^<!doctype|^<html/i.test(text)) continue;
       return text;
-    } catch (e) { /* mở trực tiếp file:// hoặc mất mạng -> thử tiếp / dùng mặc định */ }
+    } catch (e) {}
   }
   return null;
 }
@@ -668,14 +689,13 @@ function loadMedia(maleName, femaleName) {
 
   wishEl.textContent = 'Đang tải lời chúc...';
   fetchWish(names).then((text) => {
-    if (token !== loadToken) return;      // đã chuyển sang clip khác
+    if (token !== loadToken) return;
     wishEl.textContent = text
       ? text.replace(/\{name\}/gi, femaleName)
       : defaultWish(femaleName, maleName);
   });
 }
 
-/* ----- Thả tim ----- */
 function getHearts() { return parseInt(store.get(KEY_HEARTS + currentUser) || '0', 10) || 0; }
 
 function updateHeartUI() {
@@ -695,16 +715,16 @@ function heartEffect() {
   });
 }
 
-/* ----- Quay lại đầu ----- */
 function backToName(clear) {
-  loadToken++;                            // huỷ các tác vụ tải đang chạy
+  loadToken++;
   vid.pause();
   vid.removeAttribute('src');
   vid.load();
   vidErr.hidden = true;
   bigPlay.hidden = true;
   currentUser = '';
-  lastPreview = '';
+  maleHistory = [];
+  historyIndex = 0;
   if (clear) { input.value = ''; store.del(KEY_LAST_NAME); }
   showError('');
   setSuggestionsOpen(false);
@@ -712,21 +732,13 @@ function backToName(clear) {
   showStep('step-select');
 }
 
-/* =====================================================================
-   GẮN SỰ KIỆN
-   ===================================================================== */
 $('btn-login').addEventListener('click', handleLogin);
 gift.addEventListener('click', openGift);
 $('btn-open').addEventListener('click', openGift);
-$('btn-back-name').addEventListener('click', () => backToName(false));
-$('btn-heart').addEventListener('click', heartEffect);
-$('btn-preview').addEventListener('click', previewOtherMale);
-$('btn-mine').addEventListener('click', showOfficial);
-$('btn-reset').addEventListener('click', () => backToName(true));
+$('btn-back-name').addEventListener('click', () => backToName(false));$('btn-heart').addEventListener('click', heartEffect);
+$('btn-prev-male').addEventListener('click', prevMale);$('btn-preview').addEventListener('click', previewOtherMale);
+$('btn-mine').addEventListener('click', showOfficial);$('btn-reset').addEventListener('click', () => backToName(true));
 
-/* =====================================================================
-   HIỆU ỨNG RƠI Ở NỀN (hoa, tim, bóng bay)
-   ===================================================================== */
 (function ambient() {
   const layer = $('ambient');
   const items = ['🌸', '💗', '🎈', '🌷', '💜', '🌼', '🎈', '💖', '✨'];
@@ -744,9 +756,6 @@ $('btn-reset').addEventListener('click', () => backToName(true));
   }
 })();
 
-/* =====================================================================
-   KHỞI ĐỘNG: luôn bắt đầu từ bước 1, điền sẵn tên lần trước (nếu có)
-   ===================================================================== */
 const remembered = store.get(KEY_LAST_NAME);
 if (remembered && FEMALES.includes(remembered)) input.value = remembered;
 showStep('step-select');
