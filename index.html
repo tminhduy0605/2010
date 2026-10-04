@@ -95,7 +95,6 @@ body {
 .gb-body { position: absolute; left: 1rem; right: 1rem; bottom: 0; height: 6.5rem; background: var(--candy); border: 2.5px solid var(--plum); border-radius: 0 0 1rem 1rem; overflow: hidden; z-index: 1; }
 .gb-body::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1.8rem; transform: translateX(-50%); background: var(--lav); border-inline: 2.5px solid var(--plum); }
 
-/* Đã khôi phục đầy đủ chiều cao nắp hộp */
 .gb-lid { position: absolute; left: 0.6rem; right: 0.6rem; bottom: 6.2rem; height: 2.2rem; background: #FF93BA; border: 2.5px solid var(--plum); border-radius: 0.7rem; z-index: 3; transform-origin: 10% 100%; transition: transform .7s cubic-bezier(.3,1.5,.5,1), opacity .5s .3s; }
 .gb-lid::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1.8rem; transform: translateX(-50%); background: var(--lav); border-inline: 2.5px solid var(--plum); }
 
@@ -142,7 +141,6 @@ body {
 .name-reveal { display: inline-block; animation: reveal .9s cubic-bezier(.3,1.5,.5,1) both .4s; }
 @keyframes reveal { from{opacity:0;transform:perspective(20rem) rotateX(90deg) scale(.6)} to{opacity:1;transform:none} }
 .tag { display: inline-block; margin-top: 0.3rem; padding: 0.2rem 0.8rem; border-radius: 999px; font-size: 0.8rem; font-weight: 800; background: var(--candy); border: 1.8px solid var(--plum); }
-.tag.extra { background: var(--lav); }
 
 /* Suggestion box */
 .suggestions-box {
@@ -186,7 +184,7 @@ body {
     <h2 id="welcome-msg" class="font-display text-xl font-extrabold text-purple-900"></h2>
     <div class="bg-white/80 border border-plum/15 rounded-2xl p-2.5 shadow-sm mx-2">
       <p class="text-xs text-plum font-bold leading-relaxed">
-        🎁 Một bạn nam đã chuẩn bị clip chúc mừng 20/10 đặc biệt dành riêng cho bạn. Chạm vào hộp quà bên dưới để bóc tem nhé!
+        🎁 Một bạn nam đã chuẩn bị clip chúc mừng 20/10 đặc biệt dành riêng cho bạn theo phân công của BTC. Chạm vào hộp quà bên dưới để bóc tem nhé!
       </p>
     </div>
 
@@ -219,9 +217,9 @@ body {
         </div>
       </div>
       <div class="caption">
-        <p id="capLead" class="text-xs font-bold text-plum-soft"></p>
+        <p class="text-xs font-bold text-plum-soft">Người gửi lời chúc bí mật 20/10 tới bạn là:</p>
         <p class="mt-0.5"><span id="capName" class="name-reveal font-display text-2xl font-extrabold text-pink-600"></span></p>
-        <span id="capTag" class="tag">🎁 Món quà chính thức của bạn</span>
+        <span class="tag">🎁 Món quà chính thức từ BTC</span>
       </div>
     </div>
 
@@ -231,8 +229,6 @@ body {
       <button class="btn btn-candy" onclick="heartEffect()">💖 Thả tim / Cảm ơn</button>
       <p id="heartCount" class="-mt-1 min-h-[1.2rem] text-center text-xs font-extrabold text-candy-deep"></p>
 
-      <button class="btn btn-lav text-sm" onclick="randomViewOther()">🎲 Xem clip bạn nam khác</button>
-      <button class="btn btn-milk text-sm" id="backBtn" onclick="showOfficial()" hidden>🎁 Về quà chính thức của mình</button>
       <button class="btn btn-milk !min-h-[2.2rem] !text-xs mt-1" onclick="resetUser()">Đổi tên khác</button>
     </div>
   </section>
@@ -240,11 +236,11 @@ body {
   <!-- ==================== TRANG XEM ADMIN ==================== -->
   <aside id="step-admin" class="mt-3 w-full rounded-2xl border-2 border-plum bg-white/95 p-4 text-xs space-y-4 max-w-[700px]" hidden>
     <div class="flex items-center justify-between border-b-2 border-plum/20 pb-2">
-      <h2 class="font-display text-base font-extrabold text-red-600">Bảng Theo Dõi BTC (Xem Ai Dính Ai)</h2>
+      <h2 class="font-display text-base font-extrabold text-red-600">Bảng Quản Lý BTC (Cố Định Cặp Đôi)</h2>
       <span class="text-[0.65rem] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">Chỉ Xem</span>
     </div>
 
-    <p class="text-xs text-plum-soft font-semibold">Dưới đây là danh sách toàn bộ 18 cặp đôi cố định sẵn để BTC theo dõi:</p>
+    <p class="text-xs text-plum-soft font-semibold">Đây là bảng danh sách chính thức đã được gán cứng theo ý BTC. Các bạn nữ khi đăng nhập sẽ nhận đúng bạn nam này:</p>
     
     <div id="admin-pair-list" class="max-h-[400px] overflow-y-auto space-y-1.5 text-xs bg-candy-soft p-3 rounded-xl border border-plum/20 font-bold"></div>
 
@@ -256,7 +252,7 @@ body {
 </main>
 
 <script>
-/* Danh sách Nam Lớp 12A1 */
+/* Danh sách Nam Lớp 12A1 (Dùng để mapping tên ra file video nam_XX.mp4) */
 const males = [
   "Huỳnh Phúc An", "Vũ Hoàng Gia Cát", "Nguyễn Hoàng Đạt", "Ngô Minh Đông",
   "Nguyễn Ngọc Đức", "Tô Thuận Hưng", "Nguyễn Minh Khang", "Nguyễn Tiểu Long",
@@ -274,7 +270,7 @@ const females = [
   "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến"
 ];
 
-/* ===== BẢNG GHÉP ĐÔI CỐ ĐỊNH (CHUẨN XÁC 100% TRÊN MỌI THIẾT BỊ) ===== */
+/* ===== BẢNG GHÉP ĐÔI CỐ ĐỊNH CỦA BAN TỔ CHỨC (BẠN CÓ THỂ SỬA TRỰC TIẾP TÊN BẠN NAM Ở ĐÂY) ===== */
 const FIXED_PAIRINGS = {
   "Phù Lý Gia An": "Võ Minh Trí",
   "Lê Thanh Quế Anh": "Ngô Minh Đông",
@@ -404,12 +400,8 @@ function openGift() {
 
 function showOfficial() {
   const partner = getMaleForFemale(currentUser);
-  document.getElementById('capLead').textContent = "Người gửi lời chúc bí mật 20/10 tới bạn là:";
   document.getElementById('capName').textContent = partner;
-  document.getElementById('capTag').textContent = "🎁 Món quà chính thức của bạn";
-  document.getElementById('capTag').className = "tag";
   document.getElementById('wish-text').textContent = `Chúc ${currentUser} luôn xinh đẹp, học giỏi và tràn ngập niềm vui 20/10 từ bạn ${partner}! 💖`;
-  document.getElementById('backBtn').hidden = true;
   updateHeartUI();
   loadVideo(partner);
 }
@@ -425,20 +417,6 @@ function heartEffect() {
 
 function updateHeartUI() {
   document.getElementById('heartCount').textContent = heartCount ? `Bạn đã thả ${heartCount} tim 💗` : '';
-}
-
-function randomViewOther() {
-  const partner = getMaleForFemale(currentUser);
-  const otherMales = males.filter(m => m !== partner);
-  const randomMale = otherMales[Math.floor(Math.random() * otherMales.length)];
-
-  document.getElementById('capLead').textContent = "Clip xem cho vui của:";
-  document.getElementById('capName').textContent = randomMale;
-  document.getElementById('capTag').textContent = "🎲 Xem cho vui. Quà chính thức vẫn giữ nguyên!";
-  document.getElementById('capTag').className = "tag extra";
-  document.getElementById('wish-text').textContent = `Xem thử lời chúc xem trước từ bạn ${randomMale} ✨`;
-  document.getElementById('backBtn').hidden = false;
-  loadVideo(randomMale);
 }
 
 function loadVideo(maleName) {
