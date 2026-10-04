@@ -107,7 +107,7 @@ body {
 .gb-letter { position: absolute; left: 50%; bottom: 4rem; font-size: 2.5rem; transform: translate(-50%,0) scale(.5); opacity: 0; transition: transform .9s cubic-bezier(.3,1.4,.5,1) .25s, opacity .3s .25s; z-index: 2; }
 .giftbox.open .gb-letter { transform: translate(-50%,-4.8rem) scale(1.2) rotate(-6deg); opacity: 1; }
 
-/* Khung Video Ngang 16:9 */
+/* Khung Video 16:9 */
 .polaroid {
   position: relative; background: #fff; border: 2.5px solid var(--plum);
   border-radius: 1.2rem; padding: 0.6rem 0.6rem 0.8rem;
@@ -122,11 +122,9 @@ body {
 .tape.r { right: 1rem; transform: rotate(5deg); }
 
 .frame {
-  position: relative; width: 100%;
-  aspect-ratio: 16 / 9;
+  position: relative; width: 100%; aspect-ratio: 16 / 9;
   border: 2px solid var(--plum); border-radius: 0.8rem;
-  overflow: hidden; background: #000;
-  margin: 0 auto;
+  overflow: hidden; background: #000; margin: 0 auto;
 }
 .frame video { width: 100%; height: 100%; object-fit: contain; display: block; }
 .bigplay {
@@ -135,7 +133,7 @@ body {
   background: var(--candy); font-size: 1.6rem; box-shadow: 0 4px 0 var(--plum); cursor: pointer;
 }
 .vid-err { position: absolute; inset: 0; display: grid; place-content: center; gap: 0.3rem; text-align: center; padding: 1rem; background: #2A1D38; color: #fff; }
-.vid-err code { font-size: 0.75rem; color: #FFF1C9; word-break: break-all; }
+.vid-err code { font-size: 0.7rem; color: #FFF1C9; word-break: break-all; }
 
 .caption { text-align: center; padding-top: 0.5rem; }
 .name-reveal { display: inline-block; animation: reveal .9s cubic-bezier(.3,1.5,.5,1) both .4s; }
@@ -184,7 +182,7 @@ body {
     <h2 id="welcome-msg" class="font-display text-xl font-extrabold text-purple-900"></h2>
     <div class="bg-white/80 border border-plum/15 rounded-2xl p-2.5 shadow-sm mx-2">
       <p class="text-xs text-plum font-bold leading-relaxed">
-        🎁 Một bạn nam đã chuẩn bị clip chúc mừng 20/10 đặc biệt dành riêng cho bạn theo phân công của BTC. Chạm vào hộp quà bên dưới để bóc tem nhé!
+        🎁 Một bạn nam đã chuẩn bị clip chúc mừng và lời nhắn riêng dành tặng bạn. Chạm vào hộp quà để mở nhé!
       </p>
     </div>
 
@@ -203,7 +201,7 @@ body {
     <button class="btn btn-candy mt-1" onclick="openGift()">Bóc tem món quà bí mật 🎁</button>
   </section>
 
-  <!-- Step 3: Xem Video Kết Quả -->
+  <!-- Step 3: Xem Video & Lời Chúc Đọc Từ File -->
   <section id="step-result" class="mt-3 w-full space-y-3" hidden>
     <div class="polaroid">
       <span class="tape l"></span><span class="tape r"></span>
@@ -212,7 +210,7 @@ body {
         <button class="bigplay" id="bigPlay" aria-label="Phát video" hidden>▶</button>
         <div class="vid-err" id="vidErr" hidden>
           <b class="font-display text-base">Video chưa tải được</b>
-          <span class="text-xs">Kiểm tra đường dẫn file:</span>
+          <span class="text-xs">Đường dẫn file:</span>
           <code id="vidErrPath"></code>
         </div>
       </div>
@@ -224,7 +222,7 @@ body {
     </div>
 
     <div class="grid gap-2 max-w-[500px] mx-auto w-full">
-      <p id="wish-text" class="text-center text-xs font-bold text-purple-900 bg-white/95 p-3 rounded-2xl border-2 border-plum italic shadow-sm leading-relaxed"></p>
+      <p id="wish-text" class="text-center text-xs font-bold text-purple-900 bg-white/95 p-3 rounded-2xl border-2 border-plum italic shadow-sm leading-relaxed">Đang tải lời chúc từ bạn nam...</p>
       
       <button class="btn btn-candy" onclick="heartEffect()">💖 Thả tim / Cảm ơn</button>
       <p id="heartCount" class="-mt-1 min-h-[1.2rem] text-center text-xs font-extrabold text-candy-deep"></p>
@@ -238,14 +236,14 @@ body {
     </div>
   </section>
 
-  <!-- ==================== TRANG QUẢN TRỊ BTC (CÓ THỂ CHỈNH SỬA CƠ CẤU) ==================== -->
+  <!-- ==================== TRANG QUẢN TRỊ BTC ==================== -->
   <aside id="step-admin" class="mt-3 w-full rounded-2xl border-2 border-plum bg-white/95 p-4 text-xs space-y-4 max-w-[700px]" hidden>
     <div class="flex items-center justify-between border-b-2 border-plum/20 pb-2">
       <h2 class="font-display text-base font-extrabold text-red-600">Bảng Quản Lý BTC (Sắp Xếp Cơ Cấu)</h2>
       <span class="text-[0.65rem] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">Quyền BTC</span>
     </div>
 
-    <p class="text-xs text-plum-soft font-semibold">BTC có thể thay đổi trực tiếp bạn nam tặng quà cho từng bạn nữ tại đây. Nhấn <b>"Lưu Thay Đổi"</b> để hệ thống cập nhật lập tức!</p>
+    <p class="text-xs text-plum-soft font-semibold">Thay đổi bạn nam tặng quà cho từng bạn nữ trực tiếp tại đây rồi bấm <b>"Lưu Thay Đổi"</b>!</p>
     
     <div id="admin-pair-list" class="max-h-[380px] overflow-y-auto space-y-2 text-xs bg-candy-soft p-3 rounded-xl border border-plum/20 font-bold"></div>
 
@@ -258,7 +256,7 @@ body {
 </main>
 
 <script>
-/* Danh sách Nam Lớp 12A1 */
+/* Danh sách Nam Lớp 12A1 (Khớp chính xác tên file trên GitHub) */
 const males = [
   "Huỳnh Phúc An", "Vũ Hoàng Gia Cát", "Nguyễn Hoàng Đạt", "Ngô Minh Đông",
   "Nguyễn Ngọc Đức", "Tô Thuận Hưng", "Nguyễn Minh Khang", "Nguyễn Tiểu Long",
@@ -276,7 +274,7 @@ const females = [
   "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến"
 ];
 
-/* Cơ cấu ghép đôi mặc định (sẽ ưu tiên lấy từ localStorage nếu BTC đã chỉnh sửa) */
+/* Ghép đôi mặc định */
 const DEFAULT_PAIRINGS = {
   "Phù Lý Gia An": "Võ Minh Trí",
   "Lê Thanh Quế Anh": "Ngô Minh Đông",
@@ -300,9 +298,7 @@ const DEFAULT_PAIRINGS = {
 
 function getPairings() {
   const saved = localStorage.getItem('12a1_custom_pairings');
-  if (saved) {
-    try { return JSON.parse(saved); } catch(e) {}
-  }
+  if (saved) { try { return JSON.parse(saved); } catch(e) {} }
   return DEFAULT_PAIRINGS;
 }
 
@@ -411,9 +407,9 @@ function showOfficial() {
   document.getElementById('senderLabel').textContent = "Người gửi lời chúc bí mật 20/10 tới bạn là:";
   document.getElementById('capName').textContent = partner;
   document.getElementById('giftTag').textContent = "🎁 Món quà chính thức từ BTC";
-  document.getElementById('wish-text').textContent = `Chúc ${currentUser} luôn xinh đẹp, học giỏi và tràn ngập niềm vui 20/10 từ bạn ${partner}! 💖`;
+  
+  loadMedia(partner, currentUser);
   updateHeartUI();
-  loadVideo(partner);
 }
 
 function previewOtherMale() {
@@ -424,8 +420,8 @@ function previewOtherMale() {
   document.getElementById('senderLabel').textContent = "Đang xem thử clip vui của:";
   document.getElementById('capName').textContent = randomMale;
   document.getElementById('giftTag').textContent = "🎲 Xem giải trí (Quà chính vẫn giữ nguyên)";
-  document.getElementById('wish-text').textContent = `Clip xem ké vui vẻ từ ${randomMale} (Quà chính thức của bạn vẫn là ${officialPartner})! ✨`;
-  loadVideo(randomMale);
+  
+  loadMedia(randomMale, currentUser);
 }
 
 function heartEffect() {
@@ -441,12 +437,19 @@ function updateHeartUI() {
   document.getElementById('heartCount').textContent = heartCount ? `Bạn đã thả ${heartCount} tim 💗` : '';
 }
 
-function loadVideo(maleName) {
-  const vid = document.getElementById('vid');
-  const index = males.indexOf(maleName) + 1;
-  const vidId = index < 10 ? 'nam_0' + index : 'nam_' + index;
-  const videoPath = `assets/videos/${vidId}.mp4`;
+/* Hàm chuyển tên tiếng Việt thành tên file không dấu gạch dưới (Ví dụ: "Huỳnh Phúc An" -> "Huynh_Phuc_An") */
+function formatFileName(name) {
+  return removeVietnameseTones(name).replace(/\s+/g, '_');
+}
 
+/* Load Video và Lời chúc trực tiếp từ file trên GitHub */
+async function loadMedia(maleName, femaleName) {
+  const fileName = formatFileName(maleName);
+  const videoPath = `assets/videos/${fileName}.mp4`;
+  const wishPath = `assets/wishes/${fileName}.txt`;
+
+  // 1. Xử lý Video
+  const vid = document.getElementById('vid');
   document.getElementById('vidErr').hidden = true;
   document.getElementById('bigPlay').hidden = true;
   document.getElementById('vidErrPath').textContent = videoPath;
@@ -455,6 +458,24 @@ function loadVideo(maleName) {
   vid.load();
   const p = vid.play();
   if (p && p.catch) p.catch(() => { document.getElementById('bigPlay').hidden = false; });
+
+  // 2. Xử lý Lời chúc từ file text
+  const wishEl = document.getElementById('wish-text');
+  wishEl.textContent = "Đang tải lời chúc từ bạn nam...";
+  
+  try {
+    const response = await fetch(wishPath);
+    if (response.ok) {
+      let text = await response.text();
+      // Tự động thay thế dấu ... hoặc từ khóa thành tên bạn nữ đang xem
+      text = text.replace('...', femaleName).replace('{name}', femaleName);
+      wishEl.textContent = text;
+    } else {
+      wishEl.textContent = `Chúc ${femaleName} 20/10 luôn xinh đẹp, học giỏi và tràn ngập niềm vui từ bạn ${maleName}! 💖`;
+    }
+  } catch (err) {
+    wishEl.textContent = `Chúc ${femaleName} 20/10 luôn xinh đẹp, học giỏi và tràn ngập niềm vui từ bạn ${maleName}! 💖`;
+  }
 }
 
 document.getElementById('bigPlay').onclick = () => {
@@ -474,7 +495,7 @@ function resetUser() {
   showStep('step-select');
 }
 
-/* Render bảng quản trị cho phép BTC đổi cơ cấu trực tiếp */
+/* Giao diện Admin */
 function renderAdminView() {
   const currentPairings = getPairings();
   const list = document.getElementById('admin-pair-list');
@@ -500,13 +521,11 @@ function saveAdminPairings() {
   const selects = document.querySelectorAll('.admin-select');
   let newPairings = {};
   selects.forEach(sel => {
-    const female = sel.getAttribute('data-female');
-    const male = sel.value;
-    newPairings[female] = male;
+    newPairings[sel.getAttribute('data-female')] = sel.value;
   });
 
   localStorage.setItem('12a1_custom_pairings', JSON.stringify(newPairings));
-  alert("🎉 Đã lưu thành công cơ cấu phân công mới! Các bạn nữ khi đăng nhập từ bây giờ sẽ nhận đúng bạn nam vừa được sắp xếp.");
+  alert("🎉 Đã lưu thành công cơ cấu phân công mới!");
 }
 
 (function ambient() {
