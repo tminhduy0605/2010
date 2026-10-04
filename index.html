@@ -232,60 +232,79 @@ body {
     </div>
   </section>
 
-  <!-- ==================== BẢNG QUẢN TRỊ BTC ==================== -->
-  <aside id="step-admin" class="mt-3 w-full rounded-2xl border-2 border-plum bg-white/95 p-4 text-xs space-y-4 max-w-[580px]" hidden>
+  <!-- ==================== BẢNG QUẢN TRỊ BTC (GIAO DIỆN NGANG 2 CỘT CHO LAPTOP) ==================== -->
+  <aside id="step-admin" class="mt-3 w-full rounded-2xl border-2 border-plum bg-white/95 p-4 text-xs space-y-4 max-w-[1050px]" hidden>
     <div class="flex items-center justify-between border-b-2 border-plum/20 pb-2">
-      <h2 class="font-display text-lg font-extrabold text-red-600">Trang Quản Trị BTC 20/10</h2>
-      <span class="text-[0.65rem] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">Admin Mode</span>
+      <h2 class="font-display text-lg font-extrabold text-red-600">Trang Quản Trị BTC 20/10 (Chế độ Laptop)</h2>
+      <div class="flex items-center gap-2">
+        <button onclick="randomizeUnpaired()" class="btn btn-lav !min-h-[2.2rem] !text-xs px-3">🎲 Random Lại Cặp (Giữ Cơ Cấu)</button>
+        <span class="text-[0.65rem] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">Admin Mode</span>
+      </div>
     </div>
 
-    <!-- BẢNG 1: TÙY CHỈNH CƠ CẤU GHÉP ĐÔI -->
-    <div class="bg-pink-50/80 p-3 rounded-xl border border-pink-300 space-y-2">
-      <h3 class="font-display font-extrabold text-pink-800 text-sm flex items-center gap-1">
-        <span>⚙️</span> BẢNG 1: CƠ CẤU GHÉP ĐÔI ("AI XEM AI")
-      </h3>
-      <p class="text-[0.7rem] text-plum-soft">Chọn Bạn Nữ và Bạn Nam tương ứng để ép buộc cặp đôi hiển thị:</p>
+    <!-- BỐ CỤC 2 CỘT NGANG CHO LAPTOP -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
       
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        <div>
-          <label class="block text-[0.7rem] font-bold mb-1">1. Chọn Bạn Nữ:</label>
-          <select id="admin-select-female" class="w-full p-2 rounded-lg border border-plum bg-white font-bold text-xs"></select>
+      <!-- CỘT BÊN TRÁI: CƠ CẤU & BẢNG DANH SÁCH GHÉP ĐÔI -->
+      <div class="space-y-3">
+        <!-- BẢNG 1: TÙY CHỈNH CƠ CẤU -->
+        <div class="bg-pink-50/80 p-3 rounded-xl border border-pink-300 space-y-2">
+          <h3 class="font-display font-extrabold text-pink-800 text-sm flex items-center gap-1">
+            <span>⚙️</span> BẢNG 1: CƠ CẤU GHÉP ĐÔI ("AI XEM AI")
+          </h3>
+          <p class="text-[0.7rem] text-plum-soft">Chọn Bạn Nữ và Bạn Nam tương ứng để ép buộc cặp đôi:</p>
+          
+          <div class="grid grid-cols-1 gap-2">
+            <div>
+              <label class="block text-[0.7rem] font-bold mb-1">1. Chọn Bạn Nữ:</label>
+              <select id="admin-select-female" class="w-full p-2 rounded-lg border border-plum bg-white font-bold text-xs"></select>
+            </div>
+            <div>
+              <label class="block text-[0.7rem] font-bold mb-1">2. Chọn Bạn Nam Cơ Cấu:</label>
+              <select id="admin-select-male" class="w-full p-2 rounded-lg border border-plum bg-white font-bold text-xs"></select>
+            </div>
+          </div>
+
+          <div class="flex gap-2 pt-1">
+            <button onclick="saveCustomPair()" class="btn btn-candy !min-h-[2.2rem] !text-xs">💾 Thêm Cơ Cấu Cặp Này</button>
+            <button onclick="saveAllPairsToStorage()" class="btn btn-lav !min-h-[2.2rem] !text-xs">💾 Lưu Tổng Cấu Hình</button>
+          </div>
         </div>
-        <div>
-          <label class="block text-[0.7rem] font-bold mb-1">2. Chọn Bạn Nam Cơ Cấu:</label>
-          <select id="admin-select-male" class="w-full p-2 rounded-lg border border-plum bg-white font-bold text-xs"></select>
+
+        <!-- BẢNG 2: DANH SÁCH GHÉP ĐÔI HIỆN TẠI -->
+        <div class="space-y-1.5">
+          <h3 class="font-display font-extrabold text-purple-900 text-sm flex items-center gap-1">
+            <span>📋</span> BẢNG 2: DANH SÁCH GHÉP ĐÔI HIỆN TẠI
+          </h3>
+          <div id="pair-list" class="max-h-[350px] overflow-y-auto space-y-1.5 text-xs bg-candy-soft p-2.5 rounded-xl border border-plum/20 font-bold"></div>
         </div>
       </div>
 
-      <div class="flex gap-2 pt-1">
-        <button onclick="saveCustomPair()" class="btn btn-candy !min-h-[2.2rem] !text-xs">💾 Thêm Cơ Cấu Cặp Này</button>
-        <button onclick="saveAllPairsToStorage()" class="btn btn-lav !min-h-[2.2rem] !text-xs">💾 Lưu Tổng Cấu Hình</button>
+      <!-- CỘT BÊN PHẢI: QUẢN LÝ LƯỢT CHẠY & HƯỚNG DẪN BTC -->
+      <div class="space-y-3">
+        <div class="bg-purple-50/80 p-4 rounded-xl border border-purple-300 space-y-3">
+          <h3 class="font-display font-extrabold text-purple-900 text-sm flex items-center gap-1">
+            <span>💡</span> HƯỚNG DẪN & QUẢN LÝ SỰ KIỆN 20/10
+          </h3>
+          <p class="text-xs text-plum-soft leading-relaxed">
+            - Trang quản trị này dành riêng cho BTC trên Laptop.<br>
+            - Các bạn nữ sẽ truy cập bằng điện thoại qua link GitHub Pages của lớp.<br>
+            - Nút <b>Random Lại Cặp</b> sẽ xáo trộn các bạn chưa cơ cấu.<br>
+            - Bạn có thể bấm nút Reset dưới đây để làm sạch lịch sử test trên máy của mình trước giờ G.
+          </p>
+          <div class="pt-2">
+            <button onclick="resetTestDataOnly()" class="btn btn-candy !min-h-[2.5rem] !text-xs !bg-red-500 !text-white">
+              🔄 RESET DỮ LIỆU TEST TRÊN MÁY NÀY
+            </button>
+          </div>
+        </div>
       </div>
+
     </div>
 
-    <!-- BẢNG 2: DANH SÁCH GHÉP ĐÔI HIỆN TẠI -->
-    <div class="space-y-1.5">
-      <h3 class="font-display font-extrabold text-purple-900 text-sm flex items-center gap-1">
-        <span>📋</span> BẢNG 2: DANH SÁCH GHÉP ĐÔI HIỆN TẠI
-      </h3>
-      <div id="pair-list" class="max-h-52 overflow-y-auto space-y-1.5 text-xs bg-candy-soft p-2.5 rounded-xl border border-plum/20 font-bold"></div>
+    <div class="pt-2">
+      <button onclick="location.reload()" class="btn btn-milk !min-h-[2.5rem] text-xs">Quay Lại Màn Hình Chính</button>
     </div>
-
-    <!-- BẢNG 3: THỐNG KÊ LƯỢT THẢ TIM & RESET DỮ LIỆU TEST -->
-    <div class="space-y-1.5">
-      <div class="flex justify-between items-center">
-        <h3 class="font-display font-extrabold text-pink-700 text-sm flex items-center gap-1">
-          <span>💖</span> BẢNG 3: THỐNG KÊ THẢ TIM & LƯỢT CHẠY
-        </h3>
-        <button onclick="resetTestDataOnly()" class="text-[0.65rem] bg-red-500 hover:bg-red-600 text-white font-extrabold px-2.5 py-1 rounded-full shadow-sm transition">
-          🔄 RESET LƯỢT TEST TIM (GIỮ CƠ CẤU)
-        </button>
-      </div>
-      <p class="text-[0.68rem] text-gray-500 italic">* Bấm Reset để xóa lượt thả tim test trước buổi lễ. Danh sách cơ cấu "Ai xem ai" vẫn giữ nguyên 100%.</p>
-      <div id="heart-stats-list" class="max-h-48 overflow-y-auto space-y-1.5 text-xs bg-purple-50 p-2.5 rounded-xl border border-plum/20 font-semibold"></div>
-    </div>
-
-    <button onclick="location.reload()" class="btn btn-milk !min-h-[2.5rem] text-xs">Quay Lại Màn Hình Chính</button>
   </aside>
 
 </main>
@@ -300,7 +319,7 @@ const males = [
   "Võ Minh Trí", "Trịnh Tuấn Vỹ"
 ];
 
-/* Danh sách 18 Bạn Nữ Lớp 12A1 chuẩn LMS Nguyễn Khuyến */
+/* Danh sách 18 Bạn Nữ Lớp 12A1 */
 const females = [
   "Phù Lý Gia An", "Lê Thanh Quế Anh", "Nguyễn Ngọc Trâm Anh", "Trần Ngọc Minh Châu",
   "Lê Ngân Hạnh", "Phạm Ngọc Hân", "Nguyễn Hồng Mỹ Kim", "Trịnh Thị Ngọc Linh",
@@ -309,7 +328,6 @@ const females = [
   "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến"
 ];
 
-/* CƠ CẤU MẶC ĐỊNH CODE (Đảm bảo máy nào cũng nhận đúng) */
 const DEFAULT_CUSTOM_PAIRS = {
   "Nguyễn Ngọc Bảo Nhi": "Nguyễn Khắc Hoàng Minh"
 };
@@ -326,23 +344,45 @@ function getCustomPairs() {
   return DEFAULT_CUSTOM_PAIRS;
 }
 
-/* LOGIC GHÉP CẶP & LOẠI TRỪ BẠN NAM ĐÃ BỊ CƠ CẤU */
+function getRandomShuffledMales() {
+  const saved = localStorage.getItem('12a1_shuffled_males');
+  if (saved) {
+    try { return JSON.parse(saved); } catch(e) {}
+  }
+  let arr = [...males];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  localStorage.setItem('12a1_shuffled_males', JSON.stringify(arr));
+  return arr;
+}
+
+function randomizeUnpaired() {
+  let arr = [...males];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  localStorage.setItem('12a1_shuffled_males', JSON.stringify(arr));
+  renderPairList();
+  alert("🎲 Đã xáo trộn ngẫu nhiên thành công các cặp đôi chưa cơ cấu!");
+}
+
 function getAllPairings() {
   const customPairs = getCustomPairs();
+  const shuffledMales = getRandomShuffledMales();
   const pairings = {};
   
-  // 1. Gán cơ cấu cố định trước
   females.forEach(f => {
     if (customPairs[f]) {
       pairings[f] = customPairs[f];
     }
   });
 
-  // 2. Lấy danh sách các bạn nam CHƯA bị cơ cấu
   const takenMales = Object.values(customPairs);
-  const availableMales = males.filter(m => !takenMales.includes(m));
+  const availableMales = shuffledMales.filter(m => !takenMales.includes(m));
 
-  // 3. Phân bổ phần còn lại cho các bạn nữ chưa cơ cấu
   let availIndex = 0;
   females.forEach(f => {
     if (!pairings[f]) {
@@ -355,7 +395,7 @@ function getAllPairings() {
     }
   });
 
-  return { pairings, customPairs, takenMales };
+  return { pairings, customPairs };
 }
 
 function getMaleForFemale(femaleName) {
@@ -365,7 +405,6 @@ function getMaleForFemale(femaleName) {
 
 let currentUser = localStorage.getItem('12a1_current_user') || "";
 let heartCount = parseInt(localStorage.getItem('12a1_hearts_' + currentUser) || '0');
-let heartInterval = null;
 
 function onNameInput() {
   const input = document.getElementById('user-name-input').value.trim();
@@ -417,7 +456,6 @@ function handleLogin() {
   if (val.toLowerCase() === 'admin') {
     renderAdmin(); 
     showStep('step-admin'); 
-    startHeartRealtimeUpdate();
     return;
   }
 
@@ -530,7 +568,7 @@ function resetUser() {
   showStep('step-select');
 }
 
-/* ================= LOGIC QUẢN TRỊ BTC ================= */
+/* ================= ADMIN ================= */
 function renderAdmin() {
   const selFemale = document.getElementById('admin-select-female');
   const selMale = document.getElementById('admin-select-male');
@@ -539,7 +577,6 @@ function renderAdmin() {
   selMale.innerHTML = males.map(m => `<option value="${m}">${m}</option>`).join('');
 
   renderPairList();
-  renderHeartStats();
 }
 
 function saveCustomPair() {
@@ -551,7 +588,7 @@ function saveCustomPair() {
   
   localStorage.setItem('12a1_custom_pairs', JSON.stringify(customPairs));
   renderPairList();
-  alert(`Đã thêm cơ cấu tạm thời: ${female} 💖 ${male}. Hãy bấm nút 'Lưu Tổng Cấu Hình' để lưu cố định nhé!`);
+  alert(`Đã thêm cơ cấu: ${female} 💖 ${male}. Bấm 'Lưu Tổng Cấu Hình' để chốt nhé!`);
 }
 
 function saveAllPairsToStorage() {
@@ -572,7 +609,7 @@ function deleteCustomPair(femaleName) {
 
 function renderPairList() {
   const list = document.getElementById('pair-list');
-  const { pairings, customPairs, takenMales } = getAllPairings();
+  const { pairings, customPairs } = getAllPairings();
   list.innerHTML = "";
 
   females.forEach(f => {
@@ -585,55 +622,18 @@ function renderPairList() {
       <div class="flex items-center gap-1.5">
         ${isCustom ? '<span class="text-[0.6rem] bg-pink-100 text-pink-700 px-1.5 py-0.5 rounded font-bold">Nữ Cơ Cấu</span>' : ''}
         <span class="text-pink-600 font-bold">💖 ${male}</span>
-        ${isCustom ? '<span class="text-[0.6rem] bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded font-bold">Nam Đã Bị Cơ Cấu</span>' : ''}
-        ${isCustom ? `<button onclick="deleteCustomPair('${f}')" class="text-red-500 hover:text-red-700 ml-1 font-bold text-xs" title="Xóa cơ cấu cặp này">🗑</button>` : ''}
+        ${isCustom ? '<span class="text-[0.6rem] bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded font-bold">Nam Đã Cơ Cấu</span>' : ''}
+        ${isCustom ? `<button onclick="deleteCustomPair('${f}')" class="text-red-500 hover:text-red-700 ml-1 font-bold text-xs" title="Xóa cơ cấu">🗑</button>` : ''}
       </div>`;
     list.appendChild(item);
   });
-}
-
-function renderHeartStats() {
-  const list = document.getElementById('heart-stats-list');
-  list.innerHTML = "";
-
-  let totalHearts = 0;
-  females.forEach(f => {
-    const h = parseInt(localStorage.getItem('12a1_hearts_' + f) || '0');
-    totalHearts += h;
-    let item = document.createElement('div');
-    item.className = "flex justify-between items-center py-1 px-2 bg-white rounded border border-plum/10";
-    item.innerHTML = `
-      <span>👧 ${f}</span> 
-      <div class="flex items-center gap-2">
-        <span class="font-extrabold ${h > 0 ? 'text-pink-600' : 'text-gray-400'}">${h} 💗</span>
-      </div>`;
-    list.appendChild(item);
-  });
-
-  const summary = document.createElement('div');
-  summary.className = "pt-2 text-center font-extrabold text-pink-700 text-xs border-t border-plum/20";
-  summary.innerHTML = `👉 TỔNG LƯỢT THẢ TIM TEST CỦA LỚP: <span class="text-sm text-pink-600">${totalHearts}</span> TIM`;
-  list.prepend(summary);
 }
 
 function resetTestDataOnly() {
-  if (confirm("🔄 XÁC NHẬN RESET LƯỢT TEST TIM:\n- Xóa sạch tất cả lượt thả tim test cũ về 0.\n- ĐẢM BẢO GIỮ NGUYÊN 100% danh sách cơ cấu 'Ai xem Ai' (Không làm mất cơ cấu).\n\nBạn có muốn thực hiện không?")) {
-    females.forEach(f => {
-      localStorage.removeItem('12a1_hearts_' + f);
-    });
+  if (confirm("🔄 XÁC NHẬN RESET LƯỢT TEST TRÊN MÁY NÀY:\n- Xóa dữ liệu test tạm thời trên trình duyệt này.\n- Giữ nguyên cơ cấu.\n\nBạn có muốn thực hiện không?")) {
     localStorage.removeItem('12a1_current_user');
-    renderHeartStats();
-    alert("✨ Đã reset xong số lượt tim test! Danh sách cơ cấu vẫn giữ nguyên vẹn!");
+    alert("✨ Đã reset xong!");
   }
-}
-
-function startHeartRealtimeUpdate() {
-  if (heartInterval) clearInterval(heartInterval);
-  heartInterval = setInterval(() => {
-    if (!document.getElementById('step-admin').hidden) {
-      renderHeartStats();
-    }
-  }, 2000);
 }
 
 (function ambient() {
