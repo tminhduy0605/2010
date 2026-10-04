@@ -232,8 +232,8 @@ body {
     </div>
   </section>
 
-  <!-- ==================== BẢNG QUẢN TRỊ BTC (GIAO DIỆN NGANG 2 CỘT CHO LAPTOP) ==================== -->
-  <aside id="step-admin" class="mt-3 w-full rounded-2xl border-2 border-plum bg-white/95 p-4 text-xs space-y-4 max-w-[1050px]" hidden>
+  <!-- ==================== BẢNG QUẢN TRỊ BTC (GIAO DIỆN CHUẨN MỚI CHO LAPTOP) ==================== -->
+  <aside id="step-admin" class="mt-3 w-full rounded-2xl border-2 border-plum bg-white/95 p-4 text-xs space-y-4 max-w-[1100px]" hidden>
     <div class="flex items-center justify-between border-b-2 border-plum/20 pb-2">
       <h2 class="font-display text-lg font-extrabold text-red-600">Trang Quản Trị BTC 20/10 (Chế độ Laptop)</h2>
       <div class="flex items-center gap-2">
@@ -242,11 +242,11 @@ body {
       </div>
     </div>
 
-    <!-- BỐ CỤC 2 CỘT NGANG CHO LAPTOP -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+    <!-- BỐ CỤC 2 CỘT: BÊN TRÁI (BẢNG 1 + HƯỚNG DẪN 1 TRÊN 1 DƯỚI) | BÊN PHẢI (BẢNG 2 TOÀN BỘ DỌC XUỐNG) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
       
-      <!-- CỘT BÊN TRÁI: CƠ CẤU & BẢNG DANH SÁCH GHÉP ĐÔI -->
-      <div class="space-y-3">
+      <!-- CỘT TRÁI (L-COL 5): BẢNG 1 + HƯỚNG DẪN -->
+      <div class="lg:col-span-5 space-y-3">
         <!-- BẢNG 1: TÙY CHỈNH CƠ CẤU -->
         <div class="bg-pink-50/80 p-3 rounded-xl border border-pink-300 space-y-2">
           <h3 class="font-display font-extrabold text-pink-800 text-sm flex items-center gap-1">
@@ -271,33 +271,31 @@ body {
           </div>
         </div>
 
-        <!-- BẢNG 2: DANH SÁCH GHÉP ĐÔI HIỆN TẠI -->
-        <div class="space-y-1.5">
+        <!-- HƯỚNG DẪN DƯỚI BẢNG 1 -->
+        <div class="bg-purple-50/80 p-3 rounded-xl border border-purple-300 space-y-2">
           <h3 class="font-display font-extrabold text-purple-900 text-sm flex items-center gap-1">
-            <span>📋</span> BẢNG 2: DANH SÁCH GHÉP ĐÔI HIỆN TẠI
+            <span>💡</span> HƯỚNG DẪN QUẢN LÝ SỰ KIỆN 20/10
           </h3>
-          <div id="pair-list" class="max-h-[350px] overflow-y-auto space-y-1.5 text-xs bg-candy-soft p-2.5 rounded-xl border border-plum/20 font-bold"></div>
-        </div>
-      </div>
-
-      <!-- CỘT BÊN PHẢI: QUẢN LÝ LƯỢT CHẠY & HƯỚNG DẪN BTC -->
-      <div class="space-y-3">
-        <div class="bg-purple-50/80 p-4 rounded-xl border border-purple-300 space-y-3">
-          <h3 class="font-display font-extrabold text-purple-900 text-sm flex items-center gap-1">
-            <span>💡</span> HƯỚNG DẪN & QUẢN LÝ SỰ KIỆN 20/10
-          </h3>
-          <p class="text-xs text-plum-soft leading-relaxed">
-            - Trang quản trị này dành riêng cho BTC trên Laptop.<br>
-            - Các bạn nữ sẽ truy cập bằng điện thoại qua link GitHub Pages của lớp.<br>
+          <p class="text-[0.7rem] text-plum-soft leading-relaxed">
+            - BTC sử dụng trang này trên Laptop.<br>
+            - Các bạn nữ truy cập bằng điện thoại.<br>
             - Nút <b>Random Lại Cặp</b> sẽ xáo trộn các bạn chưa cơ cấu.<br>
-            - Bạn có thể bấm nút Reset dưới đây để làm sạch lịch sử test trên máy của mình trước giờ G.
+            - Bấm nút dưới để reset lịch sử test trên máy này.
           </p>
-          <div class="pt-2">
-            <button onclick="resetTestDataOnly()" class="btn btn-candy !min-h-[2.5rem] !text-xs !bg-red-500 !text-white">
+          <div class="pt-1">
+            <button onclick="resetTestDataOnly()" class="btn btn-candy !min-h-[2.2rem] !text-xs !bg-red-500 !text-white">
               🔄 RESET DỮ LIỆU TEST TRÊN MÁY NÀY
             </button>
           </div>
         </div>
+      </div>
+
+      <!-- CỘT PHẢI (L-COL 7): BẢNG 2 TOÀN BỘ DỌC XUỐNG -->
+      <div class="lg:col-span-7 space-y-1.5">
+        <h3 class="font-display font-extrabold text-purple-900 text-sm flex items-center gap-1">
+          <span>📋</span> BẢNG 2: DANH SÁCH GHÉP ĐÔI HIỆN TẠI (18/18 CẶP)
+        </h3>
+        <div id="pair-list" class="max-h-[500px] overflow-y-auto space-y-1.5 text-xs bg-candy-soft p-3 rounded-xl border border-plum/20 font-bold"></div>
       </div>
 
     </div>
@@ -616,14 +614,13 @@ function renderPairList() {
     const male = pairings[f];
     const isCustom = !!customPairs[f];
     let item = document.createElement('div');
-    item.className = "flex justify-between items-center py-1.5 px-2 bg-white rounded-lg border border-plum/10";
+    item.className = "flex justify-between items-center py-2 px-2.5 bg-white rounded-lg border border-plum/10";
     item.innerHTML = `
       <span>👧 ${f}</span> 
       <div class="flex items-center gap-1.5">
-        ${isCustom ? '<span class="text-[0.6rem] bg-pink-100 text-pink-700 px-1.5 py-0.5 rounded font-bold">Nữ Cơ Cấu</span>' : ''}
         <span class="text-pink-600 font-bold">💖 ${male}</span>
-        ${isCustom ? '<span class="text-[0.6rem] bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded font-bold">Nam Đã Cơ Cấu</span>' : ''}
-        ${isCustom ? `<button onclick="deleteCustomPair('${f}')" class="text-red-500 hover:text-red-700 ml-1 font-bold text-xs" title="Xóa cơ cấu">🗑</button>` : ''}
+        ${isCustom ? '<span class="text-[0.6rem] bg-pink-100 text-pink-700 px-1.5 py-0.5 rounded font-bold">đã bị sắp xếp</span>' : ''}
+        ${isCustom ? `<button onclick="deleteCustomPair('${f}')" class="text-red-500 hover:text-red-700 ml-1 font-bold text-xs p-1" title="Xóa cơ cấu">🗑</button>` : ''}
       </div>`;
     list.appendChild(item);
   });
