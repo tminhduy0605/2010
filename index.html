@@ -43,9 +43,7 @@ body{
   background-attachment:fixed;
 }
 :focus-visible{outline:.2rem solid var(--plum);outline-offset:.2rem;border-radius:.6rem}
-mark{background:linear-gradient(transparent 58%,#FFF1C9 58% 92%,transparent 92%);color:inherit;padding:0 .12em}
 
-/* Lớp trang trí rơi / bay */
 #ambient{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}
 #ambient span{position:absolute;opacity:.85;will-change:transform}
 #ambient .fall{top:-12%;animation:fall linear infinite}
@@ -53,7 +51,6 @@ mark{background:linear-gradient(transparent 58%,#FFF1C9 58% 92%,transparent 92%)
 @keyframes fall{from{transform:translate3d(0,-10vh,0) rotate(0)}to{transform:translate3d(var(--dx,30px),115vh,0) rotate(360deg)}}
 @keyframes rise{from{transform:translate3d(0,0,0) rotate(-6deg)}50%{transform:translate3d(var(--dx,20px),-60vh,0) rotate(6deg)}to{transform:translate3d(0,-125vh,0) rotate(-6deg)}}
 
-/* Nút */
 .btn{
   display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;min-height:3.2rem;
   padding:.7rem 1.2rem;border:.14rem solid var(--plum);border-radius:999px;
@@ -63,14 +60,10 @@ mark{background:linear-gradient(transparent 58%,#FFF1C9 58% 92%,transparent 92%)
 .btn:active:not(:disabled){transform:translateY(.22rem);box-shadow:0 .06rem 0 var(--plum)}
 .btn:disabled{opacity:.65;cursor:default}
 .btn-candy{background:var(--candy)} .btn-lav{background:var(--lav)} .btn-milk{background:#fff}
-.pop{animation:pop .6s cubic-bezier(.3,1.5,.5,1) both}
-@keyframes pop{from{opacity:0;transform:translateY(1.4rem) scale(.9)}to{opacity:1;transform:none}}
-.pulse{animation:pulse .35s ease-out}
-@keyframes pulse{0%{transform:scale(1)}40%{transform:scale(1.07)}100%{transform:scale(1)}}
 
 .chip{display:inline-block;background:#fff;border:.12rem solid var(--plum);border-radius:999px;padding:.2rem .9rem;font-weight:700;font-size:.85rem}
 
-/* Hộp quà nhún nhảy */
+/* Hộp quà */
 .giftbox{position:relative;display:block;width:14rem;height:14rem;margin:1.4rem auto .6rem;border:0;background:none;padding:0;cursor:pointer}
 .gb-all{position:absolute;inset:0;transform-origin:50% 100%;animation:hop 1.7s cubic-bezier(.3,0,.4,1) infinite}
 @keyframes hop{
@@ -100,9 +93,8 @@ mark{background:linear-gradient(transparent 58%,#FFF1C9 58% 92%,transparent 92%)
 .giftbox.open .gb-lid{transform:translate(-2rem,-5.5rem) rotate(-22deg);opacity:0}
 .gb-letter{position:absolute;left:50%;bottom:4.6rem;font-size:3.4rem;transform:translate(-50%,0) scale(.5);opacity:0;transition:transform .9s cubic-bezier(.3,1.4,.5,1) .25s,opacity .3s .25s}
 .giftbox.open .gb-letter{transform:translate(-50%,-6.2rem) scale(1.2) rotate(-6deg);opacity:1}
-.leaving{opacity:0;transform:translateY(-1rem) scale(.96);transition:opacity .45s,transform .45s}
 
-/* Khung ảnh polaroid chứa video */
+/* Khung Polaroid Video */
 .polaroid{position:relative;background:#fff;border:.16rem solid var(--plum);border-radius:1rem;padding:.8rem .8rem 1.1rem;box-shadow:0 .4rem 0 var(--plum);transform:rotate(-1deg)}
 .tape{position:absolute;top:-.85rem;width:5rem;height:1.5rem;background:repeating-linear-gradient(45deg,#FFD0E0 0 .5rem,#F3ECFF .5rem 1rem);border:.1rem solid rgba(69,39,92,.25);opacity:.95}
 .tape.l{left:1rem;transform:rotate(-5deg)} .tape.r{right:1rem;transform:rotate(4deg)}
@@ -116,10 +108,6 @@ mark{background:linear-gradient(transparent 58%,#FFF1C9 58% 92%,transparent 92%)
 @keyframes reveal{from{opacity:0;transform:perspective(20rem) rotateX(90deg) scale(.6)}to{opacity:1;transform:none}}
 .tag{display:inline-block;margin-top:.5rem;padding:.2rem .8rem;border-radius:999px;font-size:.85rem;font-weight:700;background:var(--candy);border:.12rem solid var(--plum)}
 .tag.extra{background:var(--lav)}
-
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-}
 </style>
 </head>
 
@@ -128,31 +116,24 @@ mark{background:linear-gradient(transparent 58%,#FFF1C9 58% 92%,transparent 92%)
 
 <main class="relative z-10 mx-auto flex min-h-dvh w-full max-w-md flex-col items-center px-5 pb-12 pt-6">
 
-  <span class="chip" id="eventChip">Món Quà Bí Mật 12A1 ✨</span>
+  <span class="chip">Món Quà Bí Mật 12A1 ✨</span>
 
-  <!-- Bước 1: Chọn tên & Mã Admin -->
+  <!-- Bước 1: Tự nhập tên -->
   <section id="step-select" class="mt-6 w-full text-center space-y-4">
     <h1 class="font-display text-[2rem] font-extrabold leading-tight">Gửi các cô gái 12A1 💐</h1>
-    <p class="mx-auto max-w-xs text-plum-soft">Chọn tên của bạn để mở món quà bí mật từ các bạn nam nhé!</p>
+    <p class="mx-auto max-w-xs text-plum-soft">Nhập tên của bạn để mở món quà bí mật từ các bạn nam nhé!</p>
 
     <div class="text-left bg-white/80 backdrop-blur p-4 rounded-2xl border-2 border-plum shadow-md space-y-3">
       <div>
-        <label class="block text-sm font-bold mb-1">Chọn tên của bạn:</label>
-        <select id="female-select" class="w-full p-3 rounded-xl border-2 border-plum bg-candy-soft font-semibold focus:outline-none">
-          <option value="">-- Chọn tên bạn nữ --</option>
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-plum-soft mb-1">Mã Ban Tổ Chức (nếu có):</label>
-        <input type="password" id="admin-pass" placeholder="Nhập mã admin..." class="w-full p-2.5 rounded-xl border-2 border-plum/30 text-sm focus:outline-none">
+        <label class="block text-sm font-bold mb-1">Tên của bạn là:</label>
+        <input type="text" id="user-name-input" placeholder="Nhập tên của bạn..." class="w-full p-3 rounded-xl border-2 border-plum bg-candy-soft font-semibold focus:outline-none focus:border-pink-500">
       </div>
     </div>
 
     <button onclick="handleLogin()" class="btn btn-candy text-lg">Vào Mở Quà Ngay 💖</button>
   </section>
 
-  <!-- Bước 2: Hộp quà nhún nhảy -->
+  <!-- Bước 2: Hộp quà -->
   <section id="step-gift" class="mt-6 w-full text-center" hidden>
     <h2 id="welcome-msg" class="font-display text-2xl font-extrabold text-purple-800"></h2>
     <p class="mx-auto mt-1 max-w-xs text-plum-soft">Có một bạn nam đã chuẩn bị lời chúc đặc biệt cho bạn. Chạm vào hộp quà để bóc tem!</p>
@@ -170,7 +151,7 @@ mark{background:linear-gradient(transparent 58%,#FFF1C9 58% 92%,transparent 92%)
     <button class="btn btn-candy text-lg" onclick="openGift()">Bóc tem món quà bí mật 🎁</button>
   </section>
 
-  <!-- Bước 3: Video Lời chúc & Polaroid -->
+  <!-- Bước 3: Video Lời chúc -->
   <section id="step-result" class="mt-6 w-full" hidden>
     <div class="polaroid">
       <span class="tape l"></span><span class="tape r"></span>
@@ -179,7 +160,7 @@ mark{background:linear-gradient(transparent 58%,#FFF1C9 58% 92%,transparent 92%)
         <button class="bigplay" id="bigPlay" aria-label="Phát video" hidden>▶</button>
         <div class="vid-err" id="vidErr" hidden>
           <b class="font-display text-lg">Video chưa tải được</b>
-          <span class="text-sm">Vui lòng kiểm tra file video này:</span>
+          <span class="text-sm">Vui lòng kiểm tra file video:</span>
           <code id="vidErrPath"></code>
         </div>
       </div>
@@ -193,22 +174,22 @@ mark{background:linear-gradient(transparent 58%,#FFF1C9 58% 92%,transparent 92%)
     <div class="mt-6 grid gap-3">
       <p id="wish-text" class="text-center text-sm font-bold text-purple-900 bg-white/90 p-3.5 rounded-2xl border-2 border-plum italic shadow-sm"></p>
       
-      <button class="btn btn-candy" id="heartBtn" onclick="heartEffect()">💖 Thả tim / Cảm ơn</button>
+      <button class="btn btn-candy" onclick="heartEffect()">💖 Thả tim / Cảm ơn</button>
       <p id="heartCount" class="-mt-1 min-h-[1.25rem] text-center text-sm font-bold text-candy-deep"></p>
 
       <button class="btn btn-lav" onclick="randomViewOther()">🎲 Xem clip của bạn nam khác</button>
       <button class="btn btn-milk" id="backBtn" onclick="showOfficial()" hidden>🎁 Về món quà chính thức của mình</button>
-      <button class="btn btn-milk !text-xs !min-h-[2.4rem] mt-2" onclick="resetUser()">Đổi bạn nữ khác</button>
+      <button class="btn btn-milk !text-xs !min-h-[2.4rem] mt-2" onclick="resetUser()">Đổi tên khác</button>
     </div>
   </section>
 
-  <!-- Bảng Admin -->
+  <!-- Bảng Admin BTC -->
   <aside id="step-admin" class="mt-6 w-full rounded-3xl border-2 border-plum bg-white/90 p-5 text-sm space-y-3" hidden>
     <h2 class="font-display text-xl font-extrabold text-red-600 border-b-2 border-plum/20 pb-2">Trang Quản Trị BTC 12A1</h2>
-    <p class="text-xs text-plum-soft">Danh sách ghép cặp cố định (Mỗi bạn nữ đúng 1 bạn nam):</p>
+    <p class="text-xs text-plum-soft">Danh sách bạn nam được phân công theo lượt mở:</p>
     <div id="pair-list" class="max-h-64 overflow-y-auto space-y-1.5 text-xs bg-candy-soft p-3 rounded-2xl border border-plum/20 font-medium"></div>
     <div class="grid gap-2 pt-2">
-      <button onclick="clearData()" class="btn btn-candy !bg-red-400 !text-white !border-plum">RESET TOÀN BỘ GHÉP CẶP</button>
+      <button onclick="clearData()" class="btn btn-candy !bg-red-400 !text-white !border-plum">RESET DỮ LIỆU</button>
       <button onclick="location.reload()" class="btn btn-milk">Quay Lại Màn Hình Chính</button>
     </div>
   </aside>
@@ -216,15 +197,6 @@ mark{background:linear-gradient(transparent 58%,#FFF1C9 58% 92%,transparent 92%)
 </main>
 
 <script>
-/* Danh sách 18 nữ & 18 nam lớp 12A1 */
-const females = [
-  "Phù Lý Gia An", "Lê Thanh Quế Anh", "Nguyễn Ngọc Trâm Anh", "Trần Ngọc Minh Châu",
-  "Lê Ngân Hạnh", "Phạm Ngọc Hân", "Nguyễn Hồng Mỹ Kim", "Trịnh Thị Ngọc Linh",
-  "Lê Nguyễn Thảo My", "Trương Gia Nghi", "Nguyễn Ngọc Bảo Nhi", "Bùi Lê Như Thảo",
-  "Lưu Bảo Thy", "Lê Thủy Thiên Tú", "Nguyễn Cát Tường", "Lê Ngọc Tường Vy",
-  "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến"
-];
-
 const males = [
   "Huỳnh Phúc An", "Vũ Hoàng Gia Cát", "Nguyễn Hoàng Đạt", "Ngô Minh Đông",
   "Nguyễn Ngọc Đức", "Tô Thuận Hưng", "Nguyễn Minh Khang", "Nguyễn Tiểu Long",
@@ -233,28 +205,7 @@ const males = [
   "Võ Minh Trí", "Trịnh Tuấn Vỹ"
 ];
 
-/* Khởi tạo ghép cặp 1-1 cố định lưu vào localStorage */
-let pairs = JSON.parse(localStorage.getItem('12a1_pairs')) || {};
-function initPairs() {
-  if (Object.keys(pairs).length === 0) {
-    let shuffledMales = [...males].sort(() => Math.random() - 0.5);
-    females.forEach((female, index) => {
-      pairs[female] = shuffledMales[index];
-    });
-    localStorage.setItem('12a1_pairs', JSON.stringify(pairs));
-  }
-}
-initPairs();
-
-/* Điền danh sách bạn nữ vào Select */
-const selectEl = document.getElementById('female-select');
-females.forEach(f => {
-  let opt = document.createElement('option');
-  opt.value = f;
-  opt.textContent = f;
-  selectEl.appendChild(opt);
-});
-
+let userMap = JSON.parse(localStorage.getItem('12a1_custom_map')) || {};
 let currentUser = localStorage.getItem('12a1_current_user') || "";
 let heartCount = parseInt(localStorage.getItem('12a1_hearts_' + currentUser) || '0');
 
@@ -265,40 +216,48 @@ function showStep(stepId) {
   document.getElementById(stepId).hidden = false;
 }
 
-/* Xử lý Đăng nhập / Chọn tên */
+/* Xử lý Nhập Tên */
 function handleLogin() {
-  const pass = document.getElementById('admin-pass').value.trim();
-  if (pass === 'admin') {
+  const val = document.getElementById('user-name-input').value.trim();
+  if (!val) {
+    alert("Vui lòng nhập tên của bạn!");
+    return;
+  }
+
+  /* Nếu gõ "admin" -> chuyển vào bảng BTC */
+  if (val.toLowerCase() === 'admin') {
     renderAdmin();
     showStep('step-admin');
     return;
   }
 
-  const val = selectEl.value;
-  if (!val) {
-    alert("Vui lòng chọn tên của bạn!");
-    return;
-  }
   currentUser = val;
   localStorage.setItem('12a1_current_user', currentUser);
+
+  /* Phân công ngẫu nhiên 1 bạn nam cho tên này nếu chưa từng ghép */
+  if (!userMap[currentUser]) {
+    const assignedCount = Object.keys(userMap).length;
+    const maleIndex = assignedCount % males.length;
+    userMap[currentUser] = males[maleIndex];
+    localStorage.setItem('12a1_custom_map', JSON.stringify(userMap));
+  }
+
   document.getElementById('welcome-msg').textContent = `Xin chào ${currentUser}! ✨`;
   showStep('step-gift');
 }
 
-/* Tự động vào thẳng nếu đã đăng nhập */
-if (currentUser && pairs[currentUser]) {
+if (currentUser) {
   document.getElementById('welcome-msg').textContent = `Xin chào ${currentUser}! ✨`;
   showStep('step-gift');
 }
 
-/* Pháo hoa Confetti */
 const COLORS = ['#FFB9D2', '#F0629C', '#D9C9FF', '#9B7BE8', '#FFF1C9', '#FFFFFF'];
 function fireworks() {
-  if (!window.confetti) return;
-  confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: COLORS });
+  if (window.confetti) {
+    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: COLORS });
+  }
 }
 
-/* Bốc quà */
 function openGift() {
   const giftEl = document.getElementById('gift');
   giftEl.classList.add('shake');
@@ -313,9 +272,8 @@ function openGift() {
   }, 600);
 }
 
-/* Hiển thị món quà chính thức */
 function showOfficial() {
-  const partner = pairs[currentUser];
+  const partner = userMap[currentUser] || males[0];
   document.getElementById('capLead').textContent = "Người gửi lời chúc bí mật tới bạn là:";
   document.getElementById('capName').textContent = partner;
   document.getElementById('capTag').textContent = "🎁 Món quà chính thức của bạn";
@@ -326,7 +284,6 @@ function showOfficial() {
   loadVideo(partner);
 }
 
-/* Nút thả tim */
 function heartEffect() {
   heartCount++;
   localStorage.setItem('12a1_hearts_' + currentUser, heartCount);
@@ -340,9 +297,8 @@ function updateHeartUI() {
   document.getElementById('heartCount').textContent = heartCount ? `Bạn đã thả ${heartCount} tim 💗` : '';
 }
 
-/* Xem clip bạn nam khác */
 function randomViewOther() {
-  const partner = pairs[currentUser];
+  const partner = userMap[currentUser];
   const otherMales = males.filter(m => m !== partner);
   const randomMale = otherMales[Math.floor(Math.random() * otherMales.length)];
 
@@ -355,7 +311,6 @@ function randomViewOther() {
   loadVideo(randomMale);
 }
 
-/* Tải Video */
 function loadVideo(maleName) {
   const vid = document.getElementById('vid');
   const index = males.indexOf(maleName) + 1;
@@ -382,35 +337,37 @@ document.getElementById('vid').onerror = () => {
   document.getElementById('vidErr').hidden = false;
 };
 
-/* Đổi bạn nữ */
 function resetUser() {
   localStorage.removeItem('12a1_current_user');
   currentUser = "";
-  document.getElementById('female-select').value = "";
+  document.getElementById('user-name-input').value = "";
   showStep('step-select');
 }
 
-/* Admin render */
 function renderAdmin() {
   const list = document.getElementById('pair-list');
   list.innerHTML = "";
-  females.forEach(f => {
+  const entries = Object.entries(userMap);
+  if (entries.length === 0) {
+    list.innerHTML = "<div class='text-center py-2'>Chưa có lượt mở quà nào.</div>";
+    return;
+  }
+  entries.forEach(([name, male]) => {
     let item = document.createElement('div');
     item.className = "flex justify-between py-1.5 border-b border-plum/10";
-    item.innerHTML = `<span><strong>${f}</strong></span> <span class="text-pink-600 font-bold">💖 ${pairs[f]}</span>`;
+    item.innerHTML = `<span>Tên điền: <strong>${name}</strong></span> <span class="text-pink-600 font-bold">💖 ${male}</span>`;
     list.appendChild(item);
   });
 }
 
 function clearData() {
-  if (confirm("Xóa toàn bộ dữ liệu xáo trộn để bốc lại từ đầu?")) {
-    localStorage.removeItem('12a1_pairs');
+  if (confirm("Xóa toàn bộ dữ liệu điền tên?")) {
+    localStorage.removeItem('12a1_custom_map');
     localStorage.removeItem('12a1_current_user');
     location.reload();
   }
 }
 
-/* Hiệu ứng bóng bay & hoa rơi nền */
 (function ambient() {
   const layer = document.getElementById('ambient'), items = ['🌸', '💜', '🎈', '✨', '🌷', '🩷', '🎈'];
   for (let i = 0; i < 12; i++) {
