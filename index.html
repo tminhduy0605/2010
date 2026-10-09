@@ -14,18 +14,20 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
-    theme: { extend: {
-      colors: {
-        candy: { DEFAULT: '#FFB9D2', deep: '#E0457F', soft: '#FFE4EE' },
-        lav:   { DEFAULT: '#D9C9FF', deep: '#9B7BE8', soft: '#EFE8FF' },
-        milk:  '#FFF7EA',
-        plum:  { DEFAULT: '#45275C', soft: '#6F5885' }
-      },
-      fontFamily: {
-        display: ['"Baloo 2"', 'Nunito', 'sans-serif'],
-        body: ['Nunito', 'sans-serif']
+    theme: {
+      extend: {
+        colors: {
+          candy: { DEFAULT: '#FFB9D2', deep: '#E0457F', soft: '#FFE4EE' },
+          lav:   { DEFAULT: '#D9C9FF', deep: '#9B7BE8', soft: '#EFE8FF' },
+          milk:  '#FFF7EA',
+          plum:  { DEFAULT: '#45275C', soft: '#6F5885' }
+        },
+        fontFamily: {
+          display: ['"Baloo 2"', 'Nunito', 'sans-serif'],
+          body: ['Nunito', 'sans-serif']
+        }
       }
-    } }
+    }
   };
 </script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -774,7 +776,7 @@ function loadMedia(maleName, femaleName) {
   });
 }
 
-/* Kiếm thư ẩn danh dạng AD_[Tên].txt */
+/* Kiếm thư ẩn danh dạng assets/AD/AD_[Tên].txt */
 async function checkAnonLetter() {
   const btn = $('btn-anon-letter');
   btn.hidden = true;
@@ -791,7 +793,7 @@ async function checkAnonLetter() {
 
   for (const fileName of possibleNames) {
     try {
-      const res = await fetch(`assets/wishes/${fileName}.txt`, { cache: 'no-cache' });
+      const res = await fetch(`assets/AD/${fileName}.txt`, { cache: 'no-cache' });
       if (!res.ok) continue;
       const type = res.headers.get('content-type') || '';
       const text = (await res.text()).trim();
