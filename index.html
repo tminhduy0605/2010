@@ -85,4 +85,818 @@ body{
   text-decoration:underline;text-underline-offset:3px;
 }
 .btn:focus-visible,.link-btn:focus-visible,.giftbox:focus-visible,.bigplay:focus-visible{
-  outline:3px solid var(--lav-deep);outline-offset:3
+  outline:3px solid var(--lav-deep);outline-offset:3px;
+}
+
+.chip{
+  display:inline-block;background:#fff;border:2px solid var(--plum);
+  border-radius:999px;padding:.25rem 1rem;font-weight:800;font-size:.85rem;
+  box-shadow:0 2px 0 var(--plum);
+}
+
+/* ---------- Chuyển bước ---------- */
+.step-in{animation:stepIn .35s ease both}
+@keyframes stepIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+
+/* ---------- Hộp quà ---------- */
+.giftbox-wrapper{position:relative;width:11rem;height:12rem;margin:1rem auto .5rem}
+.giftbox{position:relative;width:100%;height:100%;border:0;background:none;padding:0;cursor:pointer}
+.giftbox:disabled{cursor:default}
+.gb-all{position:absolute;inset:0;transform-origin:50% 100%;animation:hop 1.7s cubic-bezier(.3,0,.4,1) infinite}
+@keyframes hop{
+  0%,100%{transform:translateY(0) scale(1.05,.93)}
+  28%{transform:translateY(-1.2rem) scale(.96,1.06)}
+  50%{transform:translateY(0) scale(1.06,.92)}
+  64%{transform:translateY(-.3rem) scale(1,1)}
+  78%{transform:translateY(0) scale(1.02,.97)}
+}
+.gb-shadow{position:absolute;left:50%;bottom:-.2rem;width:7rem;height:.6rem;transform:translateX(-50%);border-radius:50%;background:rgba(69,39,92,.18);animation:shadow 1.7s cubic-bezier(.3,0,.4,1) infinite}
+@keyframes shadow{0%,50%,100%{transform:translateX(-50%) scaleX(1)}28%{transform:translateX(-50%) scaleX(.7)}}
+.giftbox.shake .gb-all{animation:shake .45s linear infinite}
+.giftbox.open .gb-all,.giftbox.open .gb-shadow{animation:none}
+@keyframes shake{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}45%{transform:rotate(7deg)}70%{transform:rotate(-5deg)}}
+
+.gb-glow{position:absolute;left:50%;top:40%;width:15rem;height:15rem;transform:translate(-50%,-50%) scale(.3);border-radius:50%;background:radial-gradient(circle,rgba(255,241,201,.95) 0,rgba(255,241,201,0) 65%);opacity:0;transition:opacity .6s, transform .8s}
+.giftbox.open .gb-glow{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+.gb-body{position:absolute;left:1rem;right:1rem;bottom:0;height:6.5rem;background:var(--candy);border:2.5px solid var(--plum);border-radius:0 0 1rem 1rem;overflow:hidden;z-index:1}
+.gb-body::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1.8rem;transform:translateX(-50%);background:var(--lav);border-inline:2.5px solid var(--plum)}
+
+.gb-lid{position:absolute;left:.6rem;right:.6rem;bottom:6.2rem;height:2.2rem;background:#FF93BA;border:2.5px solid var(--plum);border-radius:.7rem;z-index:3;transform-origin:10% 100%;transition:transform .7s cubic-bezier(.3,1.5,.5,1), opacity .5s .3s}
+.gb-lid::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1.8rem;transform:translateX(-50%);background:var(--lav);border-inline:2.5px solid var(--plum)}
+
+.gb-bow{position:absolute;left:50%;top:-1.3rem;width:3.6rem;height:1.5rem;transform:translateX(-50%);z-index:4}
+.gb-bow::before,.gb-bow::after{content:"";position:absolute;top:0;width:1.6rem;height:1.4rem;background:var(--lav);border:2.5px solid var(--plum);border-radius:60% 60% 60% 10%}
+.gb-bow::before{left:0;transform:rotate(-12deg)}
+.gb-bow::after{right:0;transform:scaleX(-1) rotate(-12deg)}
+
+.giftbox.open .gb-lid{transform:translate(-2.5rem,-4.5rem) rotate(-30deg);opacity:0}
+.gb-letter{position:absolute;left:50%;bottom:4rem;font-size:2.5rem;transform:translate(-50%,0) scale(.5);opacity:0;transition:transform .9s cubic-bezier(.3,1.4,.5,1) .25s, opacity .3s .25s;z-index:2}
+.giftbox.open .gb-letter{transform:translate(-50%,-4.8rem) scale(1.2) rotate(-6deg);opacity:1}
+
+/* ---------- Khung video 16:9 kiểu polaroid ---------- */
+.polaroid{
+  position:relative;background:#fff;border:2.5px solid var(--plum);
+  border-radius:1.2rem;padding:.6rem .6rem .8rem;
+  box-shadow:0 6px 0 var(--plum);
+}
+.tape{
+  position:absolute;top:-.75rem;width:4.5rem;height:1.3rem;
+  background:repeating-linear-gradient(45deg,#FFD0E0 0 .4rem,#F3ECFF .4rem .8rem);
+  border:1.5px solid rgba(69,39,92,.3);opacity:.95;z-index:10;
+}
+.tape.l{left:1rem;transform:rotate(-6deg)}
+.tape.r{right:1rem;transform:rotate(5deg)}
+
+.frame{
+  position:relative;width:100%;aspect-ratio:16 / 9;
+  border:2px solid var(--plum);border-radius:.8rem;
+  overflow:hidden;background:#000;margin:0 auto;
+}
+.frame video{width:100%;height:100%;object-fit:contain;display:block}
+.bigplay{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:4rem;height:4rem;border-radius:50%;border:2.5px solid var(--plum);
+  background:var(--candy);font-size:1.6rem;box-shadow:0 4px 0 var(--plum);cursor:pointer;
+}
+.vid-err{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:.4rem;text-align:center;padding:1rem;background:#2A1D38;color:#fff}
+.vid-err code{font-size:.65rem;color:#FFF1C9;word-break:break-all;opacity:.8}
+.vid-err .link-btn{color:#FFF1C9}
+
+.caption{text-align:center;padding-top:.5rem}
+.name-reveal{display:inline-block}
+.name-reveal.play{animation:reveal .9s cubic-bezier(.3,1.5,.5,1) both .2s}
+@keyframes reveal{from{opacity:0;transform:perspective(20rem) rotateX(90deg) scale(.6)}to{opacity:1;transform:none}}
+.tag{display:inline-block;margin-top:.3rem;padding:.2rem .8rem;border-radius:999px;font-size:.8rem;font-weight:800;background:var(--candy);border:1.8px solid var(--plum)}
+
+.wish{white-space:pre-line;word-break:break-word}
+
+/* ---------- Gợi ý tên ---------- */
+.suggestions-box{
+  position:absolute;left:0;right:0;top:100%;margin-top:.3rem;
+  background:#fff;border:2px solid var(--plum);border-radius:.8rem;
+  max-height:11rem;overflow-y:auto;z-index:50;box-shadow:0 6px 15px rgba(0,0,0,.15);
+  overscroll-behavior:contain;
+}
+.suggestion-item{padding:.7rem 1rem;cursor:pointer;font-weight:700;border-bottom:1px solid #FFE4EE;text-align:left}
+.suggestion-item:last-child{border-bottom:0}
+.suggestion-item:active,.suggestion-item.active{background:#FFE4EE;color:var(--candy-deep)}
+
+/* ---------- Modal thư ẩn danh ---------- */
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(69,39,92,.6);backdrop-filter:blur(3px);
+  z-index:100;display:grid;place-items:center;padding:1rem;
+}
+
+/* ---------- Giảm chuyển động ---------- */
+@media (prefers-reduced-motion: reduce){
+  #ambient{display:none}
+  .gb-all,.gb-shadow,.giftbox.shake .gb-all{animation:none}
+  .step-in,.name-reveal.play{animation:none}
+}
+</style>
+</head>
+
+<body class="antialiased">
+<div id="ambient" aria-hidden="true"></div>
+
+<main class="relative z-10 mx-auto flex w-full max-w-[680px] flex-col items-center">
+
+  <span class="chip">Chào mừng 20/10 – Lớp 12A1 ✨</span>
+
+  <!-- Bước 1: Nhập tên -->
+  <section id="step-select" class="mt-5 w-full max-w-[420px] space-y-4 text-center">
+    <h1 class="font-display text-[1.7rem] font-extrabold leading-tight">Gửi các cô và các bạn nữ 12A1 💐</h1>
+    <p class="px-2 text-sm font-semibold text-plum-soft">Nhập tên của bạn để mở món quà bí mật 20/10 nhé!</p>
+
+    <div class="relative space-y-2 rounded-2xl border-2 border-plum bg-white/90 p-4 text-left shadow-sm backdrop-blur">
+      <label for="user-name-input" class="block text-sm font-extrabold">Tên của bạn là:</label>
+      <div class="relative" id="name-field">
+        <input type="text" id="user-name-input" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false" enterkeyhint="go"
+               role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggestions"
+               placeholder="Gõ tên bạn (vd: An, Vy, Thảo, Cô Ánh...)"
+               class="w-full rounded-xl border-2 border-plum bg-candy-soft p-3 text-base font-bold focus:border-candy-deep focus:outline-none">
+        <div id="suggestions" class="suggestions-box" role="listbox" hidden></div>
+      </div>
+      <p id="name-error" role="alert" class="text-xs font-bold text-candy-deep" hidden></p>
+      <p class="text-xs italic text-plum-soft">Gõ vài chữ (không cần dấu cũng được), rồi chọn đúng tên mình trong danh sách hiện ra.</p>
+    </div>
+
+    <button id="btn-login" class="btn btn-candy">Vào mở quà 20/10 💖</button>
+  </section>
+
+  <!-- Bước 2: Hộp quà -->
+  <section id="step-gift" class="mt-4 w-full max-w-[420px] space-y-2 text-center" hidden>
+    <h2 id="welcome-msg" class="font-display text-xl font-extrabold text-purple-900"></h2>
+    <div class="mx-2 rounded-2xl border border-plum/15 bg-white/80 p-3 shadow-sm">
+      <p class="text-sm font-bold leading-relaxed">
+        🎁 Món quà bí mật ngày 20/10 đã sẵn sàng dành tặng bạn. Chạm vào hộp quà để mở nhé!
+      </p>
+    </div>
+
+    <div class="giftbox-wrapper">
+      <button class="giftbox" id="gift" type="button" aria-label="Hộp quà bí mật 20/10">
+        <span class="gb-glow"></span>
+        <span class="gb-shadow"></span>
+        <span class="gb-all">
+          <span class="gb-letter">💌</span>
+          <span class="gb-lid"><span class="gb-bow"></span></span>
+          <span class="gb-body"></span>
+        </span>
+      </button>
+    </div>
+
+    <button id="btn-open" class="btn btn-candy mt-1" type="button">Bóc tem món quà bí mật 🎁</button>
+    <button id="btn-back-name" class="link-btn" type="button">Không phải mình? Chọn lại tên</button>
+  </section>
+
+  <!-- Bước 3: Video & lời chúc -->
+  <section id="step-result" class="mt-4 w-full max-w-[520px] space-y-3" hidden>
+    <div class="polaroid">
+      <span class="tape l"></span><span class="tape r"></span>
+      <div class="frame">
+        <video id="vid" playsinline controls preload="auto"></video>
+        <button class="bigplay" id="bigPlay" type="button" aria-label="Phát video" hidden>▶</button>
+        <div class="vid-err" id="vidErr" hidden>
+          <b class="font-display text-base">Clip chưa tải được 🎀</b>
+          <span class="text-xs">Bạn thử tải lại clip nhé.</span>
+          <button id="vidRetry" class="link-btn" type="button">Tải lại clip</button>
+          <code id="vidErrPath"></code>
+        </div>
+      </div>
+      <div class="caption">
+        <p class="text-sm font-bold text-plum-soft" id="senderLabel"></p>
+        <p class="mt-0.5"><span id="capName" class="name-reveal font-display text-2xl font-extrabold text-candy-deep"></span></p>
+        <span class="tag" id="giftTag"></span>
+      </div>
+    </div>
+
+    <div class="mx-auto grid w-full gap-2">
+      <!-- Nút Thư ẩn danh đặc biệt (nếu có) -->
+      <button id="btn-anon-letter" class="btn bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 text-purple-950 font-extrabold shadow-md border-2 border-plum hover:scale-[1.02] transition-transform" type="button" hidden>
+        💌 Có 1 bức thư ẩn danh gửi riêng cho bạn!
+      </button>
+
+      <p id="wish-text" class="wish rounded-2xl border-2 border-plum bg-white/95 p-3.5 text-center text-[0.95rem] font-bold italic leading-relaxed text-purple-900 shadow-sm">Đang tải lời chúc...</p>
+
+      <button id="btn-heart" class="btn btn-candy" type="button">💖 Thả tim / Cảm ơn</button>
+      <p id="heartCount" class="-mt-1 min-h-[1.2rem] text-center text-sm font-extrabold text-candy-deep" aria-live="polite"></p>
+
+      <!-- Các nút điều hướng xem bạn nam -->
+      <div id="male-nav-group" class="mt-1 grid grid-cols-2 gap-2">
+        <button id="btn-prev-male" class="btn btn-milk btn-sm min-w-0" type="button" hidden>⬅ Bạn nam trước</button>
+        <button id="btn-preview" class="btn btn-lav btn-sm min-w-0 col-span-2" type="button">🎲 Xem thử clip bạn nam khác</button>
+      </div>
+      <button id="btn-mine" class="btn btn-milk btn-sm min-w-0 w-full" type="button" hidden>🎁 Về món quà của mình</button>
+
+      <button id="btn-reset" class="btn btn-milk btn-sm mt-1" type="button">Đổi tên khác</button>
+    </div>
+  </section>
+
+  <!-- Bước 4: Outro Chúc Mừng Toàn Lớp (Khi xem hết 18 clip) -->
+  <section id="step-outro" class="mt-6 w-full max-w-[500px] space-y-4 text-center" hidden>
+    <div class="polaroid bg-gradient-to-b from-white to-pink-50 p-6 space-y-4 border-4 border-plum shadow-xl">
+      <span class="tape l"></span><span class="tape r"></span>
+      
+      <div class="text-4xl animate-bounce">🎈 💖 🎉</div>
+      
+      <h2 class="font-display text-2xl md:text-3xl font-extrabold text-candy-deep leading-snug">
+        CHÚC CÁC CÔ GÁI 12A1<br>20/10 LUÔN RẠNG RỠ & HẠNH PHÚC! 💖✨
+      </h2>
+      
+      <div class="rounded-xl border-2 border-plum/20 bg-white/90 p-4 text-sm font-bold text-plum-soft space-y-2">
+        <p>Cảm ơn các cô và các bạn nữ 12A1 đã luôn là những mảnh ghép tuyệt vời nhất của lớp chúng ta! 🌸</p>
+        <p class="text-xs italic text-candy-deep">Chúc các bạn luôn xinh đẹp, học giỏi và gặp thật nhiều may mắn!</p>
+      </div>
+
+      <div class="pt-2 space-y-2">
+        <button id="btn-outro-mine" class="btn btn-candy w-full" type="button">🔄 Xem lại món quà của tôi</button>
+        <button id="btn-outro-reset" class="btn btn-milk btn-sm w-full" type="button">Đổi tên người xem khác</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Modal Đọc Thư Ẩn Danh -->
+<div id="anon-modal" class="modal-backdrop" hidden>
+  <div class="w-full max-w-[460px] rounded-2xl border-3 border-plum bg-white p-5 shadow-2xl space-y-4 text-left relative max-h-[85vh] overflow-y-auto step-in">
+    <div class="flex items-center justify-between border-b-2 border-pink-100 pb-2">
+      <h3 class="font-display text-lg font-extrabold text-candy-deep flex items-center gap-1.5">
+        <span>💌</span> Bức thư ẩn danh gửi bạn
+      </h3>
+      <button id="btn-close-modal" class="text-xl font-black text-plum hover:text-candy-deep px-2" type="button">✕</button>
+    </div>
+    
+    <div id="anon-content" class="text-sm font-bold text-plum leading-relaxed space-y-3 whitespace-pre-line">
+      <!-- Nội dung thư sẽ tự load vào đây -->
+    </div>
+
+    <div id="anon-signature" class="hidden text-right border-t border-purple-100 pt-2 text-xs font-black italic text-lav-deep bg-purple-50 p-2.5 rounded-xl">
+      <!-- Chữ ký / Hint sẽ load vào đây -->
+    </div>
+
+    <button id="btn-close-modal-bottom" class="btn btn-candy btn-sm w-full" type="button">Đóng thư 💖</button>
+  </div>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+/* =====================================================================
+   DỮ LIỆU LỚP 12A1
+   ===================================================================== */
+
+const MALES = [
+  "Huỳnh Phúc An", "Vũ Hoàng Gia Cát", "Nguyễn Hoàng Đạt", "Ngô Minh Đông",
+  "Nguyễn Ngọc Đức", "Tô Thuận Hưng", "Nguyễn Minh Khang", "Nguyễn Tiểu Long",
+  "Nguyễn Khắc Hoàng Minh", "Trương Gia Phát", "Ngô Gia Phú", "Cao Minh Phúc",
+  "Đoàn Nhật Quang", "Nguyễn Minh Quân", "Vũ Thái Tâm", "Lâm Hoàng Gia Thuận",
+  "Võ Minh Trí", "Trịnh Tuấn Vỹ"
+];
+
+const RECIPIENTS = [
+  "Phù Lý Gia An", "Lê Thanh Quế Anh", "Nguyễn Ngọc Trâm Anh", "Trần Ngọc Minh Châu",
+  "Lê Ngân Hạnh", "Phạm Ngọc Hân", "Nguyễn Hồng Mỹ Kim", "Trịnh Thị Ngọc Linh",
+  "Lê Nguyễn Thảo My", "Trương Gia Nghi", "Nguyễn Ngọc Bảo Nhi", "Bùi Lê Như Thảo",
+  "Lưu Bảo Thy", "Lê Thủy Thiên Tú", "Nguyễn Cát Tường", "Lê Ngọc Tường Vy",
+  "Nguyễn Ngọc Hà Vy", "Nguyễn Thị Thảo Yến",
+  "Cô Dịch Thị Hồng Ánh (GVCN)", "Cô Bảo Trân (GV thực tập)"
+];
+
+const PAIRINGS = {
+  "Phù Lý Gia An":               "Trương Gia Phát",
+  "Lê Thanh Quế Anh":            "Vũ Hoàng Gia Cát",
+  "Nguyễn Ngọc Trâm Anh":        "Ngô Gia Phú",
+  "Trần Ngọc Minh Châu":         "Trịnh Tuấn Vỹ",
+  "Lê Ngân Hạnh":                "Nguyễn Tiểu Long",
+  "Phạm Ngọc Hân":               "Nguyễn Hoàng Đạt",
+  "Nguyễn Hồng Mỹ Kim":          "Tô Thuận Hưng",
+  "Trịnh Thị Ngọc Linh":         "Huỳnh Phúc An",
+  "Lê Nguyễn Thảo My":           "Vũ Thái Tâm",
+  "Trương Gia Nghi":             "Nguyễn Minh Khang",
+  "Nguyễn Ngọc Bảo Nhi":         "Nguyễn Khắc Hoàng Minh",
+  "Bùi Lê Như Thảo":             "Lâm Hoàng Gia Thuận",
+  "Lưu Bảo Thy":                 "Đoàn Nhật Quang",
+  "Lê Thủy Thiên Tú":            "Võ Minh Trí",
+  "Nguyễn Cát Tường":            "Ngô Minh Đông",
+  "Lê Ngọc Tường Vy":            "Nguyễn Minh Quân",
+  "Nguyễn Ngọc Hà Vy":           "Cao Minh Phúc",
+  "Nguyễn Thị Thảo Yến":         "Nguyễn Ngọc Đức",
+  "Cô Dịch Thị Hồng Ánh (GVCN)": "GVCN",
+  "Cô Bảo Trân (GV thực tập)":   "GVTT"
+};
+
+const COLORS = ['#FFB9D2', '#F0629C', '#D9C9FF', '#9B7BE8', '#FFF1C9', '#FFFFFF'];
+const KEY_LAST_NAME = '12a1_last_name';
+const KEY_HEARTS = '12a1_hearts_';
+const OPEN_DELAY = 600;
+const REVEAL_DELAY = 1200;
+
+const $ = (id) => document.getElementById(id);
+const rand = (a, b) => a + Math.random() * (b - a);
+
+const store = {
+  get(k)    { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+  del(k)    { try { localStorage.removeItem(k); } catch (e) {} }
+};
+
+const stripTones = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+const norm = (s) => stripTones(s).toLowerCase().replace(/\s+/g, ' ').trim();
+
+function fileCandidates(fullName) {
+  if (fullName === 'GVCN' || fullName === 'GVTT') return [fullName];
+  
+  const plain = stripTones(fullName).trim();
+  const words = plain.split(/\s+/);
+  const given = words[words.length - 1];
+  const list = [
+    words.join('_'),
+    words.join('_').toLowerCase(),
+    given.toLowerCase(),
+    given.charAt(0).toUpperCase() + given.slice(1).toLowerCase()
+  ];
+  return [...new Set(list)];
+}
+
+let currentUser = '';
+let opening = false;
+let loadToken = 0;
+let videoTries = [];
+let videoIdx = 0;
+let activeIdx = -1;
+
+/* Quản lý lịch sử các bạn nam đã xem */
+let maleHistory = [];
+let historyIndex = 0;
+
+const input = $('user-name-input');
+const sugBox = $('suggestions');
+const errBox = $('name-error');
+const gift = $('gift');
+const vid = $('vid');
+const bigPlay = $('bigPlay');
+const vidErr = $('vidErr');
+const wishEl = $('wish-text');
+const capName = $('capName');
+
+function showStep(id) {
+  ['step-select', 'step-gift', 'step-result', 'step-outro'].forEach((s) => { $(s).hidden = true; });
+  const el = $(id);
+  el.hidden = false;
+  el.classList.remove('step-in');
+  void el.offsetWidth;
+  el.classList.add('step-in');
+  window.scrollTo(0, 0);
+}
+
+function rankMatches(query) {
+  const q = norm(query);
+  if (!q) return [];
+  return RECIPIENTS
+    .map((name) => {
+      const n = norm(name);
+      if (!(' ' + n).includes(' ' + q)) return null;
+      const words = n.split(' ');
+      const score = words[words.length - 1].startsWith(q) ? 0 : 1;
+      return { name, score };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.score - b.score)
+    .map((x) => x.name);
+}
+
+function setSuggestionsOpen(open) {
+  sugBox.hidden = !open;
+  input.setAttribute('aria-expanded', String(open));
+  if (!open) { activeIdx = -1; input.removeAttribute('aria-activedescendant'); }
+}
+
+function showError(msg) {
+  errBox.textContent = msg;
+  errBox.hidden = !msg;
+}
+
+function pickName(name) {
+  input.value = name;
+  showError('');
+  setSuggestionsOpen(false);
+  input.blur();
+}
+
+function renderSuggestions() {
+  const matches = rankMatches(input.value);
+  sugBox.innerHTML = '';
+  activeIdx = -1;
+  if (!matches.length) { setSuggestionsOpen(false); return; }
+
+  matches.forEach((name, i) => {
+    const item = document.createElement('div');
+    item.className = 'suggestion-item';
+    item.id = 'sug-' + i;
+    item.setAttribute('role', 'option');
+    item.textContent = name;
+    item.addEventListener('click', () => pickName(name));
+    sugBox.appendChild(item);
+  });
+  setSuggestionsOpen(true);
+}
+
+function moveActive(delta) {
+  const items = sugBox.querySelectorAll('.suggestion-item');
+  if (!items.length) return;
+  if (activeIdx >= 0) items[activeIdx].classList.remove('active');
+  activeIdx = (activeIdx + delta + items.length) % items.length;
+  items[activeIdx].classList.add('active');
+  items[activeIdx].scrollIntoView({ block: 'nearest' });
+  input.setAttribute('aria-activedescendant', items[activeIdx].id);
+}
+
+input.addEventListener('input', () => { showError(''); renderSuggestions(); });
+input.addEventListener('focus', () => { if (input.value.trim()) renderSuggestions(); });
+input.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown') { e.preventDefault(); if (sugBox.hidden) renderSuggestions(); moveActive(1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); moveActive(-1); }
+  else if (e.key === 'Escape') { setSuggestionsOpen(false); }
+  else if (e.key === 'Enter') {
+    e.preventDefault();
+    const items = sugBox.querySelectorAll('.suggestion-item');
+    if (!sugBox.hidden && activeIdx >= 0) pickName(items[activeIdx].textContent);
+    else handleLogin();
+  }
+});
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#name-field')) setSuggestionsOpen(false);
+});
+
+function handleLogin() {
+  const raw = input.value.trim();
+  if (!raw) { showError('Bạn gõ tên rồi chọn trong danh sách gợi ý nhé.'); return; }
+
+  const q = norm(raw);
+  let match = RECIPIENTS.find((f) => norm(f) === q);
+
+  if (!match) {
+    const found = rankMatches(raw);
+    if (found.length === 1) {
+      match = found[0];
+    } else if (found.length > 1) {
+      showError(`Có ${found.length} bạn/cô khớp với "${raw}". Chọn đúng tên trong danh sách nhé.`);
+      renderSuggestions();
+      return;
+    } else {
+      showError('Chưa thấy tên này. Bạn thử gõ lại một phần tên nhé.');
+      return;
+    }
+  }
+  startGiftStep(match);
+}
+
+function resetGift() {
+  opening = false;
+  gift.classList.remove('shake', 'open');
+  gift.disabled = false;
+  $('btn-open').disabled = false;
+}
+
+function startGiftStep(name) {
+  currentUser = name;
+  store.set(KEY_LAST_NAME, name);
+  $('welcome-msg').textContent = `Xin chào ${name}! ✨`;
+  resetGift();
+  showStep('step-gift');
+}
+
+function fireworks() {
+  if (!window.confetti) return;
+  const base = { colors: COLORS, disableForReducedMotion: true };
+  const end = Date.now() + 1400;
+  (function side() {
+    confetti({ ...base, particleCount: 5, angle: 60,  spread: 60, origin: { x: 0, y: 0.8 } });
+    confetti({ ...base, particleCount: 5, angle: 120, spread: 60, origin: { x: 1, y: 0.8 } });
+    if (Date.now() < end) requestAnimationFrame(side);
+  })();
+
+  [0, 300, 650].forEach((delay) => {
+    setTimeout(() => {
+      confetti({
+        ...base, particleCount: 70, spread: 360, startVelocity: 28, ticks: 70,
+        origin: { x: rand(0.2, 0.8), y: rand(0.2, 0.45) }
+      });
+    }, delay);
+  });
+}
+
+function openGift() {
+  if (opening) return;
+  opening = true;
+  gift.disabled = true;
+  $('btn-open').disabled = true;
+
+  gift.classList.add('shake');
+  setTimeout(() => {
+    gift.classList.remove('shake');
+    gift.classList.add('open');
+    fireworks();
+    setTimeout(() => {
+      initSession();
+      checkAnonLetter();
+      showStep('step-result');
+    }, REVEAL_DELAY);
+  }, OPEN_DELAY);
+}
+
+function setCaption(label, name, tag) {
+  $('senderLabel').textContent = label;
+  $('giftTag').textContent = tag;
+  capName.textContent = name;
+  capName.classList.remove('play');
+  void capName.offsetWidth;
+  capName.classList.add('play');
+}
+
+function initSession() {
+  const official = PAIRINGS[currentUser];
+  maleHistory = [official];
+  historyIndex = 0;
+  renderCurrentSession();
+}
+
+function renderCurrentSession() {
+  const currentMale = maleHistory[historyIndex];
+  const isTeacher = (currentUser.includes('GVCN') || currentUser.includes('GVTT'));
+  const isOfficial = (historyIndex === 0);
+
+  if (isOfficial) {
+    if (isTeacher) {
+      setCaption('Món quà kính tặng:', currentUser, '💐 Lời chúc tri ân từ Tập thể 12A1');
+    } else {
+      setCaption('Người gửi lời chúc bí mật 20/10 tới bạn là:', currentMale, '💌 Món quà đặc biệt dành riêng cho bạn');
+    }
+    $('btn-mine').hidden = true;
+  } else {
+    setCaption('Đang xem thử clip vui của:', currentMale, `🎲 Xem giải trí (Bạn thứ ${historyIndex}/18)`);
+    $('btn-mine').hidden = false;
+  }
+
+  // Nếu là cô giáo thì ẩn nhóm nút xem thử các bạn nam
+  if (isTeacher) {
+    $('male-nav-group').hidden = true;
+  } else {
+    $('male-nav-group').hidden = false;
+    $('btn-prev-male').hidden = (historyIndex === 0);
+    if (historyIndex > 0) {
+      $('btn-preview').classList.remove('col-span-2');     } else {$('btn-preview').classList.add('col-span-2');
+    }
+  }
+
+  loadMedia(currentMale, currentUser);
+  updateHeartUI();
+}
+
+function previewOtherMale() {
+  let available = MALES.filter((m) => !maleHistory.includes(m));
+  
+  // Khi xem đủ hết 18 bạn nam ➔ Chuyển qua Màn hình Outro hoành tráng
+  if (!available.length && maleHistory.length >= 18) {
+    showOutro();
+    return;
+  }
+
+  if (!available.length) {
+    const current = maleHistory[historyIndex];
+    maleHistory = [current];
+    historyIndex = 0;
+    available = MALES.filter((m) => m !== current);
+  }
+
+  const pick = available[Math.floor(Math.random() * available.length)];
+  maleHistory = maleHistory.slice(0, historyIndex + 1);
+  maleHistory.push(pick);
+  historyIndex = maleHistory.length - 1;
+
+  renderCurrentSession();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function prevMale() {
+  if (historyIndex > 0) {
+    historyIndex--;
+    renderCurrentSession();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function showOfficial() {
+  historyIndex = 0;
+  renderCurrentSession();
+}
+
+function showOutro() {
+  vid.pause();
+  showStep('step-outro');
+  fireworks();
+}
+
+function playCurrentVideo() {
+  vid.src = videoTries[videoIdx];
+  vid.load();
+  const p = vid.play();
+  if (p && p.catch) {
+    p.catch((err) => {
+      if (err && err.name === 'NotAllowedError') bigPlay.hidden = false;
+    });
+  }
+}
+
+vid.addEventListener('playing', () => { bigPlay.hidden = true; });
+vid.addEventListener('error', () => {
+  if (!vid.getAttribute('src')) return;
+  if (videoIdx < videoTries.length - 1) {
+    videoIdx++;
+    playCurrentVideo();
+  } else {
+    bigPlay.hidden = true;
+    vidErr.hidden = false;
+  }
+});
+bigPlay.addEventListener('click', () => {
+  bigPlay.hidden = true;
+  const p = vid.play();
+  if (p && p.catch) p.catch(() => {});
+});
+$('vidRetry').addEventListener('click', () => {
+  vidErr.hidden = true;
+  videoIdx = 0;
+  playCurrentVideo();
+});
+
+async function fetchWish(names) {
+  for (const n of names) {
+    try {
+      const res = await fetch(`assets/wishes/${n}.txt`, { cache: 'no-cache' });
+      if (!res.ok) continue;
+      const type = res.headers.get('content-type') || '';
+      const text = (await res.text()).trim();
+      if (!text || type.includes('text/html') || /^<!doctype|^<html/i.test(text)) continue;
+      return text;
+    } catch (e) {}
+  }
+  return null;
+}
+
+function defaultWish(female, male) {
+  if (male === 'GVCN' || male === 'GVTT') {
+    return `Kính chúc ${female} ngày 20/10 tràn ngập niềm vui, hạnh phúc và luôn rạng rỡ!\nTập thể lớp 12A1 trân trọng cảm ơn cô! 💖`;
+  }
+  return `Chúc ${female} ngày 20/10 luôn xinh đẹp, học giỏi và tràn ngập niềm vui!\nThân tặng bạn, từ ${male} 💖`;
+}
+
+function loadMedia(maleName, femaleName) {
+  const token = ++loadToken;
+  const names = fileCandidates(maleName);
+
+  videoTries = names.map((n) => `assets/videos/${n}.mp4`);
+  videoIdx = 0;
+  vidErr.hidden = true;
+  bigPlay.hidden = true;
+  $('vidErrPath').textContent = videoTries[0];
+  playCurrentVideo();
+
+  wishEl.textContent = 'Đang tải lời chúc...';
+  fetchWish(names).then((text) => {
+    if (token !== loadToken) return;
+    wishEl.textContent = text
+      ? text.replace(/\{name\}/gi, femaleName)
+      : defaultWish(femaleName, maleName);
+  });
+}
+
+/* Kiếm thư ẩn danh dạng AD_[Tên].txt */
+async function checkAnonLetter() {
+  const btn = $('btn-anon-letter');
+  btn.hidden = true;
+  
+  const plain = stripTones(currentUser).trim();
+  const words = plain.split(/\s+/);
+  const given = words[words.length - 1];
+  
+  const possibleNames = [
+    `AD_${given}`,
+    `AD_${words.join('_')}`,
+    `AD_${words.join('')}`
+  ];
+
+  for (const fileName of possibleNames) {
+    try {
+      const res = await fetch(`assets/wishes/${fileName}.txt`, { cache: 'no-cache' });
+      if (!res.ok) continue;
+      const type = res.headers.get('content-type') || '';
+      const text = (await res.text()).trim();
+      if (!text || type.includes('text/html') || /^<!doctype|^<html/i.test(text)) continue;
+      
+      // Tìm thấy thư ➔ Hiện nút bấm
+      btn.hidden = false;
+      btn.onclick = () => openAnonModal(text);
+      break;
+    } catch (e) {}
+  }
+}
+
+function openAnonModal(rawText) {
+  const parts = rawText.split(/^---$/m);
+  const body = parts[0].trim();
+  const sig = parts[1] ? parts[1].trim() : '';
+
+  $('anon-content').textContent = body;
+  
+  const sigEl = $('anon-signature');
+  if (sig) {
+    sigEl.textContent = sig;
+    sigEl.classList.remove('hidden');
+  } else {
+    sigEl.classList.add('hidden');
+  }
+
+  $('anon-modal').hidden = false;
+  fireworks();
+}
+
+function closeAnonModal() {
+  $('anon-modal').hidden = true;
+}
+
+$('btn-close-modal').addEventListener('click', closeAnonModal);$('btn-close-modal-bottom').addEventListener('click', closeAnonModal);
+
+function getHearts() { return parseInt(store.get(KEY_HEARTS + currentUser) || '0', 10) || 0; }
+
+function updateHeartUI() {
+  const n = getHearts();
+  $('heartCount').textContent = n ? `Bạn đã thả ${n} tim 💗` : '';
+}
+
+function heartEffect() {
+  store.set(KEY_HEARTS + currentUser, String(getHearts() + 1));
+  updateHeartUI();
+  if (!window.confetti) return;
+  let heart = null;
+  try { heart = confetti.shapeFromText({ text: '💖', scalar: 2 }); } catch (e) {}
+  confetti({
+    particleCount: 16, spread: 70, origin: { y: 0.75 }, scalar: 2, colors: COLORS,
+    shapes: heart ? [heart] : ['circle'], disableForReducedMotion: true
+  });
+}
+
+function backToName(clear) {
+  loadToken++;
+  vid.pause();
+  vid.removeAttribute('src');
+  vid.load();
+  vidErr.hidden = true;
+  bigPlay.hidden = true;
+  currentUser = '';
+  maleHistory = [];
+  historyIndex = 0;
+  if (clear) { input.value = ''; store.del(KEY_LAST_NAME); }
+  showError('');
+  setSuggestionsOpen(false);
+  resetGift();
+  showStep('step-select');
+}
+
+$('btn-login').addEventListener('click', handleLogin);
+gift.addEventListener('click', openGift);
+$('btn-open').addEventListener('click', openGift);
+$('btn-back-name').addEventListener('click', () => backToName(false));$('btn-heart').addEventListener('click', heartEffect);
+$('btn-prev-male').addEventListener('click', prevMale);$('btn-preview').addEventListener('click', previewOtherMale);
+$('btn-mine').addEventListener('click', showOfficial);$('btn-reset').addEventListener('click', () => backToName(true));
+
+$('btn-outro-mine').addEventListener('click', () => {   showStep('step-result');   showOfficial(); });$('btn-outro-reset').addEventListener('click', () => backToName(true));
+
+(function ambient() {
+  const layer = $('ambient');
+  const items = ['🌸', '💗', '🎈', '🌷', '💜', '🌼', '🎈', '💖', '✨'];
+  for (let i = 0; i < 12; i++) {
+    const ch = items[i % items.length];
+    const up = ch === '🎈';
+    const s = document.createElement('span');
+    s.textContent = ch;
+    s.className = up ? 'rise' : 'fall';
+    s.style.cssText =
+      `left:${rand(0, 92).toFixed(0)}%;font-size:${rand(1, 1.8).toFixed(2)}rem;` +
+      `animation-duration:${((up ? 12 : 8) + rand(0, 6)).toFixed(1)}s;` +
+      `animation-delay:-${rand(0, 15).toFixed(1)}s;--dx:${rand(-40, 40).toFixed(0)}px`;
+    layer.appendChild(s);
+  }
+})();
+
+const remembered = store.get(KEY_LAST_NAME);
+if (remembered && RECIPIENTS.includes(remembered)) input.value = remembered;
+showStep('step-select');
+
+})();
+</script>
+</body>
+</html>
