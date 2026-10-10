@@ -51,9 +51,9 @@ body{
     calc(env(safe-area-inset-bottom, 0px) + 1.5rem)
     calc(env(safe-area-inset-left, 0px) + 1rem);
   background:
-    radial-gradient(40rem 30rem at 90% -10%, rgba(233, 222, 255, 0.8) 0%, transparent 60%),
-    radial-gradient(35rem 25rem at -10% 20%, rgba(255, 215, 231, 0.9) 0%, transparent 60%),
-    radial-gradient(50rem 50rem at 50% 100%, rgba(255, 247, 234, 1) 0%, #F3ECFF 100%);
+    radial-gradient(40rem 30rem at 90% -10%, rgba(233, 222, 255, 0.9) 0%, transparent 60%),
+    radial-gradient(35rem 25rem at -10% 20%, rgba(255, 215, 231, 0.95) 0%, transparent 60%),
+    radial-gradient(50rem 50rem at 50% 100%, rgba(255, 247, 234, 1) 0%, #EFE5FF 100%);
   background-attachment:fixed;
   font-family:'Nunito', sans-serif;
   color:var(--plum);
@@ -62,7 +62,7 @@ body{
 
 /* ---------- Hiệu ứng nền lung linh ---------- */
 #ambient{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}
-#ambient span{position:absolute;opacity:.65;will-change:transform;filter:drop-shadow(0 2px 4px rgba(224,69,127,0.2))}
+#ambient span{position:absolute;opacity:.7;will-change:transform;filter:drop-shadow(0 2px 6px rgba(224,69,127,0.25))}
 #ambient .fall{top:-10%;animation:fall linear infinite}
 #ambient .rise{bottom:-10%;animation:rise linear infinite}
 @keyframes fall{from{transform:translate3d(0,-10vh,0) rotate(0)}to{transform:translate3d(var(--dx,25px),110vh,0) rotate(360deg)}}
@@ -76,21 +76,42 @@ body{
   border:2.5px solid var(--plum); border-radius:999px;
   font-family:"Baloo 2", sans-serif; font-weight:800; font-size:1.05rem; line-height:1.15;
   color:var(--plum); cursor:pointer; text-align:center;
-  box-shadow:0 5px 0 var(--plum), 0 10px 20px rgba(69,39,92,0.08);
+  box-shadow:0 5px 0 var(--plum), 0 10px 20px rgba(69,39,92,0.1);
   transition:transform .15s cubic-bezier(0.3,1.5,0.5,1), box-shadow .15s ease, filter .15s ease;
 }
 .btn::after{
-  content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);
+  content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.45),transparent);
   transform:translateX(-100%); transition:transform .6s ease;
 }
 .btn:hover::after{transform:translateX(100%)}
-.btn:hover{filter:brightness(1.03)}
+.btn:hover{filter:brightness(1.04)}
 .btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--plum), 0 2px 5px rgba(69,39,92,0.1)}
 .btn:disabled{opacity:.7;cursor:default;transform:none!important;box-shadow:0 3px 0 var(--plum)!important}
 .btn-candy{background:linear-gradient(135deg, #FFC2DA 0%, #FF92BA 100%);}
 .btn-lav{background:linear-gradient(135deg, #E3D7FF 0%, #C4B0FF 100%);}
 .btn-milk{background:#fff}
 .btn-sm{min-height:2.9rem;font-size:.9rem;padding:.4rem 1rem;box-shadow:0 3.5px 0 var(--plum)}
+
+/* ---------- NÚT THƯ ẨN DANH SIÊU ĐẶC BIỆT (BÙM CHÍU CẦU VỒNG) ---------- */
+.btn-anon-hot {
+  background: linear-gradient(135deg, #ff4e88 0%, #a855f7 35%, #ec4899 70%, #6366f1 100%);
+  background-size: 300% 300%;
+  animation: gradientShift 4s ease infinite, superBounce 1.4s ease-in-out infinite;
+  color: #fff !important;
+  border: 3.5px solid #FFF;
+  box-shadow: 0 0 30px rgba(236, 72, 153, 0.7), 0 6px 0 var(--plum);
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes superBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-7px) scale(1.04); box-shadow: 0 0 40px rgba(236, 72, 153, 0.9), 0 10px 0 var(--plum); }
+}
 
 .link-btn{
   background:none;border:0;padding:.5rem .75rem;cursor:pointer;
@@ -103,8 +124,8 @@ body{
 }
 
 .chip{
-  display:inline-block; background:rgba(255,255,255,0.85); backdrop-filter:blur(8px);
-  border:2.5px solid var(--plum); border-radius:999px; padding:.35rem 1.2rem;
+  display:inline-block; background:rgba(255,255,255,0.9); backdrop-filter:blur(8px);
+  border:2.5px solid var(--plum); border-radius:999px; padding:.35srem 1.2rem; padding:0.4rem 1.2rem;
   font-weight:800; font-size:.9rem; box-shadow:0 4px 15px rgba(224,69,127,0.15);
   animation: floatChip 3s ease-in-out infinite;
 }
@@ -153,12 +174,12 @@ body{
 
 /* ---------- Khung video 16:9 Polaroid siêu nét ---------- */
 .polaroid{
-  position:relative; background:rgba(255,255,255,0.95); backdrop-filter:blur(12px);
-  border:3px solid var(--plum); border-radius:1.5rem; padding:.8rem .8rem 1rem;
-  box-shadow:0 20px 40px -10px rgba(69,39,92,0.15), 0 0 25px rgba(255,185,210,0.4);
+  position:relative; background:rgba(255,255,255,0.96); backdrop-filter:blur(15px);
+  border:3px solid var(--plum); border-radius:1.5rem; padding:.9rem .9rem 1.1rem;
+  box-shadow:0 20px 45px -10px rgba(69,39,92,0.18), 0 0 30px rgba(255,185,210,0.5);
 }
 .tape{
-  position:absolute;top:-.85rem;width:5rem;height:1.4rem;
+  position:absolute;top:-.9rem;width:5.2rem;height:1.4rem;
   background:repeating-linear-gradient(45deg,#FFD0E0 0 .4rem,#F3ECFF .4rem .8rem);
   border:2px solid rgba(69,39,92,.35); opacity:.95; z-index:10; border-radius:4px;
   box-shadow:0 3px 6px rgba(0,0,0,0.06);
@@ -207,7 +228,7 @@ body{
 
 /* ---------- Modal thư ẩn danh cao cấp ---------- */
 .modal-backdrop{
-  position:fixed;inset:0;background:rgba(69,39,92,0.65);backdrop-filter:blur(8px);
+  position:fixed;inset:0;background:rgba(69,39,92,0.7);backdrop-filter:blur(10px);
   z-index:100;display:grid;place-items:center;padding:1rem; animation: fadeIn .3s ease;
 }
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -320,7 +341,7 @@ body{
 
   <!-- Bước 4: Outro Chúc Mừng Toàn Lớp (Sau khi xem đủ 18 clip) -->
   <section id="step-outro" class="mt-4 w-full max-w-[500px] space-y-4 text-center" hidden>
-    <div class="polaroid bg-gradient-to-b from-white via-pink-50/80 to-purple-50/90 p-6 space-y-4 border-4 border-plum shadow-2xl">
+    <div class="polaroid bg-gradient-to-b from-white via-pink-50/90 to-purple-50/95 p-6 space-y-4 border-4 border-plum shadow-2xl">
       <span class="tape l"></span><span class="tape r"></span>
       
       <div class="text-4xl animate-bounce">🎈 💖 🎉</div>
@@ -334,9 +355,9 @@ body{
         <p class="text-xs italic text-candy-deep">Chúc các bạn luôn xinh đẹp, học giỏi và gặp thật nhiều may mắn!</p>
       </div>
 
-      <!-- Nút Thư ẩn danh đặc biệt (Chỉ hiển thị tại Bước 4 sau khi lướt hết 18 clip) -->
-      <button id="btn-anon-letter" class="btn bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 text-purple-950 font-extrabold shadow-lg border-2 border-plum hover:scale-[1.02] transition-transform w-full" type="button" hidden>
-        💌 Có 1 bức thư ẩn danh gửi riêng cho bạn!
+      <!-- Nút Thư ẩn danh siêu cháy "bùm chíu" cực bắt mắt -->
+      <button id="btn-anon-letter" class="btn btn-anon-hot w-full" type="button" hidden>
+        🔥 💌 CÓ 1 BỨC THƯ ẨN DANH GỬI RIÊNG CHO BẠN! ✨
       </button>
 
       <div class="pt-2 space-y-2">
@@ -355,7 +376,7 @@ body{
       <h3 class="font-display text-lg font-extrabold text-candy-deep flex items-center gap-2">
         <span class="text-2xl animate-pulse">💌</span> Bức thư ẩn danh gửi riêng bạn
       </h3>
-      <button id="btn-close-modal" class="text-xl font-black text-plum hover:text-candy-deep px-2 py-1 rounded-full bg-pink-50" type="button">✕</button>
+      <button id="btn-close-modal" class="text-xl font-black text-plum hover:text-candy-deep px-2.5 py-1 rounded-full bg-pink-50" type="button">✕</button>
     </div>
     
     <div id="anon-content" class="text-sm font-bold text-plum leading-relaxed space-y-3 whitespace-pre-line">
@@ -602,17 +623,17 @@ function startGiftStep(name) {
 function fireworks() {
   if (!window.confetti) return;
   const base = { colors: COLORS, disableForReducedMotion: true };
-  const end = Date.now() + 1500;
+  const end = Date.now() + 1600;
   (function side() {
-    confetti({ ...base, particleCount: 6, angle: 60,  spread: 70, origin: { x: 0, y: 0.8 } });
-    confetti({ ...base, particleCount: 6, angle: 120, spread: 70, origin: { x: 1, y: 0.8 } });
+    confetti({ ...base, particleCount: 7, angle: 60,  spread: 75, origin: { x: 0, y: 0.8 } });
+    confetti({ ...base, particleCount: 7, angle: 120, spread: 75, origin: { x: 1, y: 0.8 } });
     if (Date.now() < end) requestAnimationFrame(side);
   })();
 
-  [0, 300, 700].forEach((delay) => {
+  [0, 350, 750].forEach((delay) => {
     setTimeout(() => {
       confetti({
-        ...base, particleCount: 80, spread: 360, startVelocity: 30, ticks: 80,
+        ...base, particleCount: 90, spread: 360, startVelocity: 32, ticks: 85,
         origin: { x: rand(0.2, 0.8), y: rand(0.2, 0.5) }
       });
     }, delay);
@@ -913,14 +934,14 @@ $('btn-outro-mine').addEventListener('click', () => {   showStep('step-result');
 (function ambient() {
   const layer = $('ambient');
   const items = ['🌸', '💗', '🎈', '🌷', '💜', '🌼', '🎈', '💖', '✨'];
-  for (let i = 0; i < 14; i++) {
+  for (let i = 0; i < 15; i++) {
     const ch = items[i % items.length];
     const up = ch === '🎈';
     const s = document.createElement('span');
     s.textContent = ch;
     s.className = up ? 'rise' : 'fall';
     s.style.cssText =
-      `left:${rand(0, 92).toFixed(0)}%;font-size:${rand(1.1, 2).toFixed(2)}rem;` +
+      `left:${rand(0, 92).toFixed(0)}%;font-size:${rand(1.2, 2.2).toFixed(2)}rem;` +
       `animation-duration:${((up ? 12 : 8) + rand(0, 6)).toFixed(1)}s;` +
       `animation-delay:-${rand(0, 15).toFixed(1)}s;--dx:${rand(-45, 45).toFixed(0)}px`;
     layer.appendChild(s);
