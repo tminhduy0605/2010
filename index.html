@@ -235,7 +235,7 @@ body{
 }
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-/* ---------- STYLES CHUẨN ĐẸP CHO THIỆP VINH DANH CHỤP HÌNH ---------- */
+/* ---------- STYLES CHUẨN CĂN GIỮA CHO THIỆP VINH DANH ---------- */
 #cert-card-print {
   background-color: #FFFDF7 !important;
   background-image: none !important;
@@ -349,7 +349,6 @@ body{
         <p class="mt-0.5"><span id="capName" class="name-reveal font-display text-2xl font-extrabold text-candy-deep"></span></p>
         <div><span class="tag" id="giftTag"></span></div>
         
-        <!-- Bố cục Danh hiệu & Nút Xem thiệp vinh danh -->
         <div id="cert-badge-box" class="pt-2 flex flex-col items-center justify-center gap-2.5">
           <span id="badge-title-display" class="px-4 py-1.5 rounded-full bg-purple-100 text-purple-950 border-2 border-purple-300 font-extrabold text-xs sm:text-sm shadow-2xs">
             Danh hiệu: Đang tải...
@@ -430,25 +429,25 @@ body{
   </div>
 </div>
 
-<!-- Modal Giấy Khen / Thiệp Vinh Danh CHUẨN CĂN LỀ & KHÔNG LỖI HÌNH -->
+<!-- Modal Giấy Khen / Thiệp Vinh Danh CHUẨN CĂN GIỮA TUYỆT ĐỐI -->
 <div id="cert-modal" class="modal-backdrop" hidden>
   <div class="w-full max-w-[480px] rounded-3xl border-3 border-plum bg-white p-4 sm:p-5 shadow-2xl space-y-4 text-center relative max-h-[92vh] overflow-y-auto step-in">
     
     <button id="btn-close-cert" class="absolute top-3 right-3 text-lg font-black text-plum hover:text-candy-deep px-2.5 py-0.5 rounded-full bg-pink-50 z-20" type="button">✕</button>
 
-    <!-- TẤM THIỆP ĐÃ ĐƯỢC FIX LỖI CĂN GIỮA & NỀN SẠCH CHUẨN ĐẸP -->
+    <!-- TẤM THIỆP ĐÃ ĐƯỢC CANH TÂM CHUẨN XÁC DỌC & NGANG -->
     <div id="cert-card-print" class="p-5 rounded-2xl border-4 border-amber-300 bg-[#FFFDF7] relative space-y-3.5 text-center">
       
-      <!-- Dòng tiêu đề CĂN GIỮA 100% không lệch -->
-      <div class="flex items-center justify-center gap-1.5 w-full">
-        <span class="text-lg leading-none">👑</span>
-        <span class="text-[11px] font-black tracking-wider uppercase text-amber-900 bg-amber-100 px-3 py-1 rounded-full border border-amber-300 inline-block">
+      <!-- Tiêu đề canh giữa cân đối tuyệt đối theo trục dọc -->
+      <div class="flex items-center justify-center gap-2 w-full pt-1">
+        <span class="text-lg flex items-center">👑</span>
+        <span class="text-[11px] font-black tracking-wider uppercase text-amber-900 bg-amber-100 px-3.5 py-1 rounded-full border border-amber-300 inline-flex items-center justify-center">
           CHỨNG NHẬN VINH DANH 20/10
         </span>
-        <span class="text-lg leading-none">👑</span>
+        <span class="text-lg flex items-center">👑</span>
       </div>
 
-      <h3 class="font-display text-xl font-extrabold text-plum">
+      <h3 class="font-display text-xl font-extrabold text-plum pt-0.5">
         TẬP THỂ LỚP 12A1
       </h3>
 
@@ -456,8 +455,7 @@ body{
         Trân trọng trao tặng danh hiệu danh dự đến:
       </p>
 
-      <!-- Tên người nhận (Đã xóa vệt gạch mờ bóng ở dưới) -->
-      <div class="py-1">
+      <div class="py-0.5">
         <span id="cert-user-name" class="font-display text-2xl font-extrabold text-candy-deep tracking-tight block"></span>
       </div>
 
@@ -466,7 +464,6 @@ body{
         <p id="cert-desc-text" class="text-xs font-bold text-plum-soft italic">"Đang tải..."</p>
       </div>
 
-      <!-- Khối chân thiệp căn lề 2 bên chuẩn xác -->
       <div class="flex items-end justify-between pt-2 text-left w-full">
         <div class="text-[10px] font-bold text-plum-soft leading-tight">
           <p>Niên khóa: 2024 - 2027</p>
@@ -587,7 +584,7 @@ const rand = (a, b) => a + Math.random() * (b - a);
 const store = {
   get(k)    { try { return localStorage.getItem(k); } catch (e) { return null; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
-  del(k)    { try { return localStorage.removeItem(k); } catch (e) {} }
+  del(k)    { try { localStorage.removeItem(k); } catch (e) {} }
 };
 
 const stripTones = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
@@ -1046,7 +1043,6 @@ function closeCertModal() {
 $('btn-open-cert').addEventListener('click', openCertModal);$('btn-outro-cert').addEventListener('click', openCertModal);
 $('btn-close-cert').addEventListener('click', closeCertModal);$('btn-close-cert-bottom').addEventListener('click', closeCertModal);
 
-/* Tải Thiệp Giấy Khen dạng ảnh nét căng không lỗi */
 $('btn-download-cert').addEventListener('click', () => {
   const target = $('cert-card-print');
   if (window.html2canvas) {
