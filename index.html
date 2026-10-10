@@ -92,7 +92,7 @@ body{
 .btn-candy{background:linear-gradient(135deg, #FFC2DA 0%, #FF8FB9 100%);}
 .btn-lav{background:linear-gradient(135deg, #E5D8FF 0%, #C4B0FF 100%);}
 .btn-milk{background:#fff}
-.btn-sm{min-height:2.9rem;font-size:.9rem;padding:.4rem 1rem;box-shadow:0 3.5px 0 var(--plum)}
+.btn-sm{min-height:2.7rem;font-size:.9rem;padding:.4rem 1.2rem;box-shadow:0 3.5px 0 var(--plum)}
 
 /* ---------- NÚT THƯ ẨN DANH "BÙM CHÍU" SIÊU HẤP DẪN ---------- */
 .btn-anon-mega {
@@ -270,7 +270,7 @@ body{
         <p id="name-error" role="alert" class="text-xs font-bold text-candy-deep" hidden></p>
         <p class="text-xs italic text-plum-soft">💡 Gõ vài chữ (không dấu cũng được), rồi chọn đúng tên mình trong danh sách.</p>
 
-        <!-- Khối chọn nhanh cho Cô Giáo (Hình 1) -->
+        <!-- Khối chọn nhanh cho Cô Giáo -->
         <div class="mt-3 pt-3 border-t border-pink-200/80">
           <p class="text-xs font-black text-plum mb-1.5 flex items-center gap-1">
             <span>🌸</span> Chọn nhanh cho các Cô giáo:
@@ -339,10 +339,10 @@ body{
         <p class="mt-0.5"><span id="capName" class="name-reveal font-display text-2xl font-extrabold text-candy-deep"></span></p>
         <div><span class="tag" id="giftTag"></span></div>
         
-        <!-- Khối hiển thị Danh hiệu & Nút Xem Giấy Khen / Thiệp Vinh Danh (Hình 4) -->
+        <!-- Khối hiển thị Danh hiệu & Nút Xem Giấy Khen -->
         <div id="cert-badge-box" class="pt-2 flex flex-wrap items-center justify-center gap-2 text-xs font-black">
           <span id="badge-title-display" class="px-3 py-1 rounded-full bg-purple-100 text-purple-900 border border-purple-300">
-            Danh hiệu: người mẹ thứ 2 của 12a1 ❤️
+            Danh hiệu: Đang tải...
           </span>
           <button id="btn-open-cert" type="button" class="text-candy-deep hover:underline flex items-center gap-1 font-bold">
             🎗️ <u>Xem thiệp vinh danh</u>
@@ -357,7 +357,7 @@ body{
       <button id="btn-heart" class="btn btn-candy" type="button">💖 THẢ TIM / CẢM ƠN 💖</button>
       <p id="heartCount" class="-mt-1 min-h-[1.2rem] text-center text-sm font-extrabold text-candy-deep" aria-live="polite"></p>
 
-      <!-- Các nút điều hướng xem bạn nam (Chỉ hiện cho học sinh) -->
+      <!-- Các nút điều hướng xem bạn nam -->
       <div id="male-nav-group" class="mt-1 grid grid-cols-2 gap-2">
         <button id="btn-prev-male" class="btn btn-milk btn-sm min-w-0" type="button" hidden>⬅ Bạn nam trước</button>
         <button id="btn-preview" class="btn btn-lav btn-sm min-w-0 col-span-2" type="button">🎲 Xem thử clip bạn nam khác</button>
@@ -368,7 +368,7 @@ body{
     </div>
   </section>
 
-  <!-- Bước 4: Outro Chúc Mừng Toàn Lớp (Sau khi xem đủ 18 clip) -->
+  <!-- Bước 4: Outro Chúc Mừng Toàn Lớp -->
   <section id="step-outro" class="mt-4 w-full max-w-[500px] space-y-4 text-center" hidden>
     <div class="polaroid bg-gradient-to-b from-white via-pink-50/90 to-purple-50/95 p-6 space-y-4 border-4 border-plum shadow-2xl">
       <span class="tape l"></span><span class="tape r"></span>
@@ -384,7 +384,7 @@ body{
         <p class="text-xs italic text-candy-deep">Chúc các bạn luôn xinh đẹp, học giỏi và gặp thật nhiều may mắn!</p>
       </div>
 
-      <!-- Nút Thư Ẩn Danh Siêu Cháy "Bùm Chíu" Không Thể Bỏ Lỡ -->
+      <!-- Nút Thư Ẩn Danh -->
       <button id="btn-anon-letter" class="btn btn-anon-mega w-full" type="button" hidden>
         🔥 💌 CÓ 1 BỨC THƯ ẨN DANH GỬI RIÊNG CHO BẠN! ✨
       </button>
@@ -397,7 +397,7 @@ body{
     </div>
   </section>
 
-  <!-- Chân trang Footer (Hình 6) -->
+  <!-- Chân trang Footer -->
   <footer class="mt-8 text-center text-xs font-extrabold text-plum-soft pb-4">
     <p>© 2026 Tập thể 12A1 · Chúc mừng ngày Phụ Nữ Việt Nam 20/10 💖</p>
   </footer>
@@ -414,19 +414,14 @@ body{
       <button id="btn-close-modal" class="text-xl font-black text-plum hover:text-candy-deep px-2.5 py-1 rounded-full bg-pink-50" type="button">✕</button>
     </div>
     
-    <div id="anon-content" class="text-sm font-bold text-plum leading-relaxed space-y-3 whitespace-pre-line">
-      <!-- Nội dung thư -->
-    </div>
-
-    <div id="anon-signature" class="hidden text-right border-t border-purple-100 pt-3 text-xs font-black italic text-lav-deep bg-purple-50/80 p-3 rounded-2xl">
-      <!-- Chữ ký -->
-    </div>
+    <div id="anon-content" class="text-sm font-bold text-plum leading-relaxed space-y-3 whitespace-pre-line"></div>
+    <div id="anon-signature" class="hidden text-right border-t border-purple-100 pt-3 text-xs font-black italic text-lav-deep bg-purple-50/80 p-3 rounded-2xl"></div>
 
     <button id="btn-close-modal-bottom" class="btn btn-candy btn-sm w-full mt-2" type="button">Đóng thư 💖</button>
   </div>
 </div>
 
-<!-- Modal Giấy Khen / Thiệp Vinh Danh (Hình 3, 5) -->
+<!-- Modal Giấy Khen / Thiệp Vinh Danh -->
 <div id="cert-modal" class="modal-backdrop" hidden>
   <div class="w-full max-w-[480px] rounded-3xl border-3 border-plum bg-white p-5 shadow-2xl space-y-4 text-center relative max-h-[92vh] overflow-y-auto step-in">
     
@@ -452,19 +447,13 @@ body{
       </p>
 
       <div class="py-1">
-        <span id="cert-user-name" class="font-display text-2xl font-extrabold text-candy-deep tracking-tight block">
-          <!-- Tên người nhận -->
-        </span>
+        <span id="cert-user-name" class="font-display text-2xl font-extrabold text-candy-deep tracking-tight block"></span>
         <div class="w-28 h-1 bg-gradient-to-r from-transparent via-pink-400 to-transparent mx-auto mt-1"></div>
       </div>
 
       <div class="p-3 rounded-xl bg-white border-2 border-dashed border-pink-300 shadow-xs space-y-1">
-        <div id="cert-badge-text" class="font-display text-lg font-extrabold text-purple-900 flex items-center justify-center gap-1">
-          ✨ Người Mẹ Thứ Hai Của 12A1 ❤️
-        </div>
-        <p id="cert-desc-text" class="text-xs font-bold text-plum-soft italic">
-          "Tâm huyết, yêu thương và dìu dắt 12A1 qua từng năm tháng học trò"
-        </p>
+        <div id="cert-badge-text" class="font-display text-lg font-extrabold text-purple-900 flex items-center justify-center gap-1">✨ Đang tải...</div>
+        <p id="cert-desc-text" class="text-xs font-bold text-plum-soft italic">"Đang tải..."</p>
       </div>
 
       <div class="flex items-end justify-between pt-2 px-1 text-left">
@@ -484,12 +473,12 @@ body{
       </div>
     </div>
 
-    <!-- Khối nút tải hình & đóng -->
-    <div class="flex gap-2 pt-1">
-      <button id="btn-download-cert" type="button" class="btn btn-candy btn-sm flex-1 font-extrabold text-xs">
+    <!-- Khối nút tải hình & nút Đóng đã được fix bé lại cân đối -->
+    <div class="flex flex-col sm:flex-row gap-2 pt-1 items-center justify-center">
+      <button id="btn-download-cert" type="button" class="btn btn-candy btn-sm flex-1 font-extrabold text-xs w-full">
         ✨ Chia sẻ / Tải thiệp về máy
       </button>
-      <button id="btn-close-cert-bottom" type="button" class="btn btn-milk btn-sm px-4 text-xs font-extrabold">
+      <button id="btn-close-cert-bottom" type="button" class="btn btn-milk btn-sm px-6 text-xs font-extrabold w-auto">
         Đóng
       </button>
     </div>
@@ -499,10 +488,6 @@ body{
 <script>
 (() => {
 'use strict';
-
-/* =====================================================================
-   DỮ LIỆU LỚP 12A1
-   ===================================================================== */
 
 const MALES = [
   "Huỳnh Phúc An", "Vũ Hoàng Gia Cát", "Nguyễn Hoàng Đạt", "Ngô Minh Đông",
@@ -544,29 +529,42 @@ const PAIRINGS = {
   "Cô Bảo Trân (GV thực tập)":   "GVTT"
 };
 
-/* Danh hiệu / Biệt danh độc quyền cho Lớp 12A1 (Hình 3 & 5) */
-const TITLES_12A1 = {
-  "Phù Lý Gia An": { badge: "Tiểu Thư Tỏa Sáng ✨", desc: "Nụ cười rạng ngời & nguồn năng lượng tích cực của 12A1" },
-  "Lê Thanh Quế Anh": { badge: "Nữ Thần Thanh Lịch 🌸", desc: "Dịu dàng, tinh tế và luôn chu đáo với bạn bè" },
-  "Nguyễn Ngọc Trâm Anh": { badge: "Hoa Khôi Nụ Cười 🌷", desc: "Đáng yêu, rạng rỡ và thắp sáng cả góc lớp học" },
-  "Trần Ngọc Minh Châu": { badge: "Viên Ngọc Quý 12A1 💎", desc: "Thông minh, sắc sảo và luôn toát lên vẻ cuốn hút" },
-  "Lê Ngân Hạnh": { badge: "Đại Tỷ Duyên Dáng 💖", desc: "Ấm áp, thấu hiểu và là chỗ dựa vững chãi cho hội bạn" },
-  "Phạm Ngọc Hân": { badge: "Thiên Thần Ngọt Ngào 🍯", desc: "Dễ thương, thân thiện và khiến ai gặp cũng thấy vui vẻ" },
-  "Nguyễn Hồng Mỹ Kim": { badge: "Nữ Hoàng Phong Cách 👑", desc: "Gu thẩm mỹ đỉnh cao, tự tin và đầy khí chất" },
-  "Trịnh Thị Ngọc Linh": { badge: "Công Chúa Tri Thức 📚", desc: "Chăm ngoan, sâu sắc và luôn sẵn lòng giúp đỡ mọi người" },
-  "Lê Nguyễn Thảo My": { badge: "Tiểu Tiên Tinh Nghịch 🎀", desc: "Hài hước, nhanh nhẹn và luôn mang lại tiếng cười cho lớp" },
-  "Trương Gia Nghi": { badge: "Nàng Thơ Dịu Ngọt 🕊️", desc: "Trầm lắng, tinh tế và luôn toát lên nét duyên thầm" },
-  "Nguyễn Ngọc Bảo Nhi": { badge: "Bảo Bối Đáng Yêu 🧸", desc: "Cute hết nấc, giọng nói dễ thương làm tan chảy mọi căng thẳng" },
-  "Bùi Lê Như Thảo": { badge: "Học Bá Dễ Mến 🍀", desc: "Kiên nhẫn, điềm đạm và luôn tỏa sáng theo cách riêng" },
-  "Lưu Bảo Thy": { badge: "Nữ Thần Năng Động ⚡", desc: "Nhiệt huyết, hoạt bát và luôn cháy hết mình trong các hoạt động" },
-  "Lê Thủy Thiên Tú": { badge: "Thiên Tú Rạng Ngời 🌟", desc: "Cá tính, chân thành và luôn sống trọn vẹn từng khoảnh khắc" },
-  "Nguyễn Cát Tường": { badge: "Cát Tường May Mắn 🧧", desc: "Biểu tượng của niềm vui, may mắn và hạnh phúc lớp 12A1" },
-  "Lê Ngọc Tường Vy": { badge: "Đóa Hoa Tường Vy 🌺", desc: "Xinh đẹp rực rỡ như một cành hoa giữa mùa thu 12A1" },
-  "Nguyễn Ngọc Hà Vy": { badge: "Nàng Mây Tươi Tắn ☁️", desc: "Tâm hồn trong trẻo, tốt bụng và cực kỳ dễ mến" },
-  "Nguyễn Thị Thảo Yến": { badge: "Họa Mi Đáng Yêu 🎶", desc: "Lạc quan, rạng rỡ và luôn truyền cảm hứng tích cực" },
-  "Cô Dịch Thị Hồng Ánh (GVCN)": { badge: "Người Mẹ Thứ Hai Của 12A1 ❤️", desc: "Tâm huyết, yêu thương và dìu dắt 12A1 qua từng năm tháng học trò" },
-  "Cô Bảo Trân (GV thực tập)": { badge: "Cô Giáo Trẻ Duyên Dáng 🌷", desc: "Tươi trẻ, nhiệt huyết và đem đến những giờ học tràn đầy niềm vui" }
-};
+/* Biệt danh mặc định dự phòng trước khi load file TVD.txt */
+let TITLES_12A1 = {};
+RECIPIENTS.forEach((name, index) => {
+  TITLES_12A1[name] = { badge: `Danh hiệu ${index + 1} ✨`, desc: "Mô tả danh hiệu tuyệt vời của 12A1" };
+});
+
+/* Tự động đọc file assets/TVD.txt theo cấu trúc STT - Biệt danh - Mô tả */
+async function loadTVDData() {
+  try {
+    const res = await fetch('assets/TVD.txt', { cache: 'no-cache' });
+    if (!res.ok) return;
+    const text = await res.text();
+    const blocks = text.split(/^---$/m);
+    
+    blocks.forEach((block) => {
+      const lines = block.trim().split('\n');
+      if (lines.length > 0) {
+        const firstLine = lines[0].trim();
+        const parts = firstLine.split('-');
+        if (parts.length >= 3) {
+          const stt = parseInt(parts[0].trim(), 10);
+          const badge = parts[1].trim();
+          const desc = parts.slice(2).join('-').trim();
+          
+          if (!isNaN(stt) && stt >= 1 && stt <= RECIPIENTS.length) {
+            const recipientName = RECIPIENTS[stt - 1];
+            TITLES_12A1[recipientName] = { badge, desc };
+          }
+        }
+      }
+    });
+  } catch (e) {
+    console.log('Không tìm thấy file TVD.txt hoặc lỗi đọc file, dùng dữ liệu mặc định.');
+  }
+}
+loadTVDData();
 
 const COLORS = ['#FFB9D2', '#F0629C', '#D9C9FF', '#9B7BE8', '#FFF1C9', '#FFFFFF'];
 const KEY_LAST_NAME = '12a1_last_name';
@@ -608,7 +606,6 @@ let videoTries = [];
 let videoIdx = 0;
 let activeIdx = -1;
 
-/* Quản lý lịch sử các bạn nam đã xem */
 let maleHistory = [];
 let historyIndex = 0;
 
@@ -711,7 +708,6 @@ document.addEventListener('click', (e) => {
   if (!e.target.closest('#name-field')) setSuggestionsOpen(false);
 });
 
-/* Sự kiện bấm chọn nhanh Cô giáo (Hình 1) */
 document.querySelectorAll('.btn-quick-teacher').forEach((btn) => {
   btn.addEventListener('click', () => {
     const teacherName = btn.getAttribute('data-name');
@@ -814,8 +810,6 @@ function initSession() {
 
 function renderCurrentSession() {
   const currentMale = maleHistory[historyIndex];
-  
-  // Kiểm tra tài khoản giáo viên
   const isTeacher = (currentUser.includes('Cô Dịch Thị Hồng Ánh') || currentUser.includes('Cô Bảo Trân') || currentUser.includes('GVCN') || currentUser.includes('GVTT'));
   const isOfficial = (historyIndex === 0);
 
@@ -831,11 +825,9 @@ function renderCurrentSession() {
     $('btn-mine').hidden = false;
   }
 
-  // Cập nhật nhãn danh hiệu
   const titleInfo = TITLES_12A1[currentUser] || { badge: "Nữ Thần 12A1 ✨", desc: "Đóa hoa xinh đẹp và rạng rỡ của lớp 12A1" };
   $('badge-title-display').textContent = `Danh hiệu: ${titleInfo.badge}`;
 
-  // Ẩn nhóm nút xem thử các bạn nam nếu là Giáo viên
   if (isTeacher) {
     $('male-nav-group').hidden = true;
   } else {
@@ -852,8 +844,6 @@ function renderCurrentSession() {
 
 function previewOtherMale() {
   let available = MALES.filter((m) => !maleHistory.includes(m));
-  
-  // Khi xem đủ hết 18 bạn nam ➔ Chuyển qua Màn hình Outro
   if (!available.length && maleHistory.length >= 18) {
     showOutro();
     return;
@@ -969,7 +959,6 @@ function loadMedia(maleName, femaleName) {
   });
 }
 
-/* Kiểm tra thư ẩn danh dạng assets/AD/AD_[Tên].txt */
 async function checkAnonLetter() {
   const btn = $('btn-anon-letter');
   btn.hidden = true;
@@ -1009,7 +998,6 @@ function openAnonModal(rawText) {
   const sig = parts[1] ? parts[1].trim() : '';
 
   $('anon-content').textContent = body;
-  
   const sigEl = $('anon-signature');
   if (sig) {
     sigEl.textContent = sig;
@@ -1028,7 +1016,6 @@ function closeAnonModal() {
 
 $('btn-close-modal').addEventListener('click', closeAnonModal);$('btn-close-modal-bottom').addEventListener('click', closeAnonModal);
 
-/* Hiển thị Modal Thiệp Giấy Khen Vinh Danh (Hình 3, 5) */
 function openCertModal() {
   const titleInfo = TITLES_12A1[currentUser] || {
     badge: "Nữ Thần 12A1 ✨",
@@ -1050,7 +1037,6 @@ function closeCertModal() {
 $('btn-open-cert').addEventListener('click', openCertModal);$('btn-outro-cert').addEventListener('click', openCertModal);
 $('btn-close-cert').addEventListener('click', closeCertModal);$('btn-close-cert-bottom').addEventListener('click', closeCertModal);
 
-/* Tải Thiệp Giấy Khen dạng ảnh về máy */
 $('btn-download-cert').addEventListener('click', () => {
   const target = $('cert-card-print');
   if (window.html2canvas) {
