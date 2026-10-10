@@ -235,7 +235,7 @@ body{
 }
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-/* ---------- STYLES CHUẨN CĂN GIỮA CHO THIỆP VINH DANH ---------- */
+/* ---------- STYLES CỐ ĐỊNH CHUẨN XÁC CHO THIỆP CHỤP ẢNH ---------- */
 #cert-card-print {
   background-color: #FFFDF7 !important;
   background-image: none !important;
@@ -429,25 +429,25 @@ body{
   </div>
 </div>
 
-<!-- Modal Giấy Khen / Thiệp Vinh Danh CHUẨN CĂN GIỮA TUYỆT ĐỐI -->
+<!-- Modal Giấy Khen / Thiệp Vinh Danh (FIX CHUẨN KHI TẢI ẢNH) -->
 <div id="cert-modal" class="modal-backdrop" hidden>
   <div class="w-full max-w-[480px] rounded-3xl border-3 border-plum bg-white p-4 sm:p-5 shadow-2xl space-y-4 text-center relative max-h-[92vh] overflow-y-auto step-in">
     
     <button id="btn-close-cert" class="absolute top-3 right-3 text-lg font-black text-plum hover:text-candy-deep px-2.5 py-0.5 rounded-full bg-pink-50 z-20" type="button">✕</button>
 
-    <!-- TẤM THIỆP ĐÃ ĐƯỢC CANH TÂM CHUẨN XÁC DỌC & NGANG -->
+    <!-- TẤM THIỆP ĐÃ ĐƯỢC CỐ ĐỊNH FLEX ĐỂ KHÔNG BỊ LỆCH KHI TẢI -->
     <div id="cert-card-print" class="p-5 rounded-2xl border-4 border-amber-300 bg-[#FFFDF7] relative space-y-3.5 text-center">
       
-      <!-- Tiêu đề canh giữa cân đối tuyệt đối theo trục dọc -->
-      <div class="flex items-center justify-center gap-2 w-full pt-1">
-        <span class="text-lg flex items-center">👑</span>
-        <span class="text-[11px] font-black tracking-wider uppercase text-amber-900 bg-amber-100 px-3.5 py-1 rounded-full border border-amber-300 inline-flex items-center justify-center">
+      <!-- Tiêu đề bọc chung 1 dòng flex có chiều cao cố định để chống lệch khi render canvas -->
+      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding-top: 4px;">
+        <span style="font-size: 18px; line-height: 1;">👑</span>
+        <span style="font-size: 11px; font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase; color: #78350f; background-color: #fef3c7; padding: 6px 14px; border-radius: 9999px; border: 1px solid #fcd34d; display: inline-block;">
           CHỨNG NHẬN VINH DANH 20/10
         </span>
-        <span class="text-lg flex items-center">👑</span>
+        <span style="font-size: 18px; line-height: 1;">👑</span>
       </div>
 
-      <h3 class="font-display text-xl font-extrabold text-plum pt-0.5">
+      <h3 class="font-display text-xl font-extrabold text-plum">
         TẬP THỂ LỚP 12A1
       </h3>
 
@@ -1043,6 +1043,7 @@ function closeCertModal() {
 $('btn-open-cert').addEventListener('click', openCertModal);$('btn-outro-cert').addEventListener('click', openCertModal);
 $('btn-close-cert').addEventListener('click', closeCertModal);$('btn-close-cert-bottom').addEventListener('click', closeCertModal);
 
+/* Tải Thiệp Giấy Khen dạng ảnh nét căng chuẩn tuyệt đối */
 $('btn-download-cert').addEventListener('click', () => {
   const target = $('cert-card-print');
   if (window.html2canvas) {
