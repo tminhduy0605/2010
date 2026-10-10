@@ -334,18 +334,21 @@ body{
           <code id="vidErrPath"></code>
         </div>
       </div>
-      <div class="caption space-y-1">
+      <div class="caption space-y-2">
         <p class="text-sm font-bold text-plum-soft" id="senderLabel"></p>
         <p class="mt-0.5"><span id="capName" class="name-reveal font-display text-2xl font-extrabold text-candy-deep"></span></p>
         <div><span class="tag" id="giftTag"></span></div>
         
-        <!-- Khối hiển thị Danh hiệu & Nút Xem Giấy Khen -->
-        <div id="cert-badge-box" class="pt-2 flex flex-wrap items-center justify-center gap-2 text-xs font-black">
-          <span id="badge-title-display" class="px-3 py-1 rounded-full bg-purple-100 text-purple-900 border border-purple-300">
+        <!-- BỐ CỤC MỚI: DANH HIỆU & NÚT XEM THIỆP ĐƯỢC XẾP NGHỆ THUẬT & RÕ RÀNG -->
+        <div id="cert-badge-box" class="pt-2 flex flex-col items-center justify-center gap-2.5">
+          <!-- Dòng 1: Chip Danh hiệu -->
+          <span id="badge-title-display" class="px-4 py-1.5 rounded-full bg-purple-100 text-purple-950 border-2 border-purple-300 font-extrabold text-xs sm:text-sm shadow-2xs">
             Danh hiệu: Đang tải...
           </span>
-          <button id="btn-open-cert" type="button" class="text-candy-deep hover:underline flex items-center gap-1 font-bold">
-            🎗️ <u>Xem thiệp vinh danh</u>
+
+          <!-- Dòng 2: Nút Xem thiệp vinh danh nổi bật, to rõ, cực kỳ bắt mắt -->
+          <button id="btn-open-cert" type="button" class="btn btn-candy btn-sm w-auto px-5 font-black text-sm flex items-center justify-center gap-1.5 shadow-md hover:scale-105 active:scale-95 transition-all">
+            <span>🎗️ Xem Thiệp Vinh Danh</span>
           </button>
         </div>
       </div>
@@ -473,7 +476,7 @@ body{
       </div>
     </div>
 
-    <!-- Khối nút tải hình & nút Đóng đã được fix bé lại cân đối -->
+    <!-- Khối nút bấm bên dưới modal -->
     <div class="flex flex-col sm:flex-row gap-2 pt-1 items-center justify-center">
       <button id="btn-download-cert" type="button" class="btn btn-candy btn-sm flex-1 font-extrabold text-xs w-full">
         ✨ Chia sẻ / Tải thiệp về máy
