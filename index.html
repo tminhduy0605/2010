@@ -235,7 +235,17 @@ body{
 }
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-/* ---------- Giảm chuyển động cho thiết bị yếu ---------- */
+/* ---------- STYLES CHUẨN ĐẸP CHO THIỆP VINH DANH CHỤP HÌNH ---------- */
+#cert-card-print {
+  background-color: #FFFDF7 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
 @media (prefers-reduced-motion: reduce){
   #ambient{display:none}
   .gb-all,.gb-shadow,.giftbox.shake .gb-all{animation:none}
@@ -339,14 +349,12 @@ body{
         <p class="mt-0.5"><span id="capName" class="name-reveal font-display text-2xl font-extrabold text-candy-deep"></span></p>
         <div><span class="tag" id="giftTag"></span></div>
         
-        <!-- BỐ CỤC MỚI: DANH HIỆU & NÚT XEM THIỆP ĐƯỢC XẾP NGHỆ THUẬT & RÕ RÀNG -->
+        <!-- Bố cục Danh hiệu & Nút Xem thiệp vinh danh -->
         <div id="cert-badge-box" class="pt-2 flex flex-col items-center justify-center gap-2.5">
-          <!-- Dòng 1: Chip Danh hiệu -->
           <span id="badge-title-display" class="px-4 py-1.5 rounded-full bg-purple-100 text-purple-950 border-2 border-purple-300 font-extrabold text-xs sm:text-sm shadow-2xs">
             Danh hiệu: Đang tải...
           </span>
 
-          <!-- Dòng 2: Nút Xem thiệp vinh danh nổi bật, to rõ, cực kỳ bắt mắt -->
           <button id="btn-open-cert" type="button" class="btn btn-candy btn-sm w-auto px-5 font-black text-sm flex items-center justify-center gap-1.5 shadow-md hover:scale-105 active:scale-95 transition-all">
             <span>🎗️ Xem Thiệp Vinh Danh</span>
           </button>
@@ -360,7 +368,6 @@ body{
       <button id="btn-heart" class="btn btn-candy" type="button">💖 THẢ TIM / CẢM ƠN 💖</button>
       <p id="heartCount" class="-mt-1 min-h-[1.2rem] text-center text-sm font-extrabold text-candy-deep" aria-live="polite"></p>
 
-      <!-- Các nút điều hướng xem bạn nam -->
       <div id="male-nav-group" class="mt-1 grid grid-cols-2 gap-2">
         <button id="btn-prev-male" class="btn btn-milk btn-sm min-w-0" type="button" hidden>⬅ Bạn nam trước</button>
         <button id="btn-preview" class="btn btn-lav btn-sm min-w-0 col-span-2" type="button">🎲 Xem thử clip bạn nam khác</button>
@@ -387,7 +394,6 @@ body{
         <p class="text-xs italic text-candy-deep">Chúc các bạn luôn xinh đẹp, học giỏi và gặp thật nhiều may mắn!</p>
       </div>
 
-      <!-- Nút Thư Ẩn Danh -->
       <button id="btn-anon-letter" class="btn btn-anon-mega w-full" type="button" hidden>
         🔥 💌 CÓ 1 BỨC THƯ ẨN DANH GỬI RIÊNG CHO BẠN! ✨
       </button>
@@ -424,21 +430,22 @@ body{
   </div>
 </div>
 
-<!-- Modal Giấy Khen / Thiệp Vinh Danh -->
+<!-- Modal Giấy Khen / Thiệp Vinh Danh CHUẨN CĂN LỀ & KHÔNG LỖI HÌNH -->
 <div id="cert-modal" class="modal-backdrop" hidden>
-  <div class="w-full max-w-[480px] rounded-3xl border-3 border-plum bg-white p-5 shadow-2xl space-y-4 text-center relative max-h-[92vh] overflow-y-auto step-in">
+  <div class="w-full max-w-[480px] rounded-3xl border-3 border-plum bg-white p-4 sm:p-5 shadow-2xl space-y-4 text-center relative max-h-[92vh] overflow-y-auto step-in">
     
     <button id="btn-close-cert" class="absolute top-3 right-3 text-lg font-black text-plum hover:text-candy-deep px-2.5 py-0.5 rounded-full bg-pink-50 z-20" type="button">✕</button>
 
-    <!-- Tấm thiệp chứng nhận để tải về -->
-    <div id="cert-card-print" class="p-5 rounded-2xl border-4 border-amber-300 bg-gradient-to-b from-amber-50/80 via-white to-pink-50/80 shadow-inner relative space-y-3 text-center">
+    <!-- TẤM THIỆP ĐÃ ĐƯỢC FIX LỖI CĂN GIỮA & NỀN SẠCH CHUẨN ĐẸP -->
+    <div id="cert-card-print" class="p-5 rounded-2xl border-4 border-amber-300 bg-[#FFFDF7] relative space-y-3.5 text-center">
       
-      <div class="flex items-center justify-center gap-2">
-        <span class="text-xl">👑</span>
-        <span class="text-[11px] font-black tracking-widest uppercase text-amber-800 bg-amber-100/90 px-3 py-1 rounded-full border border-amber-300">
+      <!-- Dòng tiêu đề CĂN GIỮA 100% không lệch -->
+      <div class="flex items-center justify-center gap-1.5 w-full">
+        <span class="text-lg leading-none">👑</span>
+        <span class="text-[11px] font-black tracking-wider uppercase text-amber-900 bg-amber-100 px-3 py-1 rounded-full border border-amber-300 inline-block">
           CHỨNG NHẬN VINH DANH 20/10
         </span>
-        <span class="text-xl">👑</span>
+        <span class="text-lg leading-none">👑</span>
       </div>
 
       <h3 class="font-display text-xl font-extrabold text-plum">
@@ -449,27 +456,28 @@ body{
         Trân trọng trao tặng danh hiệu danh dự đến:
       </p>
 
+      <!-- Tên người nhận (Đã xóa vệt gạch mờ bóng ở dưới) -->
       <div class="py-1">
         <span id="cert-user-name" class="font-display text-2xl font-extrabold text-candy-deep tracking-tight block"></span>
-        <div class="w-28 h-1 bg-gradient-to-r from-transparent via-pink-400 to-transparent mx-auto mt-1"></div>
       </div>
 
-      <div class="p-3 rounded-xl bg-white border-2 border-dashed border-pink-300 shadow-xs space-y-1">
+      <div class="p-3.5 rounded-xl bg-white border-2 border-dashed border-pink-300 space-y-1">
         <div id="cert-badge-text" class="font-display text-lg font-extrabold text-purple-900 flex items-center justify-center gap-1">✨ Đang tải...</div>
         <p id="cert-desc-text" class="text-xs font-bold text-plum-soft italic">"Đang tải..."</p>
       </div>
 
-      <div class="flex items-end justify-between pt-2 px-1 text-left">
+      <!-- Khối chân thiệp căn lề 2 bên chuẩn xác -->
+      <div class="flex items-end justify-between pt-2 text-left w-full">
         <div class="text-[10px] font-bold text-plum-soft leading-tight">
           <p>Niên khóa: 2024 - 2027</p>
-          <p class="text-pink-600 font-extrabold">Ngày trao: 19/10/2026</p>
+          <p class="text-pink-600 font-extrabold mt-0.5">Ngày trao: 19/10/2026</p>
         </div>
 
-        <div class="text-center">
-          <div class="w-11 h-11 rounded-full border-2 border-amber-500 bg-amber-100 text-amber-800 flex items-center justify-center font-display text-[8px] font-black shadow-xs rotate-12 mx-auto">
+        <div class="text-right">
+          <div class="w-11 h-11 rounded-full border-2 border-amber-500 bg-amber-100 text-amber-800 flex items-center justify-center font-display text-[8px] font-black shadow-xs rotate-12 ml-auto">
             12A1 SEAL
           </div>
-          <span class="text-[9px] font-black text-plum block mt-0.5">
+          <span class="text-[9px] font-black text-plum block mt-1">
             Hội Nam Sinh 12A1
           </span>
         </div>
@@ -532,13 +540,11 @@ const PAIRINGS = {
   "Cô Bảo Trân (GV thực tập)":   "GVTT"
 };
 
-/* Biệt danh mặc định dự phòng trước khi load file TVD.txt */
 let TITLES_12A1 = {};
 RECIPIENTS.forEach((name, index) => {
   TITLES_12A1[name] = { badge: `Danh hiệu ${index + 1} ✨`, desc: "Mô tả danh hiệu tuyệt vời của 12A1" };
 });
 
-/* Tự động đọc file assets/TVD.txt theo cấu trúc STT - Biệt danh - Mô tả */
 async function loadTVDData() {
   try {
     const res = await fetch('assets/TVD.txt', { cache: 'no-cache' });
@@ -1040,10 +1046,16 @@ function closeCertModal() {
 $('btn-open-cert').addEventListener('click', openCertModal);$('btn-outro-cert').addEventListener('click', openCertModal);
 $('btn-close-cert').addEventListener('click', closeCertModal);$('btn-close-cert-bottom').addEventListener('click', closeCertModal);
 
+/* Tải Thiệp Giấy Khen dạng ảnh nét căng không lỗi */
 $('btn-download-cert').addEventListener('click', () => {
   const target = $('cert-card-print');
   if (window.html2canvas) {
-    html2canvas(target, { scale: 2, useCORS: true }).then((canvas) => {
+    html2canvas(target, { 
+      scale: 3, 
+      useCORS: true,
+      backgroundColor: '#FFFDF7',
+      logging: false
+    }).then((canvas) => {
       const link = document.createElement('a');
       link.download = `Thiep_Vinh_Danh_12A1_${currentUser.replace(/\s+/g, '_')}.png`;
       link.href = canvas.toDataURL('image/png');
